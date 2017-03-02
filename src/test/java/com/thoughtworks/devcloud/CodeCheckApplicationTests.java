@@ -1,6 +1,5 @@
-package com.thoughtworks.spike;
+package com.thoughtworks.devcloud;
 
-import com.thoughtworks.devcloud.CodeCheckApplication;
 import com.thoughtworks.devcloud.service.ProjectService;
 import org.junit.Assert;
 import org.junit.Test;
