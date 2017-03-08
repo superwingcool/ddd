@@ -6,7 +6,6 @@ import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -42,13 +41,7 @@ public class CodeCheckUtils {
      * @return sorted rule rank list
      */
     public static List<RuleRank> updateRank(List<RuleRank> ruleRankList) {
-        Collections.sort(ruleRankList, new Comparator<RuleRank>() {
-            @Override
-            public int compare(RuleRank ruleRank1, RuleRank ruleRank2) {
-                return ruleRank1.getCounts() > ruleRank2.getCounts() ?
-                        -1 : (ruleRank1.getCounts() < ruleRank2.getCounts()) ? 1 : 0;
-            }
-        });
+        Collections.sort(ruleRankList, Collections.reverseOrder());
 
         for (int i = 0; i < ruleRankList.size(); i ++) {
             RuleRank ruleRank = ruleRankList.get(i);

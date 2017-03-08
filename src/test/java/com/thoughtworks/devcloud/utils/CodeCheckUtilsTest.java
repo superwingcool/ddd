@@ -37,5 +37,6 @@ public class CodeCheckUtilsTest {
 
         Assert.assertEquals("rule2", sortedRuleRankList.get(0).getRuleName());
         Assert.assertEquals(1, sortedRuleRankList.get(0).getRank());
+
     }
 }

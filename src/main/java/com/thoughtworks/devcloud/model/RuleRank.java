@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RuleRank implements Serializable {
+public class RuleRank implements Serializable, Comparable<RuleRank> {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,5 +40,10 @@ public class RuleRank implements Serializable {
         this.language = language;
         this.tag = tag;
         this.counts = counts;
+    }
+
+    @Override
+    public int compareTo(RuleRank o) {
+        return this.getCounts().compareTo(o.getCounts());
     }
 }
