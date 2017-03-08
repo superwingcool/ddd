@@ -27,8 +27,8 @@ public class CIssues implements Serializable {
     @ManyToOne
     private CRules cRules;
 
-    @Column(name = "SEVERITY", columnDefinition = "BIT", length = 1)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "SEVERITY", columnDefinition = "BIT")
+    @Type(type = "org.hibernate.type.IntegerType")
     private Integer severity;
 
     @Column(name = "ISSUE_KEY", nullable = false)
@@ -46,12 +46,12 @@ public class CIssues implements Serializable {
     @Column(name = "LINE_HASH")
     private String lineHash;
 
-    @Column(name = "STATUS", columnDefinition = "BIT", length = 1)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "STATUS", columnDefinition = "BIT")
+    @Type(type = "org.hibernate.type.IntegerType")
     private Integer status;
 
-    @Column(name = "MANUAL_STATUS", columnDefinition = "BIT", length = 1)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "MANUAL_STATUS", columnDefinition = "BIT")
+    @Type(type = "org.hibernate.type.IntegerType")
     private Integer manualStatus;
 
     @Column(name = "TAGS")

@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface CIssuesService {
 
-    List<RuleRank> findViolatedCIssuesListByDevcloudProjectId(String devcloudProjectUuid, int status);
+    List<RuleRank> findViolatedCIssuesListByDevcloudProjectId(String devcloudProjectUuid);
 
-    List<RuleRank> findIgnoredCIssuesListByDevcloudProjectId(String devProjectUuid, int status);
+    List<RuleRank> findIgnoredCIssuesListByDevcloudProjectId(String devProjectUuid);
 
-    List<RuleRank> findRevisedCIssuesListByDevcloudProjectId(String devProjectUuid, int status);
+    List<RuleRank> findRevisedCIssuesListByDevcloudProjectId(String devProjectUuid);
 }

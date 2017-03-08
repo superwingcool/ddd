@@ -20,21 +20,11 @@ public interface CIssuesRepository extends JpaRepository<CIssues, Long> {
             " i.cRules.priority, i.cRules.categorySmall, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
             "FROM CIssues i WHERE i.id IN " +
             "(" +
-                "SELECT max(ii.id) FROM CIssues ii WHERE i.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
-                "GROUP BY ii.cSnapshots.scmAddr" +
+                "SELECT max(ii.id) FROM CIssues ii WHERE ii.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
+                " AND ii.status=:issueStatus GROUP BY ii.cSnapshots.scmAddr" +
             ")" +
             "GROUP BY i.cRules.id ORDER BY count(i.cRules.id) DESC"
     )
-    List<RuleRank> findViolatedCIssuesListByDevcloudProjectId(@Param("devcloudProjectUuid") String devcloudProjectUuid);
-
-    @Query("SELECT new com.thoughtworks.devcloud.model.RuleRank(i.cRules.name," +
-            " i.cRules.priority, i.cRules.categorySmall, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
-            "FROM CIssues i WHERE i.cProjects.devcloudProjectUuid=:devcloudProjectUuid")
-    List<RuleRank> findIgnoredCIssuesListByDevcloudProjectId(@Param("devcloudProjectUuid") String devcloudProjectUuid);
-
-    @Query("SELECT new com.thoughtworks.devcloud.model.RuleRank(i.cRules.name," +
-            " i.cRules.priority, i.cRules.categorySmall, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
-            "FROM CIssues i WHERE i.cProjects.devcloudProjectUuid=:devcloudProjectUuid")
-    List<RuleRank> findRevisedCIssuesListByDevcloudProjectId(@Param("devcloudProjectUuid") String devcloudProjectUuid);
-
+    List<RuleRank> findCIssuesListByDevcloudProjectIdAndStatus(@Param("devcloudProjectUuid") String devcloudProjectUuid,
+                                                               @Param("issueStatus") Integer status);
 }

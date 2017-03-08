@@ -42,7 +42,7 @@ public class CodeCheckApiController {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /violated/{devProjectUuid} , devProjectUuid: " + devProjectUuid);
 
-        List<RuleRank> ruleRankList = cIssuesService.findViolatedCIssuesListByDevcloudProjectId(devProjectUuid, 0);
+        List<RuleRank> ruleRankList = cIssuesService.findViolatedCIssuesListByDevcloudProjectId(devProjectUuid);
         return CodeCheckUtils.transform2ResponseObject(ruleRankList);
     }
 
@@ -51,7 +51,7 @@ public class CodeCheckApiController {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /ignored/{devProjectUuid} , devProjectUuid: " + devProjectUuid);
 
-        List<RuleRank> ruleRankList = cIssuesService.findIgnoredCIssuesListByDevcloudProjectId(devProjectUuid, 0);
+        List<RuleRank> ruleRankList = cIssuesService.findIgnoredCIssuesListByDevcloudProjectId(devProjectUuid);
         return CodeCheckUtils.transform2ResponseObject(ruleRankList);
     }
 
@@ -60,7 +60,7 @@ public class CodeCheckApiController {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /revised/{devProjectUuid} , devProjectUuid: " + devProjectUuid);
 
-        List<RuleRank> ruleRankList = cIssuesService.findRevisedCIssuesListByDevcloudProjectId(devProjectUuid, 0);
+        List<RuleRank> ruleRankList = cIssuesService.findRevisedCIssuesListByDevcloudProjectId(devProjectUuid);
         return CodeCheckUtils.transform2ResponseObject(ruleRankList);
     }
 
