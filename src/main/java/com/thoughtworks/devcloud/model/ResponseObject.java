@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 
 /**
- * Entity for rule ranking.
+ * Standard response object for rule ranking.
  */
 @Data
 @Builder

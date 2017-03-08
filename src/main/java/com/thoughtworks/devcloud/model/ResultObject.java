@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
- * Created by jiezhou on 08/03/2017.
+ * Result object for rule rank.
  */
 @Data
 @Builder
