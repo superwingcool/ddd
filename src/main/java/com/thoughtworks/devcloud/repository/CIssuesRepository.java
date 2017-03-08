@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * Repository for C_ISSUES.
+ * Repository for table C_ISSUES.
  */
 @Repository
 public interface CIssuesRepository extends JpaRepository<CIssues, Long> {
