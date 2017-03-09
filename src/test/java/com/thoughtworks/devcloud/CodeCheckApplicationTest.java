@@ -15,7 +15,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //@SpringApplicationConfiguration(CodeCheckApplication.class)
-public class CodeCheckApplicationTests {
+public class CodeCheckApplicationTest {
 
 //    @Autowired
 //    private CIssuesService cIssuesService;

@@ -17,7 +17,7 @@ import java.util.List;
 public interface CIssuesRepository extends JpaRepository<CIssues, Long> {
 
     @Query("SELECT new com.thoughtworks.devcloud.model.RuleRank(i.cRules.name," +
-            " i.cRules.priority, i.cRules.categorySmall, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
+            " i.cRules.priority, i.cRules.categoryBig, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
             "FROM CIssues i WHERE i.id IN " +
             "(" +
                 "SELECT max(ii.id) FROM CIssues ii WHERE ii.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
