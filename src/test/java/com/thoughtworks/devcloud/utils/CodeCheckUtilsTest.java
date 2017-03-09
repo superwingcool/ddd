@@ -17,7 +17,7 @@ public class CodeCheckUtilsTest {
 
     @Test
     public void transform2ResponseObjectTest() {
-        ResponseObject responseObject = CodeCheckUtils.transform2ResponseObject(ruleRankList);
+        ResponseObject responseObject = CodeCheckUtils.transform2ResponseObject(ruleRankList, 1L);
         Assert.assertNotNull(responseObject);
         Assert.assertNotNull(responseObject.getResult());
         Assert.assertNotNull(responseObject.getResult().getTotal());

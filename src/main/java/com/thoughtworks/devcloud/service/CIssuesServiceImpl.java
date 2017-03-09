@@ -20,20 +20,7 @@ public class CIssuesServiceImpl implements CIssuesService {
     private CIssuesRepository cIssuesRepository;
 
     @Override
-    public List<RuleRank> findViolatedCIssuesListByDevcloudProjectId(String devcloudProjectUuid) {
-        return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid,
-                IssueStatus.UNSOLVED.value());
-    }
-
-    @Override
-    public List<RuleRank> findIgnoredCIssuesListByDevcloudProjectId(String devcloudProjectUuid) {
-        return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid,
-                IssueStatus.IGNORED.value());
-    }
-
-    @Override
-    public List<RuleRank> findRevisedCIssuesListByDevcloudProjectId(String devcloudProjectUuid) {
-        return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid,
-                IssueStatus.SOLVED.value());
+    public List<RuleRank> findCIssuesListByDevcloudProjectId(String devcloudProjectUuid, IssueStatus issueStatus) {
+        return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid, issueStatus.value());
     }
 }
