@@ -55,7 +55,7 @@ public class CodeCheckApiController {
         return getRuleRankInfo(devcloudProjectUuid, IssueStatus.SOLVED);
     }
 
-    private ResponseObject getRuleRankInfo(@PathVariable String devcloudProjectUuid, IssueStatus issueStatus) {
+    private ResponseObject getRuleRankInfo(String devcloudProjectUuid, IssueStatus issueStatus) {
         List<RuleRank> ruleRankList = cIssuesService.findCIssuesListByDevcloudProjectId(devcloudProjectUuid,
                 issueStatus);
         Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
