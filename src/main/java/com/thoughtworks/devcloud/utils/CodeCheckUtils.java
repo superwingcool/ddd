@@ -22,7 +22,7 @@ public class CodeCheckUtils {
     public static ResponseObject transform2ResponseObject(List<RuleRank> ruleRankList) {
         ResponseObject responseObject = new ResponseObject();
         if (ruleRankList == null) {
-            responseObject.setError("null");
+            responseObject.setError("");
             return responseObject;
         }
 
