@@ -19,7 +19,8 @@ import java.util.List;
 
 
 @RestController
-public class CodeCheckApiController {
+@RequestMapping(value="/ruleRank")
+public class RuleRankApiController {
 
     private final Logger logger = Logger.getLogger(getClass());
 

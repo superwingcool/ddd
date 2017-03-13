@@ -1,6 +1,7 @@
 package com.thoughtworks.devcloud.utils;
 
 import com.thoughtworks.devcloud.constants.CodeCheckConstants;
+import com.thoughtworks.devcloud.model.AbstractRank;
 import com.thoughtworks.devcloud.model.ResponseObject;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
@@ -20,7 +21,7 @@ public class CodeCheckUtils {
      * @param repoCheckCount repo checked count
      * @return response object
      */
-    public static ResponseObject transform2ResponseObject(List<RuleRank> ruleRankList, Long repoCheckCount) {
+    public static ResponseObject transform2ResponseObject(List<? extends AbstractRank> ruleRankList, Long repoCheckCount) {
         ResponseObject responseObject = new ResponseObject();
         if (ruleRankList == null) {
             responseObject.setError("");
@@ -30,7 +31,8 @@ public class CodeCheckUtils {
         responseObject.setStatus(CodeCheckConstants.RESPONSE_CODE_SUCCESS);
         ResultObject resultObject = new ResultObject();
         resultObject.setTotal(String.valueOf(ruleRankList.size()));
-        resultObject.setInfo(updateRank(ruleRankList));
+        updateRank(ruleRankList);
+        resultObject.setInfo(ruleRankList);
         resultObject.setRepoCheckedCount(String.valueOf(repoCheckCount));
 
         responseObject.setResult(resultObject);
@@ -40,16 +42,14 @@ public class CodeCheckUtils {
     /**
      * Sort the ruleRank in the list desc, and update the rank value.
      *
-     * @param ruleRankList to be sorted
      * @return sorted rule rank list
      */
-    public static List<RuleRank> updateRank(List<RuleRank> ruleRankList) {
-        Collections.sort(ruleRankList, Collections.reverseOrder());
+    public static void updateRank(List<? extends AbstractRank> rankList) {
+        Collections.sort(rankList, Collections.reverseOrder());
 
-        for (int i = 0; i < ruleRankList.size(); i ++) {
-            RuleRank ruleRank = ruleRankList.get(i);
-            ruleRank.setRank(i + 1);
+        for (int i = 0; i < rankList.size(); i ++) {
+            AbstractRank rank = rankList.get(i);
+            rank.setRank(i + 1);
         }
-        return ruleRankList;
     }
 }

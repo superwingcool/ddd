@@ -15,14 +15,14 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultObject {
+public class ResultObject<T> {
 
     private static final long serialVersionUID = 1L;
 
     /** total count of info list**/
     private String total;
 
-    private List<RuleRank> info;
+    private List<T> info;
 
     /** count of repo be checked**/
     private String repoCheckedCount;

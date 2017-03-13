@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RuleRank implements Serializable, Comparable<RuleRank> {
+public class RuleRank extends AbstractRank implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,20 +37,12 @@ public class RuleRank implements Serializable, Comparable<RuleRank> {
     /** 标签: 对应Table C_RULES的字段: SYSTEM_TAGS **/
     private String tag;
 
-    /** 次数: 统计出来的**/
-    private Long counts;
-
     public RuleRank(String ruleName, Integer priority, String category, String language, String tag, Long counts) {
+        super(counts);
         this.ruleName = ruleName;
         this.priority = priority;
         this.category = category;
         this.language = language;
         this.tag = tag;
-        this.counts = counts;
-    }
-
-    @Override
-    public int compareTo(RuleRank o) {
-        return this.getCounts().compareTo(o.getCounts());
     }
 }
