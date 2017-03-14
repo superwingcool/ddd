@@ -16,12 +16,15 @@ import java.util.List;
 @Repository
 public interface CIssuesRepository extends JpaRepository<CIssues, Long> {
 
-    @Query("SELECT new com.thoughtworks.devcloud.model.RuleRank(i.cRules.name," +
-            " i.cRules.priority, i.cRules.categorySmall, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
-            "FROM CIssues i WHERE i.id IN " +
+    @Query("SELECT new com.thoughtworks.devcloud.model.RuleRank(i.cRules.name, " +
+            "i.cRules.priority, i.cRules.categoryBig, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
+            "FROM CIssues i " +
+            "WHERE i.status=:issueStatus AND i.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
+            "AND i.cProjects.projectUuid IN " +
             "(" +
-                "SELECT max(ii.id) FROM CIssues ii WHERE ii.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
-                " AND ii.status=:issueStatus GROUP BY ii.cSnapshots.scmAddr" +
+                "SELECT tjb.cProjects.projectUuid FROM TJenkinsJobBuildInfo tjb " +
+                "WHERE tjb.id in (SELECT max(tjb1.id) FROM TJenkinsJobBuildInfo tjb1 GROUP BY tjb1.gitUrl) " +
+
             ")" +
             "GROUP BY i.cRules.id ORDER BY count(i.cRules.id) DESC"
     )

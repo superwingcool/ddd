@@ -1,5 +1,6 @@
 package com.thoughtworks.devcloud.service;
 
+import com.thoughtworks.devcloud.constants.IssueStatus;
 import com.thoughtworks.devcloud.model.RuleRank;
 
 import java.util.List;
@@ -10,9 +11,5 @@ import java.util.List;
  */
 public interface CIssuesService {
 
-    List<RuleRank> findViolatedCIssuesListByDevcloudProjectId(String devcloudProjectUuid);
-
-    List<RuleRank> findIgnoredCIssuesListByDevcloudProjectId(String devProjectUuid);
-
-    List<RuleRank> findRevisedCIssuesListByDevcloudProjectId(String devProjectUuid);
+    List<RuleRank> findCIssuesListByDevcloudProjectId(String devProjectUuid, IssueStatus issueStatus);
 }

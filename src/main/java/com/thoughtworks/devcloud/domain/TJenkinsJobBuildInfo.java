@@ -24,9 +24,9 @@ public class TJenkinsJobBuildInfo implements Serializable {
     @Column(name = "ID")
     private Integer id;
 
-    @NotEmpty
-    @Column(name = "VIEW_NAME", nullable = false)
-    private String viewName;
+    @JoinColumn(name = "VIEW_NAME", referencedColumnName = "PROJECT_NAME")
+    @ManyToOne()
+    private CProjects cProjects;
 
     @NotEmpty
     @Column(name = "GIT_URL", nullable = false)

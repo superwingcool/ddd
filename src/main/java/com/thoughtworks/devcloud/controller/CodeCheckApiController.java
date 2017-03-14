@@ -1,22 +1,22 @@
 package com.thoughtworks.devcloud.controller;
 
 import com.thoughtworks.devcloud.constants.CodeCheckConstants;
+import com.thoughtworks.devcloud.constants.IssueStatus;
 import com.thoughtworks.devcloud.model.ResponseObject;
-import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 import com.thoughtworks.devcloud.service.CIssuesService;
+import com.thoughtworks.devcloud.service.TJenkinsJobInfoService;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 public class CodeCheckApiController {
@@ -29,67 +29,38 @@ public class CodeCheckApiController {
     @Autowired
     private CIssuesService cIssuesService;
 
-    @RequestMapping(value = "/tw/services", method = RequestMethod.GET)
-    public String getServices() {
-        ServiceInstance instance = client.getLocalServiceInstance();
-        logger.info("/tw/services, host:" + instance.getHost() + ", port:" + instance.getPort() + ", service_id:"
-                + instance.getServiceId());
-        return "[Delivery, Consultant]";
-    }
+    @Autowired
+    private TJenkinsJobInfoService tJenkinsJobInfoService;
 
-    @RequestMapping(value = "/violated/{devProjectUuid}", method = RequestMethod.GET)
-    public ResponseObject getViolatedRules(@PathVariable String devProjectUuid) {
+    @RequestMapping(value = "/violated/{devcloudProjectUuid}", method = RequestMethod.GET)
+    public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /violated/{devProjectUuid} , devProjectUuid: " + devProjectUuid);
+                "Visit /violated/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
-        List<RuleRank> ruleRankList = cIssuesService.findViolatedCIssuesListByDevcloudProjectId(devProjectUuid);
-        return CodeCheckUtils.transform2ResponseObject(ruleRankList);
+        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.UNSOLVED);
     }
 
-    @RequestMapping(value = "/ignored/{devProjectUuid}", method = RequestMethod.GET)
-    public ResponseObject getIgnoredRules(@PathVariable String devProjectUuid) {
+    @RequestMapping(value = "/ignored/{devcloudProjectUuid}", method = RequestMethod.GET)
+    public ResponseObject getIgnoredRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /ignored/{devProjectUuid} , devProjectUuid: " + devProjectUuid);
+                "Visit /ignored/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
-        List<RuleRank> ruleRankList = cIssuesService.findIgnoredCIssuesListByDevcloudProjectId(devProjectUuid);
-        return CodeCheckUtils.transform2ResponseObject(ruleRankList);
+        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.IGNORED);
     }
 
-    @RequestMapping(value = "/revised/{devProjectUuid}", method = RequestMethod.GET)
-    public ResponseObject getRevisedRules(@PathVariable String devProjectUuid) {
+    @RequestMapping(value = "/revised/{devcloudProjectUuid}", method = RequestMethod.GET)
+    public ResponseObject getRevisedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /revised/{devProjectUuid} , devProjectUuid: " + devProjectUuid);
+                "Visit /revised/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
-        List<RuleRank> ruleRankList = cIssuesService.findRevisedCIssuesListByDevcloudProjectId(devProjectUuid);
-        return CodeCheckUtils.transform2ResponseObject(ruleRankList);
+        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.SOLVED);
     }
 
-    private ResponseObject generateFakeResponseObject() {
-        ResponseObject responseObject = new ResponseObject();
-        responseObject.setError("");
-        responseObject.setStatus("success");
-
-        ResultObject result = new ResultObject();
-        result.setTotal("3");
-        List<RuleRank> ruleRankList = new ArrayList<>();
-
-        RuleRank ruleRank1 = new RuleRank();
-        ruleRank1.setRuleName("rule 1");
-        ruleRank1.setPriority(10);
-        ruleRankList.add(ruleRank1);
-        RuleRank ruleRank2 = new RuleRank();
-        ruleRank2.setRuleName("rule 2");
-        ruleRank2.setPriority(100);
-        ruleRankList.add(ruleRank2);
-
-        RuleRank ruleRank3 = new RuleRank();
-        ruleRank3.setRuleName("rule 3");
-        ruleRank3.setPriority(100);
-        ruleRankList.add(ruleRank3);
-
-        result.setInfo(ruleRankList);
-        responseObject.setResult(result);
-        return responseObject;
+    private ResponseObject getRuleRankInfo(String devcloudProjectUuid, IssueStatus issueStatus) {
+        List<RuleRank> ruleRankList = cIssuesService.findCIssuesListByDevcloudProjectId(devcloudProjectUuid,
+                issueStatus);
+        Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
+        return CodeCheckUtils.transform2ResponseObject(ruleRankList, repoCheckCount);
     }
 
 }

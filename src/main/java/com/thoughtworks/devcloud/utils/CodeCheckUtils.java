@@ -17,12 +17,13 @@ public class CodeCheckUtils {
      * Transforms rule rank list info final response object.
      *
      * @param ruleRankList ruleRankList
+     * @param repoCheckCount repo checked count
      * @return response object
      */
-    public static ResponseObject transform2ResponseObject(List<RuleRank> ruleRankList) {
+    public static ResponseObject transform2ResponseObject(List<RuleRank> ruleRankList, Long repoCheckCount) {
         ResponseObject responseObject = new ResponseObject();
         if (ruleRankList == null) {
-            responseObject.setError("null");
+            responseObject.setError("");
             return responseObject;
         }
 
@@ -30,6 +31,8 @@ public class CodeCheckUtils {
         ResultObject resultObject = new ResultObject();
         resultObject.setTotal(String.valueOf(ruleRankList.size()));
         resultObject.setInfo(updateRank(ruleRankList));
+        resultObject.setRepoCheckedCount(String.valueOf(repoCheckCount));
+
         responseObject.setResult(resultObject);
         return responseObject;
     }
