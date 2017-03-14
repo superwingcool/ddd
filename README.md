@@ -15,6 +15,7 @@ Code Check采用spring cloud以微服务地形式提供后台接口。
 ![](readme/codecheck-overview.png)
 
 ![](readme/codecheck-detail.png)
+<br>
 Note: <br>
 SpringCloud 版本1.4.4.RELEASE <br>
 Mysql 5.6
