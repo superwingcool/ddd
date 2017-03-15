@@ -75,3 +75,5 @@ http://${host}:2223/api/codecheck/ruleRank/revised/${devcloudProjectUuid}
     }
 }
 ```
+## 启动
+### mvn clean spring-boot:run
