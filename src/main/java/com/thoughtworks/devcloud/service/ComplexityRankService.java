@@ -4,8 +4,9 @@ import com.thoughtworks.devcloud.model.ComplexityRank;
 
 import java.util.List;
 
+
 /**
- * Created by jiezhou on 14/03/2017.
+ * Complexity rank service interface.
  */
 public interface ComplexityRankService {
     List<ComplexityRank> findComplexityListByDevcloudProjectId(String devcloudProjectUuid);
