@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RuleRank implements Serializable, Comparable<RuleRank> {
+public class RuleRank extends AbstractRank implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,7 +50,11 @@ public class RuleRank implements Serializable, Comparable<RuleRank> {
     }
 
     @Override
-    public int compareTo(RuleRank o) {
-        return this.getCounts().compareTo(o.getCounts());
+    public int compareTo(AbstractRank o) {
+        if (o instanceof RuleRank) {
+            return this.getCounts().compareTo(((RuleRank)o).getCounts());
+        } else {
+            throw new RuntimeException("Different type can't be compared!");
+        }
     }
 }

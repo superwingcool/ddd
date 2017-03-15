@@ -22,6 +22,7 @@ public class CIssuesServiceImpl implements CIssuesService {
 
     @Override
     public List<RuleRank> findCIssuesListByDevcloudProjectId(String devcloudProjectUuid, IssueStatus issueStatus) {
-        return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid, issueStatus.value());
+        return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid,
+                issueStatus.getStatus(), issueStatus.getAllManualStatusList());
     }
 }

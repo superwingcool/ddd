@@ -19,7 +19,8 @@ import java.util.List;
 
 
 @RestController
-public class CodeCheckApiController {
+@RequestMapping(value="/ruleRank")
+public class RuleRankApiController {
 
     private final Logger logger = Logger.getLogger(getClass());
 
@@ -37,7 +38,7 @@ public class CodeCheckApiController {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /violated/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
-        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.UNSOLVED);
+        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.VIOLATED);
     }
 
     @RequestMapping(value = "/ignored/{devcloudProjectUuid}", method = RequestMethod.GET)
@@ -53,7 +54,7 @@ public class CodeCheckApiController {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /revised/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
-        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.SOLVED);
+        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.REVISED);
     }
 
     private ResponseObject getRuleRankInfo(String devcloudProjectUuid, IssueStatus issueStatus) {

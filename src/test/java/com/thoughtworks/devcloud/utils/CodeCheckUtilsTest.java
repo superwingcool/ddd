@@ -26,11 +26,11 @@ public class CodeCheckUtilsTest {
 
     @Test
     public void updateRankTest() {
-        List<RuleRank> sortedRuleRankList = CodeCheckUtils.updateRank(ruleRankList);
-        Assert.assertNotNull(sortedRuleRankList);
+        CodeCheckUtils.updateRank(ruleRankList);
+        Assert.assertNotNull(ruleRankList);
 
-        Assert.assertEquals("rule2", sortedRuleRankList.get(0).getRuleName());
-        Assert.assertEquals(1, sortedRuleRankList.get(0).getRank());
+        Assert.assertEquals("rule2", ruleRankList.get(0).getRuleName());
+        Assert.assertEquals(1, ruleRankList.get(0).getRank());
     }
 
     private List<RuleRank> constructorRuleRankList() {
