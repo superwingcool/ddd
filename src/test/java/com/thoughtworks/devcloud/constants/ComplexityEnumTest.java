@@ -11,7 +11,7 @@ import java.util.List;
 public class ComplexityEnumTest {
     @Test
     public void shouldReturnAllComplexityNames() {
-        List<String> complexityNameList =  ComplexityEnum.getAllComplexityNames();
+        List<String> complexityNameList =  ComplexityEnum.getAllMeasureNames();
         Assert.assertEquals(3, complexityNameList.size());
         Assert.assertTrue(complexityNameList.contains("complexity"));
         Assert.assertTrue(complexityNameList.contains("file_complexity"));

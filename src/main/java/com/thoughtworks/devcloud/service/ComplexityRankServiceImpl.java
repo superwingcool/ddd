@@ -29,7 +29,7 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
     @Override
     public List<ComplexityRank> findComplexityListByDevcloudProjectId(String devcloudProjectUuid) {
         List<CProjectMeasures> cProjectMeasuresList =
-                cProjectMeasuresRepository.findComplexityListByDevcloudProjectId(devcloudProjectUuid,
+                cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
                         generateComplexityNameList());
 
         List<ComplexityRank> complexityRankList = transform2ComplexityRank(cProjectMeasuresList);
@@ -62,7 +62,7 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
     private void updateComplexityRank(ComplexityRank complexityRank,
                                       String metricName,
                                       BigDecimal value) {
-        ComplexityEnum complexityEnum = ComplexityEnum.fromComplexityName(metricName);
+        ComplexityEnum complexityEnum = ComplexityEnum.fromMeasureName(metricName);
         switch (complexityEnum) {
             case COMPLEXITY:
                 complexityRank.setComplexity(value);
@@ -80,7 +80,7 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
     }
 
     private List<String> generateComplexityNameList() {
-        return ComplexityEnum.getAllComplexityNames();
+        return ComplexityEnum.getAllMeasureNames();
     }
 
 }

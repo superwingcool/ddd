@@ -18,7 +18,7 @@ public interface CProjectMeasuresRepository extends JpaRepository<CProjectMeasur
     @Query("SELECT cpm " +
             "FROM CProjectMeasures cpm " +
             "WHERE cpm.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
-            "AND cpm.cMetrics.name IN (:complexityNameList)" +
+            "AND cpm.cMetrics.name IN (:measureNameList)" +
             "AND cpm.cProjects.projectUuid IN " +
             "(" +
                 "SELECT tjb.cProjects.projectUuid FROM TJenkinsJobBuildInfo tjb " +
@@ -26,7 +26,7 @@ public interface CProjectMeasuresRepository extends JpaRepository<CProjectMeasur
 
             ")"
     )
-    List<CProjectMeasures> findComplexityListByDevcloudProjectId(
+    List<CProjectMeasures> findMeasureListByDevcloudProjectId(
             @Param("devcloudProjectUuid") String devcloudProjectUuid,
-            @Param("complexityNameList") List<String> complexityNameList);
+            @Param("measureNameList") List<String> measureNameList);
 }
