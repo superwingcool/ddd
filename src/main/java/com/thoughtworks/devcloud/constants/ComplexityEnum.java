@@ -22,18 +22,18 @@ public enum ComplexityEnum {
         this.description = description;
     }
 
-    public String getComplexityName() {
+    public String getMeasureName() {
         return name;
     }
 
-    public static List<String> getAllComplexityNames() {
+    public static List<String> getAllMeasureNames() {
         return Arrays.stream(values())
-                .map(complexityEnum -> complexityEnum.getComplexityName()).collect(Collectors.toList());
+                .map(complexityEnum -> complexityEnum.getMeasureName()).collect(Collectors.toList());
     }
 
-    public static ComplexityEnum fromComplexityName(String complexityName) {
+    public static ComplexityEnum fromMeasureName(String complexityName) {
         for (ComplexityEnum complexityEnum : ComplexityEnum.values()) {
-            if (complexityEnum.getComplexityName().equalsIgnoreCase(complexityName)) {
+            if (complexityEnum.getMeasureName().equalsIgnoreCase(complexityName)) {
                 return complexityEnum;
             }
         }

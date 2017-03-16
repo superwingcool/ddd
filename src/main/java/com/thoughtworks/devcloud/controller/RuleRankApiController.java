@@ -33,26 +33,26 @@ public class RuleRankApiController {
     @Autowired
     private TJenkinsJobInfoService tJenkinsJobInfoService;
 
-    @RequestMapping(value = "/violated/{devcloudProjectUuid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/violated/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /violated/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
+                "Visit /ruleRank/violated/project/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
         return getRuleRankInfo(devcloudProjectUuid, IssueStatus.VIOLATED);
     }
 
-    @RequestMapping(value = "/ignored/{devcloudProjectUuid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ignored/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getIgnoredRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /ignored/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
+                "Visit /ruleRank/ignored/project/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
         return getRuleRankInfo(devcloudProjectUuid, IssueStatus.IGNORED);
     }
 
-    @RequestMapping(value = "/revised/{devcloudProjectUuid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/revised/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getRevisedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /revised/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
+                "Visit /ruleRank/revised/project/{devcloudProjectUuid} , devcloudProjectUuid: " + devcloudProjectUuid);
 
         return getRuleRankInfo(devcloudProjectUuid, IssueStatus.REVISED);
     }
