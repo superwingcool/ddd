@@ -55,9 +55,9 @@ public class DuplicatedLineRankServiceImpl implements DuplicateLineRankService {
             BigDecimal value = cProjectMeasures.getValue();
 
             if (!repoDuplicatedLineRankMap.containsKey(repoName)) {
-                DuplicatedLineRank complexityRank = new DuplicatedLineRank();
-                complexityRank.setRepoName(repoName);
-                repoDuplicatedLineRankMap.put(repoName, complexityRank);
+                DuplicatedLineRank duplicatedLineRank = new DuplicatedLineRank();
+                duplicatedLineRank.setRepoName(repoName);
+                repoDuplicatedLineRankMap.put(repoName, duplicatedLineRank);
             }
 
             DuplicatedLineRank complexityRank = repoDuplicatedLineRankMap.get(repoName);
