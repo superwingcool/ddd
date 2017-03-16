@@ -24,15 +24,15 @@ Mysql 5.6
 
 ###项目级别被违反最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/ruleRank/violated/${devcloudProjectUuid}
+http://${host}:2223/api/codecheck/ruleRank/violated/project/${devcloudProjectUuid}
 ```
 ###项目级别扫描时屏蔽最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/ruleRank/ignored/${devcloudProjectUuid}
+http://${host}:2223/api/codecheck/ruleRank/ignored/project/${devcloudProjectUuid}
 ```
 ###项目级别问题修复最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/ruleRank/revised/${devcloudProjectUuid}
+http://${host}:2223/api/codecheck/ruleRank/revised/project/${devcloudProjectUuid}
 ```
 **三个接口的返回值**
 
