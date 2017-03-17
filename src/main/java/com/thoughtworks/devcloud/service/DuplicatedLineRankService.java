@@ -7,6 +7,6 @@ import java.util.List;
 /**
  * Created by jiezhou on 16/03/2017.
  */
-public interface DuplicateLineRankService {
+public interface DuplicatedLineRankService {
     List<DuplicatedLineRank> findDuplicatedListByDevcloudProjectId(String devcloudProjectUuid);
 }

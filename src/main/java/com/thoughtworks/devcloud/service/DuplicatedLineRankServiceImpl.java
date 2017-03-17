@@ -17,11 +17,11 @@ import java.util.Map;
 
 
 /**
- * Implementation of {@link DuplicateLineRankService}.
+ * Implementation of {@link DuplicatedLineRankService}.
  */
 @Service("duplicateLineRankService")
 @Transactional
-public class DuplicatedLineRankServiceImpl implements DuplicateLineRankService {
+public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService {
 
     @Autowired
     private CProjectMeasuresRepository cProjectMeasuresRepository;

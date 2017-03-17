@@ -3,7 +3,7 @@ package com.thoughtworks.devcloud.controller;
 import com.thoughtworks.devcloud.constants.CodeCheckConstants;
 import com.thoughtworks.devcloud.model.DuplicatedLineRank;
 import com.thoughtworks.devcloud.model.ResponseObject;
-import com.thoughtworks.devcloud.service.DuplicateLineRankService;
+import com.thoughtworks.devcloud.service.DuplicatedLineRankService;
 import com.thoughtworks.devcloud.service.TJenkinsJobInfoService;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.apache.log4j.Logger;
@@ -26,7 +26,7 @@ public class DuplicatedLineRankApiController {
     private final Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    private DuplicateLineRankService duplicatedLineRankService;
+    private DuplicatedLineRankService duplicatedLineRankService;
 
     @Autowired
     private TJenkinsJobInfoService tJenkinsJobInfoService;
