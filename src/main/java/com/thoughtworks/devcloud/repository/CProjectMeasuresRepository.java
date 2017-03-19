@@ -19,14 +19,10 @@ public interface CProjectMeasuresRepository extends JpaRepository<CProjectMeasur
             "FROM CProjectMeasures cpm " +
             "WHERE cpm.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
             "AND cpm.cMetrics.name IN (:measureNameList)" +
-            "AND cpm.cProjects.projectUuid IN " +
-            "(" +
-                "SELECT tjb.cProjects.projectUuid FROM TJenkinsJobBuildInfo tjb " +
-                "WHERE tjb.id in (SELECT max(tjb1.id) FROM TJenkinsJobBuildInfo tjb1 GROUP BY tjb1.gitUrl) " +
-
-            ")"
+            "AND cpm.cSnapshots.id IN (:snapshotIdList)"
     )
     List<CProjectMeasures> findMeasureListByDevcloudProjectId(
             @Param("devcloudProjectUuid") String devcloudProjectUuid,
-            @Param("measureNameList") List<String> measureNameList);
+            @Param("measureNameList") List<String> measureNameList,
+            @Param("snapshotIdList") List<Long> snapshotIdList);
 }

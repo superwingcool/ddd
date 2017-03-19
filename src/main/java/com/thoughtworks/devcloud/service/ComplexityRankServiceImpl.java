@@ -4,6 +4,7 @@ import com.thoughtworks.devcloud.constants.ComplexityEnum;
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
+import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,11 +27,15 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
     @Autowired
     private TJenkinsJobInfoService tJenkinsJobInfoService;
 
+    @Autowired
+    private CSnapshotsRepository cSnapshotsRepository;
+
     @Override
     public List<ComplexityRank> findComplexityListByDevcloudProjectId(String devcloudProjectUuid) {
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl();
         List<CProjectMeasures> cProjectMeasuresList =
                 cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
-                        generateComplexityNameList());
+                        generateComplexityNameList(), snapshotIdList);
 
         List<ComplexityRank> complexityRankList = transform2ComplexityRank(cProjectMeasuresList);
 

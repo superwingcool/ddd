@@ -35,7 +35,8 @@ public class DuplicatedLineRankApiController {
     public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /duplicatedLineRank/project/{devcloudProjectUuid}, devcloudProjectUuid: " + devcloudProjectUuid);
-        List<DuplicatedLineRank> duplicatedLineRankList = duplicatedLineRankService.findDuplicatedListByDevcloudProjectId(devcloudProjectUuid);
+        List<DuplicatedLineRank> duplicatedLineRankList =
+                duplicatedLineRankService.findMeasureListByDevcloudProjectId(devcloudProjectUuid);
         Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
         return CodeCheckUtils.transform2ResponseObject(duplicatedLineRankList, repoCheckCount);
     }

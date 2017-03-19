@@ -2,8 +2,10 @@ package com.thoughtworks.devcloud.service;
 
 import com.thoughtworks.devcloud.constants.DuplicatedLineEnum;
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
+import com.thoughtworks.devcloud.model.AbstractRank;
 import com.thoughtworks.devcloud.model.DuplicatedLineRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
+import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,17 +31,22 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
     @Autowired
     private TJenkinsJobInfoService tJenkinsJobInfoService;
 
-    private List<String> generateMeasureNameList() {
+    @Autowired
+    private CSnapshotsRepository cSnapshotsRepository;
+
+
+    protected List<String> generateMeasureNameList() {
         return DuplicatedLineEnum.getAllMeasureNames();
     }
 
     @Override
-    public List<DuplicatedLineRank> findDuplicatedListByDevcloudProjectId(String devcloudProjectUuid) {
+    public List<DuplicatedLineRank> findMeasureListByDevcloudProjectId(String devcloudProjectUuid) {
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl();
         List<CProjectMeasures> cProjectMeasuresList =
                 cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
-                        generateMeasureNameList());
+                        generateMeasureNameList(), snapshotIdList);
 
-        List<DuplicatedLineRank> duplicatedLineRankList = transform2DuplicatedLineRank(cProjectMeasuresList);
+        List<DuplicatedLineRank> duplicatedLineRankList = transform2MeasureRank(cProjectMeasuresList);
 
         Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
 
@@ -47,7 +54,7 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
         return duplicatedLineRankList;
     }
 
-    private List<DuplicatedLineRank> transform2DuplicatedLineRank(List<CProjectMeasures> cProjectMeasuresList) {
+    protected List<DuplicatedLineRank> transform2MeasureRank(List<CProjectMeasures> cProjectMeasuresList) {
         Map<String, DuplicatedLineRank> repoDuplicatedLineRankMap = new HashMap<String, DuplicatedLineRank>();
         for (CProjectMeasures cProjectMeasures : cProjectMeasuresList) {
             String repoName = cProjectMeasures.getCSnapshots().getScmAddr();
