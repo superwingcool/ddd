@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-nohup mvn clean spring-boot:run > start.log 2 >&1 &
+PROJECT_DIR="$(cd "$(dirname "$0")"/..; pwd)"
+cd $PROJECT_DIR
+mvn clean spring-boot:run > $PROJECT_DIR/start.log 2>&1 &

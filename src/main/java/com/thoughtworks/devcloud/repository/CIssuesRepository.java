@@ -21,15 +21,11 @@ public interface CIssuesRepository extends JpaRepository<CIssues, Long> {
             "FROM CIssues i " +
             "WHERE i.status=:issueStatus AND i.manualStatus in (:manualStatuses) " +
             "AND i.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
-            "AND i.cProjects.projectUuid IN " +
-            "(" +
-                "SELECT tjb.cProjects.projectUuid FROM TJenkinsJobBuildInfo tjb " +
-                "WHERE tjb.id in (SELECT max(tjb1.id) FROM TJenkinsJobBuildInfo tjb1 GROUP BY tjb1.gitUrl) " +
-
-            ")" +
+            "AND i.cSnapshots.id IN (:snapshotIdList)" +
             "GROUP BY i.cRules.id ORDER BY count(i.cRules.id) DESC"
     )
     List<RuleRank> findCIssuesListByDevcloudProjectIdAndStatus(@Param("devcloudProjectUuid") String devcloudProjectUuid,
                                                                @Param("issueStatus") Integer status,
-                                                               @Param("manualStatuses") List<Integer> manualStatusList);
+                                                               @Param("manualStatuses") List<Integer> manualStatusList,
+                                                               @Param("snapshotIdList") List<Long> snapshotIdList);
 }

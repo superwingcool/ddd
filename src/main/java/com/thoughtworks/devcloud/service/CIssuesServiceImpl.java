@@ -3,6 +3,7 @@ package com.thoughtworks.devcloud.service;
 import com.thoughtworks.devcloud.constants.IssueStatus;
 import com.thoughtworks.devcloud.model.RuleRank;
 import com.thoughtworks.devcloud.repository.CIssuesRepository;
+import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +21,14 @@ public class CIssuesServiceImpl implements CIssuesService {
     @Autowired
     private CIssuesRepository cIssuesRepository;
 
+    @Autowired
+    private CSnapshotsRepository cSnapshotsRepository;
+
     @Override
     public List<RuleRank> findCIssuesListByDevcloudProjectId(String devcloudProjectUuid, IssueStatus issueStatus) {
+
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl();
         return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid,
-                issueStatus.getStatus(), issueStatus.getAllManualStatusList());
+                issueStatus.getStatus(), issueStatus.getAllManualStatusList(), snapshotIdList);
     }
 }
