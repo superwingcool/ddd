@@ -18,7 +18,7 @@ public interface CProjectMeasuresRepository extends JpaRepository<CProjectMeasur
     @Query("SELECT cpm " +
             "FROM CProjectMeasures cpm " +
             "WHERE cpm.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
-            "AND cpm.cMetrics.name IN (:measureNameList)" +
+            "AND cpm.cMetrics.name IN (:measureNameList) " +
             "AND cpm.cSnapshots.id IN (:snapshotIdList)"
     )
     List<CProjectMeasures> findMeasureListByDevcloudProjectId(
