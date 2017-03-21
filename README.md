@@ -44,7 +44,7 @@ http://${host}:2223/api/codecheck/ruleRank/revised/project/${devcloudProjectUuid
         "total": "3", // 满足查询条件的规则数
         "info": [
             {
-                "rank": 1,  　                  // 规则排名
+                "rank": 1,                      // 规则排名
                 "ruleName": "AcompareB",        // 规则名字
                 "priority": 2,                  // 问题级别
                 "category": "0",                // 问题分类
