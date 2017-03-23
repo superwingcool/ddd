@@ -36,7 +36,7 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
 
     @Override
     public List<DuplicatedLineRank> findMeasureListByDevcloudProjectId(String devcloudProjectUuid) {
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl();
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuid);
         List<CProjectMeasures> cProjectMeasuresList =
                 cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
                         generateMeasureNameList(), snapshotIdList);

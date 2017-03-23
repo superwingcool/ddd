@@ -31,7 +31,7 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
 
     @Override
     public List<ComplexityRank> findComplexityListByDevcloudProjectId(String devcloudProjectUuid) {
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl();
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuid);
         List<CProjectMeasures> cProjectMeasuresList =
                 cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
                         generateComplexityNameList(), snapshotIdList);

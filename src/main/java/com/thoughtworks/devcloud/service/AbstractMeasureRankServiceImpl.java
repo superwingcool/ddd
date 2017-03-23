@@ -29,7 +29,7 @@ public abstract class AbstractMeasureRankServiceImpl<T> {
     protected abstract List<? extends AbstractRank> transform2MeasureRank(List<CProjectMeasures> cProjectMeasuresList);
 
     public List<? extends AbstractRank> findMeasureListByDevcloudProjectId(String devcloudProjectUuid) {
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl();
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuid);
 
         List<CProjectMeasures> cProjectMeasuresList =
                 cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,

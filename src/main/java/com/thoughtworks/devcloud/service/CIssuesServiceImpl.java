@@ -27,7 +27,7 @@ public class CIssuesServiceImpl implements CIssuesService {
     @Override
     public List<RuleRank> findCIssuesListByDevcloudProjectId(String devcloudProjectUuid, IssueStatus issueStatus) {
 
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl();
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuid);
         return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid,
                 issueStatus.getStatus(), issueStatus.getAllManualStatusList(), snapshotIdList);
     }
