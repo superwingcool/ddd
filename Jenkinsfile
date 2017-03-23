@@ -71,7 +71,6 @@ def validateTestCoverage() {
     def current = getCurrentTestCoverage()
     def remote = fetchRemoteTestCoverage()
     if (getCurrentTestCoverage() < fetchRemoteTestCoverage()) {
-        refreshThreshold()
         throw new Exception("The current test coverage (${current}) is lower than the value(${remote}) from last run!")
     }
 }
