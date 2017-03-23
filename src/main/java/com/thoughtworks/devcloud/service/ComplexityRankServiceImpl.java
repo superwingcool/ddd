@@ -5,7 +5,6 @@ import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
 import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
-import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,10 +37,6 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
                         generateComplexityNameList(), snapshotIdList);
 
         List<ComplexityRank> complexityRankList = transform2ComplexityRank(cProjectMeasuresList);
-
-        Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
-
-        CodeCheckUtils.transform2ResponseObject(complexityRankList, repoCheckCount);
         return complexityRankList;
     }
 

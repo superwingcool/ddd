@@ -3,8 +3,8 @@ package com.thoughtworks.devcloud.controller;
 import com.thoughtworks.devcloud.constants.CodeCheckConstants;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResponseObject;
+import com.thoughtworks.devcloud.service.CProjectsService;
 import com.thoughtworks.devcloud.service.ComplexityRankService;
-import com.thoughtworks.devcloud.service.TJenkinsJobInfoService;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +30,14 @@ public class ComplexityRankApiController {
     private ComplexityRankService complexityRankService;
 
     @Autowired
-    private TJenkinsJobInfoService tJenkinsJobInfoService;
+    private CProjectsService cProjectsService;
 
     @RequestMapping(value = "/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /complexityRank/project/{devcloudProjectUuid}, devcloudProjectUuid: " + devcloudProjectUuid);
         List<ComplexityRank> complexityRankList = complexityRankService.findComplexityListByDevcloudProjectId(devcloudProjectUuid);
-        Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
+        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(devcloudProjectUuid);
         return CodeCheckUtils.transform2ResponseObject(complexityRankList, repoCheckCount);
     }
 

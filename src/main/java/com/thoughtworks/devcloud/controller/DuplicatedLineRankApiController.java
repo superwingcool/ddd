@@ -3,8 +3,8 @@ package com.thoughtworks.devcloud.controller;
 import com.thoughtworks.devcloud.constants.CodeCheckConstants;
 import com.thoughtworks.devcloud.model.DuplicatedLineRank;
 import com.thoughtworks.devcloud.model.ResponseObject;
+import com.thoughtworks.devcloud.service.CProjectsService;
 import com.thoughtworks.devcloud.service.DuplicatedLineRankService;
-import com.thoughtworks.devcloud.service.TJenkinsJobInfoService;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class DuplicatedLineRankApiController {
     private DuplicatedLineRankService duplicatedLineRankService;
 
     @Autowired
-    private TJenkinsJobInfoService tJenkinsJobInfoService;
+    private CProjectsService cProjectsService;
 
     @RequestMapping(value = "/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
@@ -37,7 +37,7 @@ public class DuplicatedLineRankApiController {
                 "Visit /duplicatedLineRank/project/{devcloudProjectUuid}, devcloudProjectUuid: " + devcloudProjectUuid);
         List<DuplicatedLineRank> duplicatedLineRankList =
                 duplicatedLineRankService.findMeasureListByDevcloudProjectId(devcloudProjectUuid);
-        Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
+        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(devcloudProjectUuid);
         return CodeCheckUtils.transform2ResponseObject(duplicatedLineRankList, repoCheckCount);
     }
 

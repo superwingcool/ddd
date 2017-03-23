@@ -5,7 +5,7 @@ import com.thoughtworks.devcloud.constants.IssueStatus;
 import com.thoughtworks.devcloud.model.ResponseObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 import com.thoughtworks.devcloud.service.CIssuesService;
-import com.thoughtworks.devcloud.service.TJenkinsJobInfoService;
+import com.thoughtworks.devcloud.service.CProjectsService;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class RuleRankApiController {
     private CIssuesService cIssuesService;
 
     @Autowired
-    private TJenkinsJobInfoService tJenkinsJobInfoService;
+    private CProjectsService cProjectsService;
 
     @RequestMapping(value = "/violated/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
@@ -60,7 +60,7 @@ public class RuleRankApiController {
     private ResponseObject getRuleRankInfo(String devcloudProjectUuid, IssueStatus issueStatus) {
         List<RuleRank> ruleRankList = cIssuesService.findCIssuesListByDevcloudProjectId(devcloudProjectUuid,
                 issueStatus);
-        Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
+        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(devcloudProjectUuid);
         return CodeCheckUtils.transform2ResponseObject(ruleRankList, repoCheckCount);
     }
 
