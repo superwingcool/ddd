@@ -17,4 +17,17 @@ public class ComplexityEnumTest {
         Assert.assertTrue(complexityNameList.contains("file_complexity"));
         Assert.assertTrue(complexityNameList.contains("function_complexity"));
     }
+
+    @Test
+    public void shouldReturnName() {
+        Assert.assertEquals("complexity", ComplexityEnum.COMPLEXITY.getMeasureName());
+        Assert.assertEquals("file_complexity", ComplexityEnum.FILE_COMPLEXITY.getMeasureName());
+        Assert.assertEquals("function_complexity", ComplexityEnum.FUNCTION_COMPLEXITY.getMeasureName());
+    }
+
+    @Test
+    public void shouldReturnEnum() {
+        ComplexityEnum complexityEnum = ComplexityEnum.fromMeasureName("complexity");
+        Assert.assertEquals(ComplexityEnum.COMPLEXITY, complexityEnum);
+    }
 }
