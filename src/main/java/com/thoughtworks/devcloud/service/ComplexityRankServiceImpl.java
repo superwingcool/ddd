@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -22,9 +25,6 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
 
     @Autowired
     private CProjectMeasuresRepository cProjectMeasuresRepository;
-
-    @Autowired
-    private TJenkinsJobInfoService tJenkinsJobInfoService;
 
     @Autowired
     private CSnapshotsRepository cSnapshotsRepository;

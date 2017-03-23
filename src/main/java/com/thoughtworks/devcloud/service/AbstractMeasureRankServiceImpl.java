@@ -19,7 +19,7 @@ public abstract class AbstractMeasureRankServiceImpl<T> {
     private CProjectMeasuresRepository cProjectMeasuresRepository;
 
     @Autowired
-    private TJenkinsJobInfoService tJenkinsJobInfoService;
+    private CProjectsService cProjectsService;
 
     @Autowired
     private CSnapshotsRepository cSnapshotsRepository;
@@ -36,7 +36,7 @@ public abstract class AbstractMeasureRankServiceImpl<T> {
                         generateMeasureNameList(), snapshotIdList);
 
         List<? extends AbstractRank> measureRankList = transform2MeasureRank(cProjectMeasuresList);
-        Long repoCheckCount = tJenkinsJobInfoService.countDistinctByGitUrl();
+        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(devcloudProjectUuid);
 
         CodeCheckUtils.transform2ResponseObject(measureRankList, repoCheckCount);
 

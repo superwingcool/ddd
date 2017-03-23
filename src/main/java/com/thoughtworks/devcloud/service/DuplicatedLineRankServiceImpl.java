@@ -27,9 +27,6 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
     private CProjectMeasuresRepository cProjectMeasuresRepository;
 
     @Autowired
-    private TJenkinsJobInfoService tJenkinsJobInfoService;
-
-    @Autowired
     private CSnapshotsRepository cSnapshotsRepository;
 
 
