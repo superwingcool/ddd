@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public interface CProjectsRepository extends JpaRepository<CProjects, Long> {
 
-    @Query("SELECT count(distinct p.scmAddr) FROM CProjects p WHERE p.devcloudProjectUuid=:devcloudProjectUuid")
+    @Query("SELECT count(distinct p.scmAddr) FROM CProjects p WHERE p.devcloudProjectUuid=:devcloudProjectUuid " +
+            "AND p.currentSnapshotId != -1")
     Long countDistinctByGitUrl(@Param("devcloudProjectUuid") String devcloudProjectUuid);
 }
