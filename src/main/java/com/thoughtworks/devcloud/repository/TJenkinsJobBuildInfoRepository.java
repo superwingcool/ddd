@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface TJenkinsJobBuildInfoRepository extends JpaRepository<TJenkinsJobBuildInfo, Long> {
 
-    @Query("SELECT tjb.cProjects.projectUuid FROM TJenkinsJobBuildInfo tjb " +
-            "WHERE tjb.id in (SELECT max(tjb1.id) FROM TJenkinsJobBuildInfo tjb1 GROUP BY tjb1.gitUrl) ")
-    List<String> findLatestProjectUuidListByGitUrl();
+//    @Query("SELECT tjb.cProjects.projectUuid FROM TJenkinsJobBuildInfo tjb " +
+//            "WHERE tjb.id in (SELECT max(tjb1.id) FROM TJenkinsJobBuildInfo tjb1 GROUP BY tjb1.gitUrl) ")
+//    List<String> findLatestProjectUuidListByGitUrl();
 }

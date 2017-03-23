@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TJenkinsJobInfoRepository extends JpaRepository<TJenkinsJobInfo, Long> {
 
-    @Query("SELECT count(distinct tj.gitUrl) FROM TJenkinsJobInfo tj")
-    Long countDistinctByGitUrl();
+//    @Query("SELECT count(distinct tj.gitUrl) FROM TJenkinsJobInfo tj")
+//    Long countDistinctByGitUrl();
 }
