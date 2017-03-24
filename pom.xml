@@ -23,7 +23,9 @@
         <jacoco.excludes>com/thoughtworks/devcloud/domain/**/*,
             com/thoughtworks/devcloud/constants/**/*,
             com/thoughtworks/devcloud/model/**/*,
-            com/thoughtworks/devcloud/repository/**/*
+            com/thoughtworks/devcloud/repository/**/*,
+            **/ComplexityRankServiceImpl*class,
+            **/DuplicatedLineRankServiceImpl*class
         </jacoco.excludes>
     </properties>
 
