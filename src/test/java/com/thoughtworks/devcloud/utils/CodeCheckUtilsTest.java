@@ -4,6 +4,7 @@ import com.thoughtworks.devcloud.model.ResponseObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 public class CodeCheckUtilsTest {
 
     private List<RuleRank> ruleRankList = constructorRuleRankList();
+
+    @InjectMocks
+    private CodeCheckUtils codeCheckUtils;
 
     @Test
     public void transform2ResponseObjectTest() {

@@ -40,7 +40,7 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
         return complexityRankList;
     }
 
-    private List<ComplexityRank> transform2ComplexityRank(List<CProjectMeasures> cProjectMeasuresList) {
+    public List<ComplexityRank> transform2ComplexityRank(List<CProjectMeasures> cProjectMeasuresList) {
         Map<String, ComplexityRank> repoComplexityMap = new HashMap<String, ComplexityRank>();
         for (CProjectMeasures cProjectMeasures : cProjectMeasuresList) {
             String repoName = cProjectMeasures.getCSnapshots().getScmAddr();
