@@ -4,12 +4,10 @@ node {
         docker.image('ywchang/maven:3.3.3').inside {
             stage('package') { sh 'mvn clean install site' }
             stage('archive') { uploadArtifacts() }
-            stage('build-image') { buildImage() }
-            stage('push-image') { pushImage() }
         }
-        stage('checkTestCoverage') {
-            refreshTestCoverage()
-        }
+        stage('checkTestCoverage') { refreshTestCoverage() }
+        stage('build-image') { buildImage() }
+        stage('push-image') { pushImage() }
         playSuccessSound()
     }
     catch (err) {
