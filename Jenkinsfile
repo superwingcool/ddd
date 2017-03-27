@@ -4,6 +4,8 @@ node {
         docker.image('ywchang/maven:3.3.3').inside {
             stage('package') { sh 'mvn clean install site' }
             stage('archive') { uploadArtifacts() }
+            stage('build-image') { buildImage() }
+            stage('push-image') { pushImage() }
         }
         stage('checkTestCoverage') {
             refreshTestCoverage()
@@ -14,6 +16,14 @@ node {
         playFailureSound()
         throw err
     }
+}
+
+def buildImage() {
+    sh 'docker build -t 10.202.129.42:58704/code-check-summary-service:latest .'
+}
+
+def pushImage() {
+    sh 'docker push 10.202.129.42:58704/code-check-summary-service:latest'
 }
 
 def refreshTestCoverage() {
