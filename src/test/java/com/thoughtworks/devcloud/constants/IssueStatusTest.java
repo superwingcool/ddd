@@ -12,9 +12,9 @@ public class IssueStatusTest {
 
     @Test
     public void shouldReturnStatusWhenGettingStatus() {
-        Assert.assertEquals(0, IssueStatus.IGNORED.getStatus());
-        Assert.assertEquals(1, IssueStatus.REVISED.getStatus());
-        Assert.assertEquals(0, IssueStatus.VIOLATED.getStatus());
+        Assert.assertEquals(Ints.asList(CIssueStatusField.UNSOLVED.value()), IssueStatus.IGNORED.getStatusList());
+        Assert.assertEquals(Ints.asList(CIssueStatusField.SOLVED.value()), IssueStatus.REVISED.getStatusList());
+        Assert.assertEquals(CIssueStatusField.getAllStatuses(), IssueStatus.VIOLATED.getStatusList());
     }
 
     @Test

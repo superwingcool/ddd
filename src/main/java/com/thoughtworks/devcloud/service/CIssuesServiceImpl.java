@@ -29,6 +29,6 @@ public class CIssuesServiceImpl implements CIssuesService {
 
         List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuid);
         return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(devcloudProjectUuid,
-                issueStatus.getStatus(), issueStatus.getAllManualStatusList(), snapshotIdList);
+                issueStatus.getStatusList(), issueStatus.getAllManualStatusList(), snapshotIdList);
     }
 }

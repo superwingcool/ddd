@@ -18,20 +18,20 @@ import java.util.List;
  */
 public enum IssueStatus {
 
-    VIOLATED(CIssueStatusField.UNSOLVED.value(), CIssueManualStatusField.getAllManualStatuses()),
-    IGNORED(CIssueStatusField.UNSOLVED.value(), Ints.asList(CIssueManualStatusField.IGNORED.value())),
-    REVISED(CIssueStatusField.SOLVED.value(), CIssueManualStatusField.getAllManualStatuses());
+    VIOLATED(CIssueStatusField.getAllStatuses(), CIssueManualStatusField.getAllManualStatuses()),
+    IGNORED(Ints.asList(CIssueStatusField.UNSOLVED.value()), Ints.asList(CIssueManualStatusField.IGNORED.value())),
+    REVISED(Ints.asList(CIssueStatusField.SOLVED.value()), CIssueManualStatusField.getAllManualStatuses());
 
-    private int status;
     private List<Integer> allManualStatusList;
+    private List<Integer> statusList;
 
-    private IssueStatus(int status, List<Integer> allManualStatuses) {
-        this.status = status;
+    private IssueStatus(List<Integer> statuses, List<Integer> allManualStatuses) {
+        this.statusList = statuses;
         this.allManualStatusList = allManualStatuses;
     }
 
-    public int getStatus() {
-        return status;
+    public List<Integer>  getStatusList() {
+        return statusList;
     }
 
     public List<Integer> getAllManualStatusList() {

@@ -19,13 +19,13 @@ public interface CIssuesRepository extends JpaRepository<CIssues, Long> {
     @Query("SELECT new com.thoughtworks.devcloud.model.RuleRank(i.cRules.name, " +
             "i.cRules.priority, i.cRules.categoryBig, i.cRules.language, i.cRules.systemTags, count(i.cRules.id)) " +
             "FROM CIssues i " +
-            "WHERE i.status=:issueStatus AND i.manualStatus in (:manualStatuses) " +
+            "WHERE i.status in (:issueStatuses) AND i.manualStatus in (:manualStatuses) " +
             "AND i.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
             "AND i.cSnapshots.id IN (:snapshotIdList)" +
             "GROUP BY i.cRules.id ORDER BY count(i.cRules.id) DESC"
     )
     List<RuleRank> findCIssuesListByDevcloudProjectIdAndStatus(@Param("devcloudProjectUuid") String devcloudProjectUuid,
-                                                               @Param("issueStatus") Integer status,
+                                                               @Param("issueStatuses") List<Integer> statusList,
                                                                @Param("manualStatuses") List<Integer> manualStatusList,
                                                                @Param("snapshotIdList") List<Long> snapshotIdList);
 }
