@@ -30,7 +30,7 @@ public class RuleRankApiController {
     @Autowired
     private CProjectsService cProjectsService;
 
-    @CrossOrigin(allowCredentials = "false")
+    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/violated/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -39,7 +39,7 @@ public class RuleRankApiController {
         return getRuleRankInfo(devcloudProjectUuid, IssueStatus.VIOLATED);
     }
 
-    @CrossOrigin(allowCredentials = "false")
+    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/ignored/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getIgnoredRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -48,7 +48,7 @@ public class RuleRankApiController {
         return getRuleRankInfo(devcloudProjectUuid, IssueStatus.IGNORED);
     }
 
-    @CrossOrigin(allowCredentials = "false")
+    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/revised/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getRevisedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +

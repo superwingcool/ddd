@@ -29,7 +29,7 @@ public class ComplexityRankApiController {
     @Autowired
     private CProjectsService cProjectsService;
 
-    @CrossOrigin(allowCredentials = "false")
+    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/project/{devcloudProjectUuid}", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
