@@ -22,17 +22,27 @@ Mysql 5.6
 
 ## 接口描述
 
+###项目级别圈复杂度排名接口
+```
+http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/complexity
+```
+
+###项目级重复行排名接口
+```
+http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/duplicatedLine
+```
+
 ###项目级别被违反最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/ruleRank/violated/project/${devcloudProjectUuid}
+http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/violated
 ```
 ###项目级别扫描时屏蔽最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/ruleRank/ignored/project/${devcloudProjectUuid}
+http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/ignored
 ```
 ###项目级别问题修复最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/ruleRank/revised/project/${devcloudProjectUuid}
+http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/revised
 ```
 **三个接口的返回值**
 
