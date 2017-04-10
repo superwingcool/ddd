@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -36,56 +37,56 @@ public class ProjectRankApiController {
     private CProjectsService cProjectsService;
 
     @CrossOrigin(allowCredentials = "true")
-    @RequestMapping(value = "/{devcloudProjectUuid}/repos/complexity", method = RequestMethod.GET)
-    public ResponseObject getComplexityRules(@PathVariable String devcloudProjectUuid) {
+    @RequestMapping(value = "/{devCloudProjectUuid}/repos/complexity", method = RequestMethod.GET)
+    public ResponseObject getComplexityRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /projects/{devcloudProjectUuid}/repos/complexity, devcloudProjectUuid: " + devcloudProjectUuid);
-        List<ComplexityRank> complexityRankList = complexityRankService.findComplexityListByDevcloudProjectId(devcloudProjectUuid);
-        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(devcloudProjectUuid);
+                "Visit /projects/{devCloudProjectUuid}/repos/complexity, devCloudProjectUuid: " + devCloudProjectUuid);
+        List<ComplexityRank> complexityRankList = complexityRankService.findComplexityListByDevcloudProjectId(devCloudProjectUuid);
+        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid));
         return CodeCheckUtils.transform2ResponseObject(complexityRankList, repoCheckCount);
     }
 
     @CrossOrigin(allowCredentials = "true")
-    @RequestMapping(value = "/{devcloudProjectUuid}/repos/duplicatedLine", method = RequestMethod.GET)
-    public ResponseObject getDuplicatedLineRules(@PathVariable String devcloudProjectUuid) {
+    @RequestMapping(value = "/{devCloudProjectUuid}/repos/duplicatedLine", method = RequestMethod.GET)
+    public ResponseObject getDuplicatedLineRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /project/{devcloudProjectUuid}/repos/duplicatedLine, devcloudProjectUuid: " + devcloudProjectUuid);
+                "Visit /project/{devCloudProjectUuid}/repos/duplicatedLine, devCloudProjectUuid: " + devCloudProjectUuid);
         List<DuplicatedLineRank> duplicatedLineRankList =
-                duplicatedLineRankService.findMeasureListByDevcloudProjectId(devcloudProjectUuid);
-        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(devcloudProjectUuid);
+                duplicatedLineRankService.findMeasureListByDevcloudProjectId(devCloudProjectUuid);
+        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid));
         return CodeCheckUtils.transform2ResponseObject(duplicatedLineRankList, repoCheckCount);
     }
 
     @CrossOrigin(allowCredentials = "true")
-    @RequestMapping(value = "/{devcloudProjectUuid}/rules/violated", method = RequestMethod.GET)
-    public ResponseObject getViolatedRules(@PathVariable String devcloudProjectUuid) {
+    @RequestMapping(value = "/{devCloudProjectUuid}/rules/violated", method = RequestMethod.GET)
+    public ResponseObject getViolatedRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /project/{devcloudProjectUuid}/rules/violated , devcloudProjectUuid: " + devcloudProjectUuid);
+                "Visit /project/{devCloudProjectUuid}/rules/violated , devcloudProjectUuid: " + devCloudProjectUuid);
 
-        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.VIOLATED);
+        return getRuleRankInfo(devCloudProjectUuid, IssueStatus.VIOLATED);
     }
 
     @CrossOrigin(allowCredentials = "true")
-    @RequestMapping(value = "/{devcloudProjectUuid}/rules/ignored", method = RequestMethod.GET)
-    public ResponseObject getIgnoredRules(@PathVariable String devcloudProjectUuid) {
+    @RequestMapping(value = "/{devCloudProjectUuid}/rules/ignored", method = RequestMethod.GET)
+    public ResponseObject getIgnoredRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /projects/{devcloudProjectUuid}/rules/ignored , devcloudProjectUuid: " + devcloudProjectUuid);
+                "Visit /projects/{devcloudProjectUuid}/rules/ignored , devCloudProjectUuid: " + devCloudProjectUuid);
 
-        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.IGNORED);
+        return getRuleRankInfo(devCloudProjectUuid, IssueStatus.IGNORED);
     }
 
     @CrossOrigin(allowCredentials = "true")
-    @RequestMapping(value = "/{devcloudProjectUuid}/rules/revised", method = RequestMethod.GET)
-    public ResponseObject getRevisedRules(@PathVariable String devcloudProjectUuid) {
+    @RequestMapping(value = "/{devCloudProjectUuid}/rules/revised", method = RequestMethod.GET)
+    public ResponseObject getRevisedRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /projects/{devcloudProjectUuid}/rules/revised , devcloudProjectUuid: " + devcloudProjectUuid);
-        return getRuleRankInfo(devcloudProjectUuid, IssueStatus.REVISED);
+                "Visit /projects/{devCloudProjectUuid}/rules/revised , devcloudProjectUuid: " + devCloudProjectUuid);
+        return getRuleRankInfo(devCloudProjectUuid, IssueStatus.REVISED);
     }
 
-    private ResponseObject getRuleRankInfo(String devcloudProjectUuid, IssueStatus issueStatus) {
-        List<RuleRank> ruleRankList = cIssuesService.findCIssuesListByDevcloudProjectId(devcloudProjectUuid,
+    private ResponseObject getRuleRankInfo(String devCloudProjectUuid, IssueStatus issueStatus) {
+        List<RuleRank> ruleRankList = cIssuesService.findCIssuesListByDevcloudProjectId(devCloudProjectUuid,
                 issueStatus);
-        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(devcloudProjectUuid);
+        Long repoCheckCount = cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid));
         return CodeCheckUtils.transform2ResponseObject(ruleRankList, repoCheckCount);
     }
 }

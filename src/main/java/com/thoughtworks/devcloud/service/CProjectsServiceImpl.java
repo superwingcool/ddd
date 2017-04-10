@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Implementation of {@link CProjectsService}.
@@ -17,7 +19,14 @@ public class CProjectsServiceImpl implements CProjectsService {
     private CProjectsRepository cProjectsRepository;
 
     @Override
-    public Long countDistinctByGitUrl(String devcloudProjectUuid) {
-        return cProjectsRepository.countDistinctByGitUrl(devcloudProjectUuid);
+    public Long countDistinctByGitUrl(List<String> devCloudProjectUuid) {
+        return cProjectsRepository.countDistinctByGitUrl(devCloudProjectUuid);
     }
+
+    @Override
+    public List<String> getProjectsByTenantId(String tenantId){
+       return cProjectsRepository.getProjectsByTenantId(tenantId);
+    }
+
+
 }

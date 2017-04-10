@@ -1,6 +1,7 @@
 package com.thoughtworks.devcloud.service;
 
 import com.thoughtworks.devcloud.constants.IssueStatus;
+import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 
 import java.util.List;
@@ -12,4 +13,6 @@ import java.util.List;
 public interface CIssuesService {
 
     List<RuleRank> findCIssuesListByDevcloudProjectId(String devProjectUuid, IssueStatus issueStatus);
+
+    ResultObject<RuleRank> findCIssuesListByTenantId(String tenantId, IssueStatus issueStatus);
 }

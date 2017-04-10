@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -42,7 +43,7 @@ public class ComplexityRankServiceImplTest {
         List<Long> snapshotIdList = new ArrayList<Long>();
         List<CProjectMeasures> cProjectMeasuresList = new ArrayList<>();
 
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuid)).thenReturn(snapshotIdList);
+        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devcloudProjectUuid))).thenReturn(snapshotIdList);
         when(cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
                 ComplexityEnum.getAllMeasureNames(), snapshotIdList)).thenReturn(cProjectMeasuresList);
 
