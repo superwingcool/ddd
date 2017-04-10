@@ -1,10 +1,12 @@
 package com.thoughtworks.devcloud.utils;
 
 import com.thoughtworks.devcloud.constants.CodeCheckConstants;
+import com.thoughtworks.devcloud.exception.NullObjectException;
 import com.thoughtworks.devcloud.model.AbstractRank;
 import com.thoughtworks.devcloud.model.ResponseObject;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,11 +26,9 @@ public class CodeCheckUtils {
     public static ResponseObject transform2ResponseObject(List<? extends AbstractRank> ruleRankList, Long repoCheckCount) {
         ResponseObject responseObject = new ResponseObject();
         if (ruleRankList == null) {
-            responseObject.setError("");
             return responseObject;
         }
 
-        responseObject.setStatus(CodeCheckConstants.RESPONSE_CODE_SUCCESS);
         ResultObject resultObject = new ResultObject();
         resultObject.setTotal(String.valueOf(ruleRankList.size()));
         updateRank(ruleRankList);
@@ -36,6 +36,16 @@ public class CodeCheckUtils {
         resultObject.setRepoCheckedCount(String.valueOf(repoCheckCount));
 
         responseObject.setResult(resultObject);
+        return responseObject;
+    }
+
+    public static ResponseObject transform2ResponseObject(ResultObject<RuleRank> result){
+        ResponseObject responseObject = new ResponseObject();
+        if (result == null) {
+            return responseObject;
+        }
+        updateRank(result.getInfo());
+        responseObject.setResult(result);
         return responseObject;
     }
 
@@ -50,6 +60,12 @@ public class CodeCheckUtils {
         for (int i = 0; i < rankList.size(); i ++) {
             AbstractRank rank = rankList.get(i);
             rank.setRank(i + 1);
+        }
+    }
+
+    public static void getNullThrowException(List list){
+        if(CollectionUtils.isEmpty(list)){
+            throw new NullObjectException();
         }
     }
 }

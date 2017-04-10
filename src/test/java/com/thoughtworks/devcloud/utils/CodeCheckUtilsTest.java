@@ -1,5 +1,6 @@
 package com.thoughtworks.devcloud.utils;
 
+import com.thoughtworks.devcloud.exception.NullObjectException;
 import com.thoughtworks.devcloud.model.ResponseObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 import org.junit.Assert;
@@ -35,6 +36,11 @@ public class CodeCheckUtilsTest {
 
         Assert.assertEquals("rule2", ruleRankList.get(0).getRuleName());
         Assert.assertEquals(1, ruleRankList.get(0).getRank());
+    }
+
+    @Test(expected = NullObjectException.class)
+    public void getNullThrowExceptionShouldThrowExceptoinGivenBlank() {
+        CodeCheckUtils.getNullThrowException(new ArrayList<>());
     }
 
     private List<RuleRank> constructorRuleRankList() {

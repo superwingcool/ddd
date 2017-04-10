@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -52,77 +53,71 @@ public class ProjectRankApiControllerTest {
 
     @Test
     public void getComplexityRulesShouldReturnEmptyResponseObjectWhenNoList() {
-        String devcloudProjectUuid = "XXXX";
+        String devCloudProjectUuid = "XXXX";
         List<ComplexityRank> complexityRankList = new ArrayList<>();
-        when(complexityRankService.findComplexityListByDevcloudProjectId(devcloudProjectUuid))
+        when(complexityRankService.findComplexityListByDevcloudProjectId(devCloudProjectUuid))
                 .thenReturn(complexityRankList);
 
-        when(cProjectsService.countDistinctByGitUrl(devcloudProjectUuid)).thenReturn(100L);
+        when(cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid))).thenReturn(100L);
 
-        ResponseObject responseObject = projectRankApiController.getComplexityRules(devcloudProjectUuid);
-        verify(complexityRankService, times(1)).findComplexityListByDevcloudProjectId(devcloudProjectUuid);
-        assertThat(responseObject.getError(), is(Null.NULL));
-        assertThat(responseObject.getStatus(), is("success"));
+        ResponseObject responseObject = projectRankApiController.getComplexityRules(devCloudProjectUuid);
+        verify(complexityRankService, times(1)).findComplexityListByDevcloudProjectId(devCloudProjectUuid);
+
     }
 
     @Test
     public void getDuplicatedLineRulesShouldReturnEmptyResponseObjectWhenNoList() {
-        String devcloudProjectUuid = "XXXX";
+        String devCloudProjectUuid = "XXXX";
         List<DuplicatedLineRank> duplicatedLineRanks = new ArrayList<>();
-        when(duplicatedLineRankService.findMeasureListByDevcloudProjectId(devcloudProjectUuid))
+        when(duplicatedLineRankService.findMeasureListByDevcloudProjectId(devCloudProjectUuid))
                 .thenReturn(duplicatedLineRanks);
 
-        when(cProjectsService.countDistinctByGitUrl(devcloudProjectUuid)).thenReturn(10L);
-
-        ResponseObject responseObject = projectRankApiController.getDuplicatedLineRules(devcloudProjectUuid);
+        when(cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid))).thenReturn(10L);
+        ResponseObject responseObject = projectRankApiController.getDuplicatedLineRules(devCloudProjectUuid);
         verify(duplicatedLineRankService, times(1))
-                .findMeasureListByDevcloudProjectId(devcloudProjectUuid);
-        assertThat(responseObject.getError(), is(Null.NULL));
-        assertThat(responseObject.getStatus(), is("success"));
+                .findMeasureListByDevcloudProjectId(devCloudProjectUuid);
+
     }
 
     @Test
     public void getRevisedRulesShouldReturnEmptyResponseObjectWhenNoList() {
-        String devcloudProjectUuid = "XXXX";
+        String devCloudProjectUuid = "XXXX";
         IssueStatus issueStatus = IssueStatus.REVISED;
         List<RuleRank> complexityRankList = new ArrayList<>();
-        when(cIssuesService.findCIssuesListByDevcloudProjectId(devcloudProjectUuid, issueStatus))
+        when(cIssuesService.findCIssuesListByDevcloudProjectId(devCloudProjectUuid, issueStatus))
                 .thenReturn(complexityRankList);
 
-        when(cProjectsService.countDistinctByGitUrl(devcloudProjectUuid)).thenReturn(100L);
-
-        ResponseObject responseObject = projectRankApiController.getRevisedRules(devcloudProjectUuid);
-        verify(cIssuesService, times(1)).findCIssuesListByDevcloudProjectId(devcloudProjectUuid,
+        when(cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid))).thenReturn(100L);
+        ResponseObject responseObject = projectRankApiController.getRevisedRules(devCloudProjectUuid);
+        verify(cIssuesService, times(1)).findCIssuesListByDevcloudProjectId(devCloudProjectUuid,
                 issueStatus);
     }
 
     @Test
     public void getIgnoredRulesShouldReturnEmptyResponseObjectWhenNoList() {
-        String devcloudProjectUuid = "XXXX";
+        String devCloudProjectUuid = "XXXX";
         IssueStatus issueStatus = IssueStatus.IGNORED;
         List<RuleRank> complexityRankList = new ArrayList<>();
-        when(cIssuesService.findCIssuesListByDevcloudProjectId(devcloudProjectUuid, issueStatus))
+        when(cIssuesService.findCIssuesListByDevcloudProjectId(devCloudProjectUuid, issueStatus))
                 .thenReturn(complexityRankList);
 
-        when(cProjectsService.countDistinctByGitUrl(devcloudProjectUuid)).thenReturn(100L);
-
-        ResponseObject responseObject = projectRankApiController.getIgnoredRules(devcloudProjectUuid);
-        verify(cIssuesService, times(1)).findCIssuesListByDevcloudProjectId(devcloudProjectUuid,
+        when(cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid))).thenReturn(100L);
+        ResponseObject responseObject = projectRankApiController.getIgnoredRules(devCloudProjectUuid);
+        verify(cIssuesService, times(1)).findCIssuesListByDevcloudProjectId(devCloudProjectUuid,
                 issueStatus);
     }
 
     @Test
     public void getViolatedRulesShouldReturnEmptyResponseObjectWhenNoList() {
-        String devcloudProjectUuid = "XXXX";
+        String devCloudProjectUuid = "XXXX";
         IssueStatus issueStatus = IssueStatus.VIOLATED;
         List<RuleRank> complexityRankList = new ArrayList<>();
-        when(cIssuesService.findCIssuesListByDevcloudProjectId(devcloudProjectUuid, issueStatus))
+        when(cIssuesService.findCIssuesListByDevcloudProjectId(devCloudProjectUuid, issueStatus))
                 .thenReturn(complexityRankList);
 
-        when(cProjectsService.countDistinctByGitUrl(devcloudProjectUuid)).thenReturn(10L);
-
-        ResponseObject responseObject = projectRankApiController.getViolatedRules(devcloudProjectUuid);
-        verify(cIssuesService, times(1)).findCIssuesListByDevcloudProjectId(devcloudProjectUuid,
+        when(cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid))).thenReturn(10L);
+        ResponseObject responseObject = projectRankApiController.getViolatedRules(devCloudProjectUuid);
+        verify(cIssuesService, times(1)).findCIssuesListByDevcloudProjectId(devCloudProjectUuid,
                 issueStatus);
     }
 

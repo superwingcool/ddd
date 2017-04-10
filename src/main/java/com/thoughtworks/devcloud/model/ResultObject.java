@@ -1,9 +1,11 @@
 package com.thoughtworks.devcloud.model;
 
+import com.thoughtworks.devcloud.exception.NullObjectException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -26,4 +28,10 @@ public class ResultObject<T> {
 
     /** count of repo be checked**/
     private String repoCheckedCount;
+
+    /** count of project be checked**/
+    private String projectCount;
+
+
+
 }
