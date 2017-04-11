@@ -26,23 +26,33 @@ Mysql 5.6
 ```
 http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/complexity
 ```
-
 ###项目级重复行排名接口
 ```
 http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/duplicatedLine
 ```
-
 ###项目级别被违反最多的规则排名接口
 ```
 http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/violated
+```
+###租户级别被违反最多的规则排名接口
+```
+http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/violated
 ```
 ###项目级别扫描时屏蔽最多的规则排名接口
 ```
 http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/ignored
 ```
+###租户级别扫描时屏蔽最多的规则排名接口
+```
+http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/ignored
+```
 ###项目级别问题修复最多的规则排名接口
 ```
 http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/revised
+```
+###租户级别问题修复最多的规则排名接口
+```
+http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/revised
 ```
 **三个接口的返回值**
 
@@ -82,6 +92,7 @@ http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/revised
             }
         ],
         "repoCheckedCount": "1"             // 检查仓库总数
+        "projectCount": "1"                 //检查项目总数（租户下使用）
     }
 }
 ```
