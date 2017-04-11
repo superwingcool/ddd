@@ -28,17 +28,16 @@ public interface CProjectMeasuresRepository extends JpaRepository<CProjectMeasur
 
     @Query(value = "SELECT repoName, projectName," +
             " IFNULL(fileComplexity, 0), IFNULL(functionComplexity, 0), IFNULL(complexity, 0) " +
-            " FROM (SELECT p.PROJECT_NAME as projectName, s.SCM_ADDR as repoName," +
+            " FROM (SELECT p.PROJECT_NAME as projectName, p.SCM_ADDR as repoName," +
             " sum(case when m.NAME='complexity' then c.VALUE end ) as complexity," +
             " sum(case when m.NAME='file_complexity' then c.VALUE  end ) as fileComplexity," +
             " sum(case when m.NAME='function_complexity' then c.VALUE  end ) as functionComplexity" +
             " FROM C_PROJECT_MEASURES c left join C_PROJECTS p on c.PROJECT_UUID=p.PROJECT_UUID" +
             " left join C_METRICS m on c.METRIC_ID=m.ID" +
-            " left join C_SNAPSHOTS s on s.id = c.SNAPSHOT_ID" +
             " where p.DEVCLOUD_PROJECT_UUID in (:devCloudProjectIds)" +
             " and c.SNAPSHOT_ID in (:snapshotIds)" +
             " and m.NAME in (:measureNames)" +
-            " group by p.DEVCLOUD_PROJECT_UUID,s.SCM_ADDR, p.PROJECT_NAME) result" +
+            " group by p.DEVCLOUD_PROJECT_UUID,p.SCM_ADDR, p.PROJECT_NAME) result" +
             " order by complexity DESC, repoName ASC" ,
             nativeQuery = true)
     List<Object[]> getMeasureListByProjects(
