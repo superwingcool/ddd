@@ -36,7 +36,6 @@ public class ProjectRankApiController {
     @Autowired
     private CProjectsService cProjectsService;
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{devCloudProjectUuid}/repos/complexity", method = RequestMethod.GET)
     public ResponseObject getComplexityRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -46,7 +45,6 @@ public class ProjectRankApiController {
         return CodeCheckUtils.transform2ResponseObject(complexityRankList, repoCheckCount);
     }
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{devCloudProjectUuid}/repos/duplicatedLine", method = RequestMethod.GET)
     public ResponseObject getDuplicatedLineRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -57,7 +55,6 @@ public class ProjectRankApiController {
         return CodeCheckUtils.transform2ResponseObject(duplicatedLineRankList, repoCheckCount);
     }
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{devCloudProjectUuid}/rules/violated", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -66,7 +63,6 @@ public class ProjectRankApiController {
         return getRuleRankInfo(devCloudProjectUuid, IssueStatus.VIOLATED);
     }
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{devCloudProjectUuid}/rules/ignored", method = RequestMethod.GET)
     public ResponseObject getIgnoredRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -75,7 +71,6 @@ public class ProjectRankApiController {
         return getRuleRankInfo(devCloudProjectUuid, IssueStatus.IGNORED);
     }
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{devCloudProjectUuid}/rules/revised", method = RequestMethod.GET)
     public ResponseObject getRevisedRules(@PathVariable String devCloudProjectUuid) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +

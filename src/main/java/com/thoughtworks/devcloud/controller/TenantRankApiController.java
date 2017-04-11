@@ -26,7 +26,6 @@ public class TenantRankApiController {
 
 
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{tenantId}/rules/violated", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String tenantId) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -35,7 +34,6 @@ public class TenantRankApiController {
         return CodeCheckUtils.transform2ResponseObject(ruleRanks);
     }
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{tenantId}/rules/ignored", method = RequestMethod.GET)
     public ResponseObject getIgnoredRules(@PathVariable String tenantId) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -44,7 +42,6 @@ public class TenantRankApiController {
         return CodeCheckUtils.transform2ResponseObject(ruleRanks);
     }
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{tenantId}/rules/revised", method = RequestMethod.GET)
     public ResponseObject getRevisedRules(@PathVariable String tenantId) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
