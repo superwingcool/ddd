@@ -39,7 +39,7 @@ public class CodeCheckUtils {
         return responseObject;
     }
 
-    public static ResponseObject transform2ResponseObject(ResultObject<RuleRank> result){
+    public static ResponseObject transform2ResponseObject(ResultObject<? extends AbstractRank> result){
         ResponseObject responseObject = new ResponseObject();
         if (result == null) {
             return responseObject;
