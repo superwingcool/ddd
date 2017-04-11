@@ -27,7 +27,6 @@ public class TenantRankApiController {
     @Autowired
     private CIssuesService cIssuesService;
 
-    @CrossOrigin(allowCredentials = "true")
     @RequestMapping(value = "/{tenantId}/repos/complexity", method = RequestMethod.GET)
     public ResponseObject getComplexityRules(@PathVariable String tenantId) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
@@ -35,8 +34,6 @@ public class TenantRankApiController {
         ResultObject<ComplexityRank> complexityRankList = complexityRankService.getComplexityListByTenantId(tenantId);
         return CodeCheckUtils.transform2ResponseObject(complexityRankList);
     }
-
-
 
     @RequestMapping(value = "/{tenantId}/rules/violated", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String tenantId) {
