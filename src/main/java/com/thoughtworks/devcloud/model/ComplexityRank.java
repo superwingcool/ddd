@@ -1,9 +1,6 @@
 package com.thoughtworks.devcloud.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,6 +9,8 @@ import java.math.BigDecimal;
 /**
  * Entity for complexity ranking.
  */
+@Setter
+@Getter
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,6 +22,9 @@ public class ComplexityRank extends AbstractRank implements Serializable {
     /** 仓库名称 **/
     private String repoName;
 
+    /** 项目名称 **/
+    private String projectName;
+
     /** 文件平均复杂度 **/
     private BigDecimal fileComplexity;
 
@@ -31,6 +33,8 @@ public class ComplexityRank extends AbstractRank implements Serializable {
 
     /** 总圈复杂度 **/
     private BigDecimal complexity;
+
+
 
     @Override
     public int compareTo(AbstractRank o) {

@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -20,11 +21,19 @@ public class TenantRankApiController {
 
     private final Logger logger = Logger.getLogger(getClass());
 
+    @Autowired
+    private ComplexityRankService complexityRankService;
 
     @Autowired
     private CIssuesService cIssuesService;
 
-
+    @RequestMapping(value = "/{tenantId}/repos/complexity", method = RequestMethod.GET)
+    public ResponseObject getComplexityRules(@PathVariable String tenantId) {
+        logger.info(CodeCheckConstants.LOGGER_PREFIX +
+                "Visit /projects/{tenantId}/repos/complexity, tenantId: " + tenantId);
+        ResultObject<ComplexityRank> complexityRankList = complexityRankService.getComplexityListByTenantId(tenantId);
+        return CodeCheckUtils.transform2ResponseObject(complexityRankList);
+    }
 
     @RequestMapping(value = "/{tenantId}/rules/violated", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String tenantId) {

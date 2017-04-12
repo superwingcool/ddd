@@ -1,92 +1,167 @@
 package com.thoughtworks.devcloud.controller;
 
-import com.google.common.primitives.Ints;
-import com.thoughtworks.devcloud.constants.CIssueManualStatusField;
-import com.thoughtworks.devcloud.constants.CIssueStatusField;
+import com.thoughtworks.devcloud.CodeCheckApplication;
+import com.thoughtworks.devcloud.advice.CodeCheckControllerAdvice;
 import com.thoughtworks.devcloud.constants.IssueStatus;
-import com.thoughtworks.devcloud.model.ResponseObject;
+import com.thoughtworks.devcloud.model.ComplexityRank;
+import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
-import com.thoughtworks.devcloud.repository.CIssuesRepository;
-import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
 import com.thoughtworks.devcloud.service.CIssuesService;
-import com.thoughtworks.devcloud.service.CProjectsService;
+import com.thoughtworks.devcloud.service.ComplexityRankService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = CodeCheckApplication.class)
 public class TenantRankApiControllerTest {
 
-    @Mock
-    private CSnapshotsRepository cSnapshotsRepository;
+    private MockMvc mockMvc;
 
-    @Mock
-    private CIssuesRepository cIssuesRepository;
+    @MockBean
+    private ComplexityRankService complexityRankService;
 
-    @Mock
-    private CProjectsService cProjectsService;
-
-    @Mock
+    @MockBean
     private CIssuesService cIssuesService;
 
-    @InjectMocks
+    @Autowired
     private TenantRankApiController tenantRankApiController;
 
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(tenantRankApiController)
+                .setControllerAdvice(new CodeCheckControllerAdvice()).build();
     }
 
     @Test
-    public void getViolatedRulesShouldReturnEmptyResponseObjectWhenNoList() throws Exception {
-        String tenantId = "tenantId";
-        IssueStatus issueStatus = mockService(tenantId,IssueStatus.VIOLATED);
-        ResponseObject responseObject = tenantRankApiController.getViolatedRules(tenantId);
-        verify(cIssuesService, times(1))
-                .findCIssuesListByTenantId(tenantId,issueStatus);
+    public void getViolatedRulesShouldReturnSuccessWhenHaveRank() throws Exception {
+
+        mockService(IssueStatus.VIOLATED);
+        this.mockMvc.perform(get("/tenants/tenantId/rules/violated"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\":{\"total\":\"10\",\"info\":" +
+                        "[{\"rank\":1,\"ruleName\":\"rule_name\",\"priority\":3,\"category\":\"c\"," +
+                        "\"language\":\"JAVA\",\"tag\":\"tag\",\"counts\":12}],\"repoCheckedCount\":\"2\"," +
+                        "\"projectCount\":\"12\"}}"));
+
     }
 
     @Test
-    public void getIgnoredRulesShouldReturnEmptyResponseObjectWhenNoList() throws Exception {
-        String tenantId = "tenantId";
-        IssueStatus issueStatus = mockService(tenantId,IssueStatus.IGNORED);
-        ResponseObject responseObject = tenantRankApiController.getIgnoredRules(tenantId);
-        verify(cIssuesService, times(1))
-                .findCIssuesListByTenantId(tenantId,issueStatus);
+    public void getViolatedRulesShouldReturnNullGivenNull() throws Exception {
+
+        when(cIssuesService.findCIssuesListByTenantId("tenantId",IssueStatus.VIOLATED)).thenReturn(null);
+        this.mockMvc.perform(get("/tenants/tenantId/rules/violated"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\" : null}"));
     }
 
     @Test
-    public void getRevisedRulesShouldReturnEmptyResponseObjectWhenNoList() throws Exception {
-        String tenantId = "tenantId";
-        IssueStatus issueStatus = mockService(tenantId,IssueStatus.REVISED);
-        ResponseObject responseObject = tenantRankApiController.getRevisedRules(tenantId);
-        verify(cIssuesService, times(1))
-                .findCIssuesListByTenantId(tenantId,issueStatus);
+    public void getIgnoredRulesShouldReturnSuccessWhenHaveRank() throws Exception {
+        mockService(IssueStatus.IGNORED);
+        this.mockMvc.perform(get("/tenants/tenantId/rules/ignored"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\":{\"total\":\"10\",\"info\":" +
+                        "[{\"rank\":1,\"ruleName\":\"rule_name\",\"priority\":3,\"category\":\"c\"," +
+                        "\"language\":\"JAVA\",\"tag\":\"tag\",\"counts\":12}],\"repoCheckedCount\":\"2\"," +
+                        "\"projectCount\":\"12\"}}"));
     }
 
-    private IssueStatus mockService(String tenantId, IssueStatus issueStatus) {
+    @Test
+    public void getIgnoredRulesShouldReturnNullGivenNull() throws Exception {
 
-        List<String> projects = new ArrayList<String>();
-        projects.add("xxxx");
-        when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
-        List<Long> snapShorts = new ArrayList<Long>();
-        snapShorts.add(234l);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
-        List<RuleRank> rankList = new ArrayList<>();
-        rankList.add(mock(RuleRank.class));
-        when(cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(projects,
-                issueStatus.getStatusList(),
-                issueStatus.getAllManualStatusList(),
-                snapShorts)).thenReturn(rankList);
-        when(cProjectsService.countDistinctByGitUrl(projects)).thenReturn(12l);
-        return issueStatus;
+        when(cIssuesService.findCIssuesListByTenantId("tenantId",IssueStatus.IGNORED)).thenReturn(null);
+        this.mockMvc.perform(get("/tenants/tenantId/rules/violated"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\" : null}"));
+    }
+
+    @Test
+    public void getRevisedRulesShouldReturnSuccessWhenHaveRanks() throws Exception {
+        mockService(IssueStatus.REVISED);
+        this.mockMvc.perform(get("/tenants/tenantId/rules/revised"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\":{\"total\":\"10\",\"info\":" +
+                        "[{\"rank\":1,\"ruleName\":\"rule_name\",\"priority\":3,\"category\":\"c\"," +
+                        "\"language\":\"JAVA\",\"tag\":\"tag\",\"counts\":12}],\"repoCheckedCount\":\"2\"," +
+                        "\"projectCount\":\"12\"}}"));
+    }
+
+    @Test
+    public void getRevisedRulesShouldReturnNullGivenNull() throws Exception {
+
+        when(cIssuesService.findCIssuesListByTenantId("tenantId",IssueStatus.REVISED)).thenReturn(null);
+        this.mockMvc.perform(get("/tenants/tenantId/rules/violated"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\" : null}"));
+    }
+
+    @Test
+    public void getComplexityRulesShouldReturnSuccessGivenHaveData() throws Exception {
+        List<ComplexityRank> ranks = new ArrayList<>();
+        ComplexityRank rank = new ComplexityRank();
+        rank.setProjectName("p");
+        rank.setRepoName("http://localhost:8080");
+        rank.setComplexity(BigDecimal.ONE);
+        rank.setFileComplexity(BigDecimal.TEN);
+        rank.setFunctionComplexity(BigDecimal.ZERO);
+        ranks.add(rank);
+        ResultObject<ComplexityRank> resultObject = new ResultObject<>();
+        resultObject.setTotal("10");
+        resultObject.setRepoCheckedCount("2");
+        resultObject.setInfo(ranks);
+        resultObject.setProjectCount("12");
+        when(complexityRankService.getComplexityListByTenantId(anyString())).thenReturn(resultObject);
+        this.mockMvc.perform(get("/tenants/tenantId/repos/complexity"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\":{\"total\":\"10\",\"info\":" +
+                        "[{\"repoName\":\"http://localhost:8080\",\"projectName\":\"p\"," +
+                        "\"fileComplexity\":10,\"functionComplexity\":0,\"complexity\":1,\"rank\":1}]," +
+                        "\"repoCheckedCount\":\"2\",\"projectCount\":\"12\"}}"));
+    }
+
+    @Test
+    public void getComplexityRulesShouldReturnNullGivenNull() throws Exception {
+
+        when(complexityRankService.getComplexityListByTenantId(anyString())).thenReturn(null);
+        this.mockMvc.perform(get("/tenants/tenantId/repos/complexity"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\" : null}"));
+    }
+
+    private void mockService(IssueStatus issueStatus) {
+        String tenantId = "tenantId";
+        List<RuleRank> ranks = new ArrayList<>();
+        RuleRank rank = new RuleRank();
+        rank.setCategory("c");
+        rank.setCounts(12l);
+        rank.setLanguage("JAVA");
+        rank.setPriority(3);
+        rank.setRuleName("rule_name");
+        rank.setTag("tag");
+        ranks.add(rank);
+        ResultObject<RuleRank> resultObject = new ResultObject<>();
+        resultObject.setTotal("10");
+        resultObject.setRepoCheckedCount("2");
+        resultObject.setInfo(ranks);
+        resultObject.setProjectCount("12");
+        when(cIssuesService.findCIssuesListByTenantId(tenantId, issueStatus)).thenReturn(resultObject);
     }
 
 }
