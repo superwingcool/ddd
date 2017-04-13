@@ -31,7 +31,7 @@ public class TenantRankApiController {
     public ResponseObject getComplexityRules(@PathVariable String tenantId) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
                 "Visit /projects/{tenantId}/repos/complexity, tenantId: " + tenantId);
-        ResultObject<ComplexityRank> complexityRankList = complexityRankService.getComplexityListByTenantId(tenantId);
+        ResultObject<TenantComplexityRank> complexityRankList = complexityRankService.getComplexityListByTenantId(tenantId);
         return CodeCheckUtils.transform2ResponseObject(complexityRankList);
     }
 

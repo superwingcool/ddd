@@ -5,6 +5,7 @@ import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.model.DuplicatedLineRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
 import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
+import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +33,12 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
     }
 
     @Override
-    public List<DuplicatedLineRank> findMeasureListByDevcloudProjectId(String devcloudProjectUuid) {
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devcloudProjectUuid));
+    public List<DuplicatedLineRank> findMeasureListByDevcloudProjectId(String devCloudProjectUuid) {
+        List<String> devCloudProjectIds = Arrays.asList(devCloudProjectUuid);
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devCloudProjectIds);
+        CodeCheckUtils.getNullThrowException(snapshotIdList);
         List<CProjectMeasures> cProjectMeasuresList =
-                cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
+                cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(devCloudProjectIds,
                         generateMeasureNameList(), snapshotIdList);
 
         List<DuplicatedLineRank> duplicatedLineRankList = transform2MeasureRank(cProjectMeasuresList);

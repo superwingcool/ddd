@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ComplexityRank extends AbstractRank implements Serializable {
@@ -22,17 +21,14 @@ public class ComplexityRank extends AbstractRank implements Serializable {
     /** 仓库名称 **/
     private String repoName;
 
-    /** 项目名称 **/
-    private String projectName;
-
     /** 文件平均复杂度 **/
-    private BigDecimal fileComplexity;
+    private BigDecimal fileComplexity = BigDecimal.ZERO;
 
     /** 函数平均复杂度 **/
-    private BigDecimal functionComplexity;
+    private BigDecimal functionComplexity = BigDecimal.ZERO;
 
     /** 总圈复杂度 **/
-    private BigDecimal complexity;
+    private BigDecimal complexity = BigDecimal.ZERO;
 
 
 

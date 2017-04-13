@@ -15,16 +15,19 @@ import java.util.List;
 @Repository
 public interface CProjectMeasuresRepository extends JpaRepository<CProjectMeasures, Long> {
 
+
     @Query("SELECT cpm " +
-            "FROM CProjectMeasures cpm " +
-            "WHERE cpm.cProjects.devcloudProjectUuid=:devcloudProjectUuid " +
-            "AND cpm.cMetrics.name IN (:measureNameList) " +
-            "AND cpm.cSnapshots.id IN (:snapshotIdList)"
+            "FROM CProjectMeasures cpm JOIN FETCH cpm.cProjects p" +
+            " JOIN FETCH cpm.cSnapshots s JOIN FETCH cpm.cMetrics m" +
+            " where p.devcloudProjectUuid in(:devCloudProjectUuid)" +
+            " AND m.name IN (:measureNames)" +
+            " AND s.id IN (:snapshotIds)"
     )
-    List<CProjectMeasures> findMeasureListByDevcloudProjectId(
-            @Param("devcloudProjectUuid") String devcloudProjectUuid,
-            @Param("measureNameList") List<String> measureNameList,
-            @Param("snapshotIdList") List<Long> snapshotIdList);
+    List<CProjectMeasures> findMeasureListByDevCloudProjectId(
+            @Param("devCloudProjectUuid") List<String> devCloudProjectUuid,
+            @Param("measureNames") List<String> measureNames,
+            @Param("snapshotIds") List<Long> snapshotIds
+    );
 
     @Query(value = "SELECT repoName, projectName," +
             " IFNULL(fileComplexity, 0), IFNULL(functionComplexity, 0), IFNULL(complexity, 0) " +

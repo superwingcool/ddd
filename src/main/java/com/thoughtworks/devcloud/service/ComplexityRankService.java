@@ -2,6 +2,7 @@ package com.thoughtworks.devcloud.service;
 
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResultObject;
+import com.thoughtworks.devcloud.model.TenantComplexityRank;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ import java.util.List;
 public interface ComplexityRankService {
     List<ComplexityRank> findComplexityListByDevcloudProjectId(String devcloudProjectUuid);
 
-    ResultObject<ComplexityRank> getComplexityListByTenantId(String tenantId);
+    ResultObject<TenantComplexityRank>  getComplexityListByTenantId(String tenantId);
 }
