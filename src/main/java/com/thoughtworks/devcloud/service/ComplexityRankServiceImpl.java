@@ -4,6 +4,7 @@ import com.thoughtworks.devcloud.constants.ComplexityEnum;
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResultObject;
+import com.thoughtworks.devcloud.model.TenantComplexityRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
 import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
 import com.thoughtworks.devcloud.utils.CodeCheckUtils;
@@ -33,11 +34,12 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
     private CProjectsService cProjectsService;
 
     @Override
-    public List<ComplexityRank> findComplexityListByDevcloudProjectId(String devcloudProjectUuid) {
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devcloudProjectUuid));
+    public List<ComplexityRank> findComplexityListByDevcloudProjectId(String devCloudProjectUuid) {
+        List<String> devCloudProjectIds = Arrays.asList(devCloudProjectUuid);
+        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devCloudProjectIds);
         CodeCheckUtils.getNullThrowException(snapshotIdList);
         List<CProjectMeasures> cProjectMeasuresList =
-                cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
+                cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(devCloudProjectIds,
                         generateComplexityNameList(), snapshotIdList);
         List<ComplexityRank> complexityRankList = transform2ComplexityRank(cProjectMeasuresList);
         return complexityRankList;
@@ -45,7 +47,7 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
 
 
     @Override
-    public ResultObject<ComplexityRank> getComplexityListByTenantId(String tenantId) {
+    public ResultObject<TenantComplexityRank> getComplexityListByTenantId(String tenantId) {
 
         List<String> projects = cProjectsService.getProjectsByTenantId(tenantId);
         CodeCheckUtils.getNullThrowException(projects);
@@ -53,20 +55,20 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
         CodeCheckUtils.getNullThrowException(snapshotIdList);
         List<Object[]> ranks = cProjectMeasuresRepository.getMeasureListByProjects(projects, generateComplexityNameList(),
                         snapshotIdList);
-        List<ComplexityRank> complexityRanks = getComplexityRanks(ranks);
+        List<TenantComplexityRank> complexityRanks = getComplexityRanks(ranks);
         Long counts = cProjectsService.countDistinctByGitUrl(projects);
-        return new ResultObject<ComplexityRank>(String.valueOf(complexityRanks.size()),
+        return new ResultObject<TenantComplexityRank>(String.valueOf(complexityRanks.size()),
                 complexityRanks,
                 String.valueOf(counts),
                 String.valueOf(complexityRanks.size()));
 
     }
 
-    private List<ComplexityRank> getComplexityRanks(List<Object[]> ranks) {
-        List<ComplexityRank> complexityRanks = new ArrayList<>();
+    private List<TenantComplexityRank> getComplexityRanks(List<Object[]> ranks) {
+        List<TenantComplexityRank> complexityRanks = new ArrayList<>();
         if(!CollectionUtils.isEmpty(ranks)){
             for (Object[] obj: ranks) {
-                ComplexityRank complexityRank = new ComplexityRank(String.valueOf(obj[0]),
+                TenantComplexityRank complexityRank = new TenantComplexityRank(String.valueOf(obj[0]),
                         String.valueOf(obj[1]),
                         (BigDecimal)obj[2],
                         (BigDecimal)obj[3],

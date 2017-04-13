@@ -5,6 +5,7 @@ import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.exception.NullObjectException;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResultObject;
+import com.thoughtworks.devcloud.model.TenantComplexityRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
 import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
 import org.junit.Assert;
@@ -64,10 +65,10 @@ public class ComplexityRankServiceImplTest {
         List<Long> snapshotIdList = new ArrayList<Long>();
         snapshotIdList.add(1l);
         List<CProjectMeasures> cProjectMeasuresList = new ArrayList<>();
-
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devcloudProjectUuid)))
+        List<String> devcloudProjectUuids = Arrays.asList(devcloudProjectUuid);
+        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuids))
                 .thenReturn(snapshotIdList);
-        when(cProjectMeasuresRepository.findMeasureListByDevcloudProjectId(devcloudProjectUuid,
+        when(cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(devcloudProjectUuids,
                 ComplexityEnum.getAllMeasureNames(), snapshotIdList)).thenReturn(cProjectMeasuresList);
 
         List<ComplexityRank> complexityRankList =
@@ -115,7 +116,7 @@ public class ComplexityRankServiceImplTest {
         when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
         when(cProjectMeasuresRepository.getMeasureListByProjects(projects, ComplexityEnum.getAllMeasureNames(),
                 snapShorts)).thenReturn(new ArrayList<Object[]>());
-        ResultObject<ComplexityRank> result = complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
+        ResultObject<TenantComplexityRank> result = complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
         assertThat(result, notNullValue());
         assertThat(result.getTotal(), is("0"));
         assertThat(result.getInfo().size(), is(0));
@@ -137,7 +138,7 @@ public class ComplexityRankServiceImplTest {
         when(cProjectMeasuresRepository.getMeasureListByProjects(projects, ComplexityEnum.getAllMeasureNames(),
                 snapShorts)).thenReturn(ranks);
         when(cProjectsService.countDistinctByGitUrl(projects)).thenReturn(12l);
-        ResultObject<ComplexityRank> result = complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
+        ResultObject<TenantComplexityRank> result = complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
         assertThat(result, notNullValue());
         assertThat(result.getRepoCheckedCount(), is("12"));
         assertThat(result.getTotal(), is("1"));

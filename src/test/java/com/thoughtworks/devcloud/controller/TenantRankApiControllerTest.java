@@ -3,9 +3,9 @@ package com.thoughtworks.devcloud.controller;
 import com.thoughtworks.devcloud.CodeCheckApplication;
 import com.thoughtworks.devcloud.advice.CodeCheckControllerAdvice;
 import com.thoughtworks.devcloud.constants.IssueStatus;
-import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
+import com.thoughtworks.devcloud.model.TenantComplexityRank;
 import com.thoughtworks.devcloud.service.CIssuesService;
 import com.thoughtworks.devcloud.service.ComplexityRankService;
 import org.junit.Before;
@@ -114,15 +114,15 @@ public class TenantRankApiControllerTest {
 
     @Test
     public void getComplexityRulesShouldReturnSuccessGivenHaveData() throws Exception {
-        List<ComplexityRank> ranks = new ArrayList<>();
-        ComplexityRank rank = new ComplexityRank();
+        List<TenantComplexityRank> ranks = new ArrayList<>();
+        TenantComplexityRank rank = new TenantComplexityRank();
         rank.setProjectName("p");
         rank.setRepoName("http://localhost:8080");
         rank.setComplexity(BigDecimal.ONE);
         rank.setFileComplexity(BigDecimal.TEN);
         rank.setFunctionComplexity(BigDecimal.ZERO);
         ranks.add(rank);
-        ResultObject<ComplexityRank> resultObject = new ResultObject<>();
+        ResultObject<TenantComplexityRank> resultObject = new ResultObject<>();
         resultObject.setTotal("10");
         resultObject.setRepoCheckedCount("2");
         resultObject.setInfo(ranks);

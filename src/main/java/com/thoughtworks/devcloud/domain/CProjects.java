@@ -35,9 +35,9 @@ public class CProjects implements Serializable {
     @Column(name = "PROJECT_UUID", nullable = false)
     private String projectUuid;
 
-    @Column(name = "CREATED_AT", columnDefinition = "DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+//    @Column(name = "CREATED_AT", columnDefinition = "DATETIME")
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date createdAt;
 
     @Column(name = "PROJECT_NAME_KEY")
     private String projectNameKey;
