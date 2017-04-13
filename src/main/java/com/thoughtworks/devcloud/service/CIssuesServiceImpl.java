@@ -59,7 +59,7 @@ public class CIssuesServiceImpl implements CIssuesService {
         return new ResultObject<RuleRank>(String.valueOf(ruleRank.size()),
                                           ruleRank,
                                           String.valueOf(counts),
-                                          String.valueOf(ruleRank.size()));
+                                          String.valueOf(projects.size()));
 
     }
 }

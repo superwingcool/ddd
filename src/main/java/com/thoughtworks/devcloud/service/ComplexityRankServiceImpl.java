@@ -60,7 +60,7 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
         return new ResultObject<TenantComplexityRank>(String.valueOf(complexityRanks.size()),
                 complexityRanks,
                 String.valueOf(counts),
-                String.valueOf(complexityRanks.size()));
+                String.valueOf(projects.size()));
 
     }
 
