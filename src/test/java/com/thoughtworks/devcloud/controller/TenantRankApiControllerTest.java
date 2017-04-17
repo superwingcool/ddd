@@ -6,8 +6,10 @@ import com.thoughtworks.devcloud.constants.IssueStatus;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 import com.thoughtworks.devcloud.model.TenantComplexityRank;
+import com.thoughtworks.devcloud.model.TenantDuplicatedLineRank;
 import com.thoughtworks.devcloud.service.CIssuesService;
 import com.thoughtworks.devcloud.service.ComplexityRankService;
+import com.thoughtworks.devcloud.service.DuplicatedLineRankService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +41,9 @@ public class TenantRankApiControllerTest {
 
     @MockBean
     private CIssuesService cIssuesService;
+
+    @MockBean
+    private DuplicatedLineRankService duplicatedLineRankService;
 
     @Autowired
     private TenantRankApiController tenantRankApiController;
@@ -143,6 +148,39 @@ public class TenantRankApiControllerTest {
         this.mockMvc.perform(get("/tenants/tenantId/repos/complexity"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"result\" : null}"));
+    }
+
+    @Test
+    public void getDuplicatedLineRulesShouldReturnNullGivenNull() throws Exception {
+
+        when(duplicatedLineRankService.findMeasureListByDevCloudTenantId(anyString())).thenReturn(null);
+        this.mockMvc.perform(get("/tenants/tenantId/repos/duplicatedLine"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\" : null}"));
+    }
+
+    @Test
+    public void getDuplicatedLineRulesShouldReturnSuccessGivenHaveData() throws Exception {
+        List<TenantDuplicatedLineRank> ranks = new ArrayList<>();
+        TenantDuplicatedLineRank rank = new TenantDuplicatedLineRank();
+        rank.setProjectName("p");
+        rank.setRepoName("http://localhost:8080");
+        rank.setCodeLines(BigDecimal.ONE);
+        rank.setDuplicatedLines(BigDecimal.TEN);
+        rank.setDuplicatedLinesDensity("10%");
+        ranks.add(rank);
+        ResultObject<TenantDuplicatedLineRank> resultObject = new ResultObject<>();
+        resultObject.setTotal("10");
+        resultObject.setRepoCheckedCount("2");
+        resultObject.setInfo(ranks);
+        resultObject.setProjectCount("12");
+        when(duplicatedLineRankService.findMeasureListByDevCloudTenantId(anyString())).thenReturn(resultObject);
+        this.mockMvc.perform(get("/tenants/tenantId/repos/duplicatedLine"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"result\":{\"total\":\"10\",\"info\":" +
+                        "[{\"repoName\":\"http://localhost:8080\",\"projectName\":\"p\"," +
+                        "\"duplicatedLinesDensity\":\"10%\",\"codeLines\":1,\"duplicatedLines\":10,\"rank\":1}]," +
+                        "\"repoCheckedCount\":\"2\",\"projectCount\":\"12\"}}"));
     }
 
     private void mockService(IssueStatus issueStatus) {

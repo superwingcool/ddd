@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/tenants")
+@RequestMapping(value = "/tenants")
 public class TenantRankApiController {
 
     private final Logger logger = Logger.getLogger(getClass());
@@ -25,13 +25,26 @@ public class TenantRankApiController {
     private ComplexityRankService complexityRankService;
 
     @Autowired
+    private DuplicatedLineRankService duplicatedLineRankService;
+
+    @Autowired
     private CIssuesService cIssuesService;
 
     @RequestMapping(value = "/{tenantId}/repos/complexity", method = RequestMethod.GET)
     public ResponseObject getComplexityRules(@PathVariable String tenantId) {
         logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /projects/{tenantId}/repos/complexity, tenantId: " + tenantId);
-        ResultObject<TenantComplexityRank> complexityRankList = complexityRankService.getComplexityListByTenantId(tenantId);
+                "Visit /tenants/{tenantId}/repos/complexity, tenantId: " + tenantId);
+        ResultObject<TenantComplexityRank> complexityRankList =
+                complexityRankService.getComplexityListByTenantId(tenantId);
+        return CodeCheckUtils.transform2ResponseObject(complexityRankList);
+    }
+
+    @RequestMapping(value = "/{tenantId}/repos/duplicatedLine", method = RequestMethod.GET)
+    public ResponseObject getDuplicatedLineRules(@PathVariable String tenantId) {
+        logger.info(CodeCheckConstants.LOGGER_PREFIX +
+                "Visit /tenants/{tenantId}/repos/duplicatedLine, tenantId: " + tenantId);
+        ResultObject<TenantDuplicatedLineRank> complexityRankList =
+                duplicatedLineRankService.findMeasureListByDevCloudTenantId(tenantId);
         return CodeCheckUtils.transform2ResponseObject(complexityRankList);
     }
 
