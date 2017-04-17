@@ -12,7 +12,6 @@ import java.io.Serializable;
  * Standard response object for rule ranking.
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseObject implements Serializable {
