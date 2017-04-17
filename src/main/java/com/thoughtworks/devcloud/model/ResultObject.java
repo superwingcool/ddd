@@ -14,7 +14,6 @@ import java.util.List;
  * Result object for rule rank.
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResultObject<T> {

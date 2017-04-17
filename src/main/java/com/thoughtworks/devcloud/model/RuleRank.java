@@ -12,7 +12,6 @@ import java.io.Serializable;
  * Entity for rule ranking.
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RuleRank extends AbstractRank implements Serializable {
