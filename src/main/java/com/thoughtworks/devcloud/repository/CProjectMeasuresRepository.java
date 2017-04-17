@@ -30,7 +30,7 @@ public interface CProjectMeasuresRepository extends JpaRepository<CProjectMeasur
     );
 
     @Query(value = "SELECT repoName, projectName," +
-            " IFNULL(fileComplexity, 0), IFNULL(functionComplexity, 0), IFNULL(complexity, 0) " +
+            " fileComplexity, functionComplexity, complexity " +
             " FROM (SELECT p.PROJECT_NAME as projectName, p.SCM_ADDR as repoName," +
             " sum(case when m.NAME='complexity' then c.VALUE end ) as complexity," +
             " sum(case when m.NAME='file_complexity' then c.VALUE  end ) as fileComplexity," +
