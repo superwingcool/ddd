@@ -10,8 +10,30 @@ import java.math.BigDecimal;
  */
 public class ComplexityRankTest {
 
+    @Test(expected = RuntimeException.class)
+    public void compareReturnThrowExceptionGivenOtherObject() {
+        ComplexityRank complexityRank = new ComplexityRank();
+        complexityRank.compareTo(null);
+    }
+
+    @Test
+    public void compareReturnTrueGivenNull() {
+        ComplexityRank complexityRankNull1 = new ComplexityRank();
+        complexityRankNull1.setComplexity(null);
+        complexityRankNull1.setRepoName("http://git.com");
+
+
+        ComplexityRank complexityRank = new ComplexityRank();
+        complexityRank.setComplexity(new BigDecimal(100));
+        complexityRank.setRepoName("http://git.com");
+
+        Assert.assertTrue(complexityRankNull1.compareTo(complexityRank) < 0);
+        Assert.assertTrue(complexityRank.compareTo(complexityRankNull1) > 0);
+    }
+
     @Test
     public void shouldReturnTrueListWhenComparing() {
+
         ComplexityRank complexityRank = new ComplexityRank();
         complexityRank.setComplexity(new BigDecimal(100));
         complexityRank.setRepoName("http://git.com");
@@ -28,6 +50,8 @@ public class ComplexityRankTest {
         complexityRank3.setRepoName("http://git3.com");
 
         result = complexityRank3.compareTo(complexityRank);
-        Assert.assertTrue(result == 0);
+
+        Assert.assertTrue(result < 0);
     }
+
 }

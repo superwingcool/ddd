@@ -1,7 +1,6 @@
 package com.thoughtworks.devcloud.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +12,6 @@ import java.math.BigDecimal;
  * Entity for duplicated line ranking.
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DuplicatedLineRank extends AbstractRank implements Serializable {
@@ -35,7 +33,14 @@ public class DuplicatedLineRank extends AbstractRank implements Serializable {
     @Override
     public int compareTo(AbstractRank o) {
         if (o instanceof DuplicatedLineRank) {
-            return this.getDuplicatedLinesDensity().compareTo(((DuplicatedLineRank) o).getDuplicatedLinesDensity());
+            DuplicatedLineRank target = (DuplicatedLineRank) o;
+            if(this.getDuplicatedLinesDensity() == null) return -1;
+            if(target.getDuplicatedLinesDensity() == null) return 1;
+            int result = this.getDuplicatedLinesDensity().compareTo(target.getDuplicatedLinesDensity());
+            if(result == 0){
+                result = - this.getRepoName().compareTo(target.getRepoName());
+            }
+            return result;
         } else {
             throw new RuntimeException("Different type can't be compared!");
         }
