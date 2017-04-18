@@ -3,6 +3,7 @@ package com.thoughtworks.devcloud.service;
 import com.thoughtworks.devcloud.constants.ComplexityEnum;
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.exception.NullObjectException;
+import com.thoughtworks.devcloud.mapper.ProjectComplexityMeasuresMapper;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.TenantComplexityRank;
@@ -38,6 +39,9 @@ public class ComplexityRankServiceImplTest {
 
     @Mock
     private CProjectsService cProjectsService;
+
+    @Mock
+    private ProjectComplexityMeasuresMapper projectComplexityMeasuresMapper;
 
     @InjectMocks
     private ComplexityRankServiceImpl complexityRankServiceImpl;
@@ -75,15 +79,6 @@ public class ComplexityRankServiceImplTest {
                 complexityRankServiceImpl.findComplexityListByDevcloudProjectId(devcloudProjectUuid);
         Assert.assertTrue(complexityRankList.isEmpty());
 
-    }
-
-    @Test
-    public void shouldReturnSame() {
-        List<CProjectMeasures> cProjectMeasuresList = new ArrayList<>();
-        List<ComplexityRank> complexityRankList =
-                complexityRankServiceImpl.transform2ComplexityRank(cProjectMeasuresList);
-
-        Assert.assertTrue(complexityRankList.isEmpty());
     }
 
     @Test(expected = NullObjectException.class)
