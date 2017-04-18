@@ -4,22 +4,19 @@ import com.thoughtworks.devcloud.domain.CMetrics;
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.domain.CProjects;
 import com.thoughtworks.devcloud.domain.CSnapshots;
+import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.DuplicatedLineRank;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 
 public class MeasuresMapperTest {
-
-
-    private final String key = "http://git.address.test.com/";
-    private final String projectName = "projectName";
 
     private MeasuresMapper measuresMapper;
 
@@ -27,8 +24,13 @@ public class MeasuresMapperTest {
     public void setUp(){
         measuresMapper = new MeasuresMapper() {
             @Override
-            List transformMeasure2Rank(List list) {
+            protected Object getRank(Map rankMaps, CProjectMeasures cProjectMeasure) {
                 return null;
+            }
+
+            @Override
+            protected void bindRankValues(CProjectMeasures cProjectMeasure, Object rank) {
+
             }
         };
     }
@@ -44,6 +46,7 @@ public class MeasuresMapperTest {
     public void setDuplicatedLineValuesShouldRankGivenDuplicatedLinesDensity() throws Exception {
         DuplicatedLineRank duplicatedLineRank = new DuplicatedLineRank();
         measuresMapper.setDuplicatedLineValues(duplicatedLineRank, "duplicated_lines_density", BigDecimal.ONE);
+        assertThat(duplicatedLineRank.getDuplicatedLinesDensityCompare(), is(BigDecimal.ONE));
         assertThat(duplicatedLineRank.getDuplicatedLinesDensity(), is("1.00%"));
     }
 
@@ -54,12 +57,25 @@ public class MeasuresMapperTest {
         assertThat(duplicatedLineRank.getCodeLines(), is(BigDecimal.ONE));
     }
 
-
+    @Test
+    public void setComplexityRankValuesShouldRankGivenComplexity() throws Exception{
+        ComplexityRank complexityRank = new ComplexityRank();
+        measuresMapper.setComplexityRankValues(complexityRank, "complexity", BigDecimal.TEN);
+        assertThat(complexityRank.getComplexity(), is(BigDecimal.TEN));
+    }
 
     @Test
-    public void getProjectName() throws Exception {
-        CProjectMeasures c = createProjectMeasures();
-        assertThat(c.getCProjects().getProjectName(), is("projectName"));
+    public void setComplexityRankValuesShouldRankGivenFileComplexity() throws Exception{
+        ComplexityRank complexityRank = new ComplexityRank();
+        measuresMapper.setComplexityRankValues(complexityRank, "file_complexity", BigDecimal.TEN);
+        assertThat(complexityRank.getFileComplexity(), is(BigDecimal.TEN));
+    }
+
+    @Test
+    public void setComplexityRankValuesShouldRankGivenFunctionComplexity() throws Exception{
+        ComplexityRank complexityRank = new ComplexityRank();
+        measuresMapper.setComplexityRankValues(complexityRank, "function_complexity", BigDecimal.TEN);
+        assertThat(complexityRank.getFunctionComplexity(), is(BigDecimal.TEN));
     }
 
     private CProjectMeasures createProjectMeasures() {
@@ -78,23 +94,33 @@ public class MeasuresMapperTest {
     }
 
     @Test
+    public void getProjectName() throws Exception {
+        CProjectMeasures c = createProjectMeasures();
+        assertThat(measuresMapper.getProjectName(c), is("projectName"));
+    }
+
+    @Test
     public void getMetricName() throws Exception {
         CProjectMeasures c = createProjectMeasures();
-        assertThat(c.getCMetrics().getName(), is("duplicated_line"));
-
+        assertThat(measuresMapper.getMetricName(c), is("duplicated_line"));
     }
 
     @Test
     public void getRepName() throws Exception {
         CProjectMeasures c = createProjectMeasures();
-        assertThat(c.getCSnapshots().getScmAddr(), is("repo_name"));
+        assertThat(measuresMapper.getRepoName(c), is("repo_name"));
+    }
+
+    @Test
+    public void getKey() throws Exception {
+        CProjectMeasures c = createProjectMeasures();
+        assertThat(measuresMapper.getKey(c, "projectName"), is("repo_nameprojectName"));
     }
 
     @Test
     public void getValue() throws Exception {
         CProjectMeasures c = createProjectMeasures();
-        assertThat(c.getValue(), is(BigDecimal.TEN));
-
+        assertThat(measuresMapper.getValue(c), is(BigDecimal.TEN));
     }
 
 }
