@@ -2,6 +2,7 @@ package com.thoughtworks.devcloud.service;
 
 import com.thoughtworks.devcloud.constants.ComplexityEnum;
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
+import com.thoughtworks.devcloud.mapper.ProjectComplexityMeasuresMapper;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.TenantComplexityRank;
@@ -33,6 +34,9 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
     @Autowired
     private CProjectsService cProjectsService;
 
+    @Autowired
+    private ProjectComplexityMeasuresMapper projectComplexityMeasuresMapper;
+
     @Override
     public List<ComplexityRank> findComplexityListByDevcloudProjectId(String devCloudProjectUuid) {
         List<String> devCloudProjectIds = Arrays.asList(devCloudProjectUuid);
@@ -41,7 +45,8 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
         List<CProjectMeasures> cProjectMeasuresList =
                 cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(devCloudProjectIds,
                         generateComplexityNameList(), snapshotIdList);
-        List<ComplexityRank> complexityRankList = transform2ComplexityRank(cProjectMeasuresList);
+        List<ComplexityRank> complexityRankList = projectComplexityMeasuresMapper.transformMeasure2Rank(cProjectMeasuresList);
+        //List<ComplexityRank> complexityRankList = transform2ComplexityRank(cProjectMeasuresList);
         return complexityRankList;
     }
 
@@ -77,45 +82,6 @@ public class ComplexityRankServiceImpl implements ComplexityRankService {
             }
         }
         return complexityRanks;
-    }
-
-    public List<ComplexityRank> transform2ComplexityRank(List<CProjectMeasures> cProjectMeasuresList) {
-        Map<String, ComplexityRank> repoComplexityMap = new HashMap<String, ComplexityRank>();
-        for (CProjectMeasures cProjectMeasures : cProjectMeasuresList) {
-            String repoName = cProjectMeasures.getCSnapshots().getScmAddr();
-            String metricName = cProjectMeasures.getCMetrics().getName();
-            BigDecimal value = cProjectMeasures.getValue();
-
-            if (!repoComplexityMap.containsKey(repoName)) {
-                ComplexityRank complexityRank = new ComplexityRank();
-                complexityRank.setRepoName(repoName);
-                repoComplexityMap.put(repoName, complexityRank);
-            }
-
-            ComplexityRank complexityRank = repoComplexityMap.get(repoName);
-            updateComplexityRank(complexityRank, metricName, value);
-        }
-        return new ArrayList<ComplexityRank>(repoComplexityMap.values());
-    }
-
-    private void updateComplexityRank(ComplexityRank complexityRank,
-                                      String metricName,
-                                      BigDecimal value) {
-        ComplexityEnum complexityEnum = ComplexityEnum.fromMeasureName(metricName);
-        switch (complexityEnum) {
-            case COMPLEXITY:
-                complexityRank.setComplexity(value);
-                break;
-            case FILE_COMPLEXITY:
-                complexityRank.setFileComplexity(value);
-                break;
-            case FUNCTION_COMPLEXITY:
-                complexityRank.setFunctionComplexity(value);
-                break;
-            default:
-                // nothing to do
-                break;
-        }
     }
 
     private List<String> generateComplexityNameList() {

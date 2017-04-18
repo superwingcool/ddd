@@ -20,9 +20,8 @@ import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.*;
 
 
-public class TenantDuplicatedLineMeasuresMapperTest {
+public class TenantDuplicatedLineMeasuresMapperTest extends MeasuresMapperBaseTest {
 
-    private final String key = "http://git.address.test.com/";
     private TenantDuplicatedLineMeasuresMapper tenantDuplicatedLineMeasuresMapper;
 
     @Before
@@ -34,64 +33,29 @@ public class TenantDuplicatedLineMeasuresMapperTest {
     @Test
     public void transformShouldAddNewRankGivenExisted() throws Exception {
 
-        List<CProjectMeasures> cProjectMeasures = getProjectMeasures();
+        List<CProjectMeasures> cProjectMeasures = getProjectMeasures("duplicated_lines");
+        cProjectMeasures.add(getExistMeasure("duplicated_lines_density"));
         List<TenantDuplicatedLineRank> ranks = tenantDuplicatedLineMeasuresMapper.transformMeasure2Rank(cProjectMeasures);
         assertThat(ranks.size(), is(1));
         assertThat(ranks.get(0).getProjectName(), is("projectName"));
-        assertThat(ranks.get(0).getCodeLines(), nullValue());
+        assertThat(ranks.get(0).getDuplicatedLinesDensityCompare(), is(BigDecimal.ONE));
+        assertThat(ranks.get(0).getDuplicatedLinesDensity(), is("1.00%"));
+        assertThat(ranks.get(0).getDuplicatedLines(), is(BigDecimal.TEN));
 
     }
 
     @Test
     public void transformShouldAddNewRankGivenNotExisted() throws Exception {
 
-        List<CProjectMeasures> cProjectMeasures = getProjectMeasures();
+        List<CProjectMeasures> cProjectMeasures = getProjectMeasures("duplicated_lines");
         List<TenantDuplicatedLineRank> ranks = tenantDuplicatedLineMeasuresMapper.transformMeasure2Rank(cProjectMeasures);
         assertThat(ranks.size(), is(1));
         assertThat(ranks.get(0).getProjectName(), is("projectName"));
+        assertThat(ranks.get(0).getDuplicatedLinesDensityCompare(), nullValue());
+        assertThat(ranks.get(0).getDuplicatedLinesDensity(), nullValue());
         assertThat(ranks.get(0).getDuplicatedLines(), is(BigDecimal.TEN));
 
     }
 
-    private List<CProjectMeasures> getProjectMeasures() {
-        List<CProjectMeasures> cProjectMeasures = new ArrayList<>();
-        CProjectMeasures cProjectMeasure = new CProjectMeasures();
-        cProjectMeasure.setCProjects(createProject());
-        cProjectMeasure.setCSnapshots(createSnapshot());
-        cProjectMeasure.setCMetrics(createCMetrics());
-        cProjectMeasure.setValue(BigDecimal.TEN);
-
-        CProjectMeasures cProjectMeasure1 = new CProjectMeasures();
-        cProjectMeasure1.setCSnapshots(createSnapshot());
-        cProjectMeasure1.setCProjects(createProject());
-        cProjectMeasure1.setCMetrics(createCMetrics());
-        cProjectMeasure1.setValue(BigDecimal.TEN);
-        cProjectMeasures.add(cProjectMeasure1);
-        return cProjectMeasures;
-    }
-
-    private CProjects createProject(){
-        CProjects project = new CProjects();
-        project.setProjectName("projectName");
-        return project;
-    }
-
-    private DuplicatedLineRank getDuplicatedLineRank() {
-        DuplicatedLineRank duplicatedLineRank = new DuplicatedLineRank();
-        duplicatedLineRank.setCodeLines(BigDecimal.ONE);
-        return duplicatedLineRank;
-    }
-
-    private CMetrics createCMetrics() {
-        CMetrics metrics = new CMetrics();
-        metrics.setName("duplicated_lines");
-        return metrics;
-    }
-
-    private CSnapshots createSnapshot() {
-        CSnapshots snapshot = new CSnapshots();
-        snapshot.setScmAddr(key);
-        return snapshot;
-    }
 
 }
