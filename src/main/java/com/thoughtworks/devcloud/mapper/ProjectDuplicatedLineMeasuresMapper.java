@@ -22,7 +22,7 @@ public class ProjectDuplicatedLineMeasuresMapper extends MeasuresMapper<Duplicat
     }
 
     @Override
-    protected void bindValues(CProjectMeasures cProjectMeasure, DuplicatedLineRank rank) {
+    protected void bindRankValues(CProjectMeasures cProjectMeasure, DuplicatedLineRank rank) {
         String metricName = getMetricName(cProjectMeasure);
         BigDecimal value = getValue(cProjectMeasure);
         rank.setRepoName(getRepoName(cProjectMeasure));

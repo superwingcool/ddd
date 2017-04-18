@@ -18,7 +18,7 @@ public abstract class MeasuresMapper<T> {
 
     protected abstract T getRank(Map<String, T> rankMaps, CProjectMeasures cProjectMeasure);
 
-    protected abstract void bindValues(CProjectMeasures cProjectMeasure, T rank);
+    protected abstract void bindRankValues(CProjectMeasures cProjectMeasure, T rank);
 
     public List<T> transformMeasure2Rank(List<CProjectMeasures> cProjectMeasures) {
         Map<String, T> rankMaps = new HashMap<>();
@@ -34,7 +34,7 @@ public abstract class MeasuresMapper<T> {
 
     protected void fillEachRank(Map<String, T> rankMaps, CProjectMeasures cProjectMeasure) {
         T rank = getRank(rankMaps, cProjectMeasure);
-        bindValues(cProjectMeasure, rank);
+        bindRankValues(cProjectMeasure, rank);
     }
 
 

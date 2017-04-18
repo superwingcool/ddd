@@ -29,7 +29,7 @@ public class MeasuresMapperTest {
             }
 
             @Override
-            protected void bindValues(CProjectMeasures cProjectMeasure, Object rank) {
+            protected void bindRankValues(CProjectMeasures cProjectMeasure, Object rank) {
 
             }
         };

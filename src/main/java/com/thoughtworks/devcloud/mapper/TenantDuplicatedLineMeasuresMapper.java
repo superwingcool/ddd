@@ -21,7 +21,7 @@ public class TenantDuplicatedLineMeasuresMapper extends MeasuresMapper<TenantDup
     }
 
     @Override
-    protected void bindValues(CProjectMeasures cProjectMeasure, TenantDuplicatedLineRank rank) {
+    protected void bindRankValues(CProjectMeasures cProjectMeasure, TenantDuplicatedLineRank rank) {
         String metricName = getMetricName(cProjectMeasure);
         BigDecimal value = getValue(cProjectMeasure);
         rank.setRepoName(getRepoName(cProjectMeasure));
