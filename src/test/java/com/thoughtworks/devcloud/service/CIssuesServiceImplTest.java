@@ -38,7 +38,7 @@ public class CIssuesServiceImplTest {
     private CIssuesRepository cIssuesRepository;
 
     @Mock
-    private CSnapshotsRepository cSnapshotsRepository;
+    private CSnapshotsService cSnapshotsService;
 
     @Mock
     private CProjectsService cProjectsService;
@@ -55,7 +55,8 @@ public class CIssuesServiceImplTest {
     public void findCIssuesListByDevCloudProjectIdShouldThrowExceptionGivenNoSnapshort() {
         String devCloudProjectUuid = "XXXX";
         IssueStatus issueStatus = IssueStatus.IGNORED;
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devCloudProjectUuid))).thenReturn(new ArrayList<Long>());
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devCloudProjectUuid)))
+                .thenThrow(NullObjectException.class);
         List<RuleRank> ruleRankList = cIssuesServiceImpl.findCIssuesListByDevcloudProjectId(devCloudProjectUuid,
                 issueStatus);
     }
@@ -71,7 +72,7 @@ public class CIssuesServiceImplTest {
         snapshotIdList.add(123l);
         List<String> projects = new ArrayList<String>();
 
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devcloudProjectUuid))).thenReturn(snapshotIdList);
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devcloudProjectUuid))).thenReturn(snapshotIdList);
         when(cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(Arrays.asList(devcloudProjectUuid),
                 Ints.asList(CIssueStatusField.UNSOLVED.value()),
                 Ints.asList(CIssueManualStatusField.IGNORED.value()),
@@ -85,7 +86,7 @@ public class CIssuesServiceImplTest {
     public void findCIssuesListByTenantIdShouldThrowExceptionGivenNoProjects(){
         String tenantId = "tenantId";
         IssueStatus issueStatus = IssueStatus.VIOLATED;
-        when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(new ArrayList<String>());
+        when(cProjectsService.getProjectsByTenantId(tenantId)).thenThrow(NullObjectException.class);
         ResultObject r = cIssuesServiceImpl.findCIssuesListByTenantId(tenantId,issueStatus);
     }
 
@@ -95,8 +96,8 @@ public class CIssuesServiceImplTest {
         IssueStatus issueStatus = IssueStatus.VIOLATED;
         List<String> projects = new ArrayList<String>();
         projects.add("xxxx");
-        when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(new ArrayList<>());
+        when(cProjectsService.getProjectsByTenantId(tenantId)).thenThrow(NullObjectException.class);;
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects)).thenThrow(NullObjectException.class);
         ResultObject r = cIssuesServiceImpl.findCIssuesListByTenantId(tenantId,issueStatus);
     }
 
@@ -109,7 +110,7 @@ public class CIssuesServiceImplTest {
         when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
         List<Long> snapShorts = new ArrayList<Long>();
         snapShorts.add(234l);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
         List<RuleRank> rankList = new ArrayList<>();
         rankList.add(mock(RuleRank.class));
         when(cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(projects,

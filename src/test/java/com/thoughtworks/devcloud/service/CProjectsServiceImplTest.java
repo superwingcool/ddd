@@ -1,5 +1,6 @@
 package com.thoughtworks.devcloud.service;
 
+import com.thoughtworks.devcloud.exception.NullObjectException;
 import com.thoughtworks.devcloud.repository.CProjectsRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,6 +24,7 @@ import static org.mockito.Mockito.when;
  */
 public class CProjectsServiceImplTest {
 
+    private final String tenantId = "tenantId";
     @Mock
     private CProjectsRepository cProjectsRepository;
 
@@ -39,10 +41,15 @@ public class CProjectsServiceImplTest {
         Assert.assertTrue(cProjectsServiceImpl.countDistinctByGitUrl(Arrays.asList("XXXXX")) == 0);
     }
 
+    @Test(expected = NullObjectException.class)
+    public void getProjectsByTenantIdShouldThrowExceptionGivenNull() {
+        when(cProjectsRepository.getProjectsByTenantId(tenantId)).thenReturn(new ArrayList<>());
+        cProjectsServiceImpl.getProjectsByTenantId(tenantId);
+    }
+
     @Test
     public void getProjectsByTenantIdShouldReturnProjectsGivenData() {
 
-        String tenantId = "tenantId";
         List<String> devProjectIds = new ArrayList<>();
         devProjectIds.add("1");
         when(cProjectsRepository.getProjectsByTenantId(tenantId)).thenReturn(devProjectIds);

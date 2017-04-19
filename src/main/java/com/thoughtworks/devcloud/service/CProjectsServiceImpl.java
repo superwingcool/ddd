@@ -1,6 +1,7 @@
 package com.thoughtworks.devcloud.service;
 
 import com.thoughtworks.devcloud.repository.CProjectsRepository;
+import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,9 @@ public class CProjectsServiceImpl implements CProjectsService {
 
     @Override
     public List<String> getProjectsByTenantId(String tenantId){
-       return cProjectsRepository.getProjectsByTenantId(tenantId);
+        List<String> projects = cProjectsRepository.getProjectsByTenantId(tenantId);
+        CodeCheckUtils.getNullThrowException(projects);
+       return projects;
     }
 
 

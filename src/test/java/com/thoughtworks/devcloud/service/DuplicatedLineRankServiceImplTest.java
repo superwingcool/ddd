@@ -41,7 +41,7 @@ public class DuplicatedLineRankServiceImplTest {
     private CProjectMeasuresRepository cProjectMeasuresRepository;
 
     @Mock
-    private CSnapshotsRepository cSnapshotsRepository;
+    private CSnapshotsService cSnapshotsService;
 
     @Mock
     private CProjectsService cProjectsService;
@@ -64,6 +64,7 @@ public class DuplicatedLineRankServiceImplTest {
 
     @Test(expected = NullObjectException.class)
     public void findMeasureListByDevCloudProjectIdShouldThrowExceptionGivenNull() {
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(anyList())).thenThrow(NullObjectException.class);
         duplicatedLineRankServiceImpl.findMeasureListByDevcloudProjectId("project_uuid");
 
     }
@@ -72,7 +73,7 @@ public class DuplicatedLineRankServiceImplTest {
     public void findMeasureListByDevCloudProjectIdShouldMeasuresGivenData() {
         String projectId = "project_id";
         List<Long> snapShorts = getSnapshots();
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(projectId))).thenReturn(snapShorts);
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(projectId))).thenReturn(snapShorts);
 
         when(cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(Arrays.asList(projectId),
                 generateMeasureNameList(),
@@ -92,13 +93,14 @@ public class DuplicatedLineRankServiceImplTest {
 
     @Test(expected = NullObjectException.class)
     public void findMeasureListByDevCloudTenantIdShouldThrowExceptionGivenNullProject() {
+        when(cProjectsService.getProjectsByTenantId(tenantId)).thenThrow(NullObjectException.class);
         duplicatedLineRankServiceImpl.findMeasureListByDevCloudTenantId(tenantId);
     }
 
     @Test(expected = NullObjectException.class)
     public void findMeasureListByDevCloudTenantIdShouldThrowExceptionGivenNullSnapshot() {
         List<String> projects = getProjects();
-        when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(anyList())).thenThrow(NullObjectException.class);
         duplicatedLineRankServiceImpl.findMeasureListByDevCloudTenantId(tenantId);
     }
 
@@ -109,7 +111,7 @@ public class DuplicatedLineRankServiceImplTest {
         when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
 
         List<Long> snapShorts = getSnapshots();
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
 
         when(cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(projects, generateMeasureNameList(),
                 snapShorts)).thenReturn(getMeasures());

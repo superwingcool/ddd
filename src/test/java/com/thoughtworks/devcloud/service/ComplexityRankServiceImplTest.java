@@ -1,14 +1,17 @@
 package com.thoughtworks.devcloud.service;
 
 import com.thoughtworks.devcloud.constants.ComplexityEnum;
+import com.thoughtworks.devcloud.domain.CMetrics;
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
+import com.thoughtworks.devcloud.domain.CProjects;
+import com.thoughtworks.devcloud.domain.CSnapshots;
 import com.thoughtworks.devcloud.exception.NullObjectException;
 import com.thoughtworks.devcloud.mapper.ProjectComplexityMeasuresMapper;
+import com.thoughtworks.devcloud.mapper.TenantComplexityMeasuresMapper;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.TenantComplexityRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
-import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +27,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.when;
 
 /**
@@ -35,13 +39,16 @@ public class ComplexityRankServiceImplTest {
     private CProjectMeasuresRepository cProjectMeasuresRepository;
 
     @Mock
-    private CSnapshotsRepository cSnapshotsRepository;
+    private CSnapshotsService cSnapshotsService;
 
     @Mock
     private CProjectsService cProjectsService;
 
     @Mock
     private ProjectComplexityMeasuresMapper projectComplexityMeasuresMapper;
+
+    @Mock
+    private TenantComplexityMeasuresMapper tenantComplexityMeasuresMapper;
 
     @InjectMocks
     private ComplexityRankServiceImpl complexityRankServiceImpl;
@@ -54,8 +61,8 @@ public class ComplexityRankServiceImplTest {
     @Test(expected = NullObjectException.class)
     public void findComplexityListByDevCloudProjectIdShouldThrowExceptionGivenNoProjects() {
         String devCloudProjectUuid = "XXXX";
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devCloudProjectUuid)))
-                .thenReturn( new ArrayList<Long>());
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(Arrays.asList(devCloudProjectUuid)))
+                .thenThrow(NullObjectException.class);
 
         List<ComplexityRank> complexityRankList =
                 complexityRankServiceImpl.findComplexityListByDevcloudProjectId(devCloudProjectUuid);
@@ -70,7 +77,7 @@ public class ComplexityRankServiceImplTest {
         snapshotIdList.add(1l);
         List<CProjectMeasures> cProjectMeasuresList = new ArrayList<>();
         List<String> devcloudProjectUuids = Arrays.asList(devcloudProjectUuid);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuids))
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(devcloudProjectUuids))
                 .thenReturn(snapshotIdList);
         when(cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(devcloudProjectUuids,
                 ComplexityEnum.getAllMeasureNames(), snapshotIdList)).thenReturn(cProjectMeasuresList);
@@ -84,7 +91,7 @@ public class ComplexityRankServiceImplTest {
     @Test(expected = NullObjectException.class)
     public void getComplexityListByTenantIdShouldThrowExceptionGivenNoProjects(){
         String tenantId = "tenantId";
-        when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(new ArrayList<String>());
+        when(cProjectsService.getProjectsByTenantId(tenantId)).thenThrow(NullObjectException.class);
         complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
 
     }
@@ -95,7 +102,7 @@ public class ComplexityRankServiceImplTest {
         List<String> projects = new ArrayList<>();
         projects.add("devProjectId");
         when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(new ArrayList<>());
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects)).thenThrow(NullObjectException.class);
         complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
 
     }
@@ -108,9 +115,9 @@ public class ComplexityRankServiceImplTest {
         when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
         List<Long> snapShorts = new ArrayList<>();
         snapShorts.add(234l);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
-        when(cProjectMeasuresRepository.getMeasureListByProjects(projects, ComplexityEnum.getAllMeasureNames(),
-                snapShorts)).thenReturn(new ArrayList<Object[]>());
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
+        when(cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(projects, ComplexityEnum.getAllMeasureNames(),
+                snapShorts)).thenReturn(new ArrayList<CProjectMeasures>());
         ResultObject<TenantComplexityRank> result = complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
         assertThat(result, notNullValue());
         assertThat(result.getTotal(), is("0"));
@@ -120,24 +127,63 @@ public class ComplexityRankServiceImplTest {
 
     @Test
     public void getComplexityListByTenantIdShouldReturnSuccessGivenRightRanks(){
-        String tenantId = "tenantId";
         List<String> projects = new ArrayList<>();
         projects.add("devProjectId");
-        when(cProjectsService.getProjectsByTenantId(tenantId)).thenReturn(projects);
+        when(cProjectsService.getProjectsByTenantId("tenantId")).thenReturn(projects);
         List<Long> snapShorts = new ArrayList<>();
         snapShorts.add(234l);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
-        List<Object[]> ranks = new ArrayList<Object[]>();
-        Object[] obj = new Object[]{"repos", "projectName", BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO};
-        ranks.add(obj);
-        when(cProjectMeasuresRepository.getMeasureListByProjects(projects, ComplexityEnum.getAllMeasureNames(),
-                snapShorts)).thenReturn(ranks);
+        when(cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapShorts);
+        when(cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(projects, ComplexityEnum.getAllMeasureNames(),
+                snapShorts)).thenReturn(getProjectMeasures());
+        when(tenantComplexityMeasuresMapper.transformMeasure2Rank(anyList())).thenReturn(getTenantRanks());
         when(cProjectsService.countDistinctByGitUrl(projects)).thenReturn(12l);
-        ResultObject<TenantComplexityRank> result = complexityRankServiceImpl.getComplexityListByTenantId(tenantId);
+        ResultObject<TenantComplexityRank> result = complexityRankServiceImpl.getComplexityListByTenantId("tenantId");
         assertThat(result, notNullValue());
         assertThat(result.getRepoCheckedCount(), is("12"));
         assertThat(result.getTotal(), is("1"));
+        assertThat(result.getInfo().get(0).getProjectName(), is("projectName"));
         assertThat(result.getInfo().get(0).getRepoName(), is("repos"));
-        assertThat(result.getInfo().get(0).getComplexity(), is(BigDecimal.ZERO));
+        assertThat(result.getInfo().get(0).getComplexity(), is(BigDecimal.ONE));
     }
+
+    private List<TenantComplexityRank> getTenantRanks() {
+
+        List<TenantComplexityRank> ranks = new ArrayList<>();
+        TenantComplexityRank rank = new TenantComplexityRank();
+        rank.setProjectName("projectName");
+        rank.setRepoName("repos");
+        rank.setComplexity(BigDecimal.ONE);
+        ranks.add(rank);
+        return ranks;
+    }
+
+    protected List<CProjectMeasures> getProjectMeasures() {
+        List<CProjectMeasures> cProjectMeasures = new ArrayList<>();
+        CProjectMeasures cProjectMeasure1 = new CProjectMeasures();
+        cProjectMeasure1.setCSnapshots(createSnapshot());
+        cProjectMeasure1.setCProjects(createProject());
+        cProjectMeasure1.setCMetrics(createCMetrics("file_complexity"));
+        cProjectMeasure1.setValue(BigDecimal.TEN);
+        cProjectMeasures.add(cProjectMeasure1);
+        return cProjectMeasures;
+    }
+
+    private CProjects createProject(){
+        CProjects project = new CProjects();
+        project.setProjectName("projectName");
+        return project;
+    }
+
+    protected CMetrics createCMetrics(String name) {
+        CMetrics metrics = new CMetrics();
+        metrics.setName(name);
+        return metrics;
+    }
+
+    private CSnapshots createSnapshot() {
+        CSnapshots snapshot = new CSnapshots();
+        snapshot.setScmAddr("http");
+        return snapshot;
+    }
+
 }
