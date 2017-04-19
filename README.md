@@ -54,7 +54,7 @@ http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/revised
 ```
 http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/revised
 ```
-**三个接口的返回值**
+**错误排名response**
 
 ```javascript
 {
@@ -91,9 +91,52 @@ http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/revised
                 "counts": 8
             }
         ],
-        "repoCheckedCount": "1"             // 检查仓库总数
+        "repoCheckedCount": "1",             // 检查仓库总数
         "projectCount": "1"                 //检查项目总数（租户下使用）
     }
+}
+```
+**圈复杂度response**
+
+```javascript
+{
+  "result": {
+    "total": "1",
+    "info": [
+      {
+        "projectName": "project name",
+        "rank": 1,
+        "repoName": "git@codehub.devcloud.hwclouds.com:ssss/nannan.git",
+        "fileComplexity": 12.4,
+        "functionComplexity": 12.8,
+        "complexity": 123
+      }
+    ],
+    "repoCheckedCount": "8",
+    "projectCount": "3"
+  }
+}
+```
+
+**代码重复率response**
+
+```javascript
+{
+  "result": {
+    "total": "3",
+    "info": [
+      {
+        "projectName": "project name",
+        "rank": 1,
+        "repoName": "git@codehub.devcloud.hwclouds.com:ssss/cdcdcdcdcdcd.git",
+        "duplicatedLinesDensity": "2.00%",
+        "codeLines": 1234,
+        "duplicatedLines": 32
+      }
+    ],
+    "repoCheckedCount": "8",
+    "projectCount": "3"
+  }
 }
 ```
 ## 启动
