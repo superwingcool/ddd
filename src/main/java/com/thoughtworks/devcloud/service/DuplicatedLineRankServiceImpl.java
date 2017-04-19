@@ -27,7 +27,7 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
     private CProjectMeasuresRepository cProjectMeasuresRepository;
 
     @Autowired
-    private CSnapshotsRepository cSnapshotsRepository;
+    private CSnapshotsService cSnapshotsService;
 
     @Autowired
     private CProjectsService cProjectsService;
@@ -42,8 +42,7 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
     @Override
     public List<DuplicatedLineRank> findMeasureListByDevcloudProjectId(String devCloudProjectUuid) {
         List<String> devCloudProjectIds = Arrays.asList(devCloudProjectUuid);
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(devCloudProjectIds);
-        CodeCheckUtils.getNullThrowException(snapshotIdList);
+        List<Long> snapshotIdList = cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(devCloudProjectIds);
         List<CProjectMeasures> cProjectMeasures =
                 cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(devCloudProjectIds,
                         generateMeasureNameList(), snapshotIdList);
@@ -56,9 +55,7 @@ public class DuplicatedLineRankServiceImpl implements DuplicatedLineRankService 
     public ResultObject<TenantDuplicatedLineRank> findMeasureListByDevCloudTenantId(String tenantId) {
 
         List<String> projects = cProjectsService.getProjectsByTenantId(tenantId);
-        CodeCheckUtils.getNullThrowException(projects);
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects);
-        CodeCheckUtils.getNullThrowException(snapshotIdList);
+        List<Long> snapshotIdList = cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects);
         List<CProjectMeasures> cProjectMeasuresList =
                 cProjectMeasuresRepository.findMeasureListByDevCloudProjectId(projects,
                         generateMeasureNameList(), snapshotIdList);

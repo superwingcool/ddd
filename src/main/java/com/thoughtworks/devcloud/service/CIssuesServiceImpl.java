@@ -26,7 +26,7 @@ public class CIssuesServiceImpl implements CIssuesService {
     private CIssuesRepository cIssuesRepository;
 
     @Autowired
-    private CSnapshotsRepository cSnapshotsRepository;
+    private CSnapshotsService cSnapshotsService;
 
     @Autowired
     private CProjectsRepository cProjectsRepository;
@@ -37,8 +37,7 @@ public class CIssuesServiceImpl implements CIssuesService {
     @Override
     public List<RuleRank> findCIssuesListByDevcloudProjectId(String devCloudProjectUuid, IssueStatus issueStatus) {
         List<String> projectUUIDs = Arrays.asList(devCloudProjectUuid);
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projectUUIDs);
-        CodeCheckUtils.getNullThrowException(snapshotIdList);
+        List<Long> snapshotIdList = cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projectUUIDs);
         return cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(projectUUIDs,
                 issueStatus.getStatusList(), issueStatus.getAllManualStatusList(), snapshotIdList);
     }
@@ -47,10 +46,7 @@ public class CIssuesServiceImpl implements CIssuesService {
     public ResultObject<RuleRank> findCIssuesListByTenantId(String tenantId, IssueStatus issueStatus) {
 
         List<String> projects = cProjectsService.getProjectsByTenantId(tenantId);
-        CodeCheckUtils.getNullThrowException(projects);
-
-        List<Long> snapshotIdList = cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects);
-        CodeCheckUtils.getNullThrowException(snapshotIdList);
+        List<Long> snapshotIdList = cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(projects);
 
         List<RuleRank> ruleRank = cIssuesRepository.findCIssuesListByDevcloudProjectIdAndStatus(projects,
                 issueStatus.getStatusList(), issueStatus.getAllManualStatusList(), snapshotIdList);
