@@ -26,9 +26,17 @@ Mysql 5.6
 ```
 http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/complexity
 ```
+###租户级别圈复杂度排名接口
+```
+http://${host}:2223/api/codecheck/tenants/${devcloudProjectUuid}/repos/complexity
+```
 ###项目级重复行排名接口
 ```
 http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/duplicatedLine
+```
+###租户级重复行排名接口
+```
+http://${host}:2223/api/codecheck/tenants/${devcloudProjectUuid}/repos/duplicatedLine
 ```
 ###项目级别被违反最多的规则排名接口
 ```
