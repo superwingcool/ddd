@@ -54,7 +54,7 @@ http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/revised
 ```
 http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/revised
 ```
-**错误排名response**
+**违法规则排名response**
 
 ```javascript
 {
