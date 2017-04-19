@@ -28,7 +28,7 @@ http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/complexi
 ```
 ###租户级别圈复杂度排名接口
 ```
-http://${host}:2223/api/codecheck/tenants/${devcloudProjectUuid}/repos/complexity
+http://${host}:2223/api/codecheck/tenants/${tenantId}/repos/complexity
 ```
 ###项目级重复行排名接口
 ```
@@ -36,7 +36,7 @@ http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/duplicat
 ```
 ###租户级重复行排名接口
 ```
-http://${host}:2223/api/codecheck/tenants/${devcloudProjectUuid}/repos/duplicatedLine
+http://${host}:2223/api/codecheck/tenants/${tenantId}/repos/duplicatedLine
 ```
 ###项目级别被违反最多的规则排名接口
 ```
