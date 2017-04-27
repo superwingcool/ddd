@@ -30,6 +30,7 @@ public class ComplexityRank extends AbstractRank implements Serializable {
     /** 总圈复杂度 **/
     private BigDecimal complexity;
 
+    private String taskName;
 
     @Override
     public int compareTo(AbstractRank o) {

@@ -26,6 +26,7 @@ public class ProjectDuplicatedLineMeasuresMapper extends MeasuresMapper<Duplicat
         String metricName = getMetricName(cProjectMeasure);
         BigDecimal value = getValue(cProjectMeasure);
         rank.setRepoName(getRepoName(cProjectMeasure));
+        rank.setTaskName(getProjectName(cProjectMeasure));
         setDuplicatedLineValues(rank, metricName, value);
     }
 }
