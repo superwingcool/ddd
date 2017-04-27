@@ -39,6 +39,8 @@ public class DuplicatedLineRank extends AbstractRank implements Serializable {
 
     private String taskName;
 
+    private String taskDetailUrl;
+
     @Override
     public int compareTo(AbstractRank o) {
         if (o instanceof DuplicatedLineRank) {

@@ -32,6 +32,8 @@ public class ComplexityRank extends AbstractRank implements Serializable {
 
     private String taskName;
 
+    private String taskDetailUrl;
+
     @Override
     public int compareTo(AbstractRank o) {
         if (o instanceof ComplexityRank) {

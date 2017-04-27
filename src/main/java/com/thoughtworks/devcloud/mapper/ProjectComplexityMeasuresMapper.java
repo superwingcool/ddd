@@ -26,6 +26,7 @@ public class ProjectComplexityMeasuresMapper extends MeasuresMapper<ComplexityRa
         BigDecimal value = getValue(cProjectMeasure);
         rank.setRepoName(getRepoName(cProjectMeasure));
         rank.setTaskName(getProjectName(cProjectMeasure));
+        rank.setTaskDetailUrl(generateTaskDetailUrl(cProjectMeasure));
         setComplexityRankValues(rank, metricName, value);
     }
 }
