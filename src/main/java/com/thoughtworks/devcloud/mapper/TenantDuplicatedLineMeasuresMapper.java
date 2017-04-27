@@ -26,6 +26,8 @@ public class TenantDuplicatedLineMeasuresMapper extends MeasuresMapper<TenantDup
         BigDecimal value = getValue(cProjectMeasure);
         rank.setRepoName(getRepoName(cProjectMeasure));
         rank.setProjectName(getProjectName(cProjectMeasure));
+        rank.setTaskName(getProjectName(cProjectMeasure));
+        rank.setTaskDetailUrl(generateTaskDetailUrl(cProjectMeasure));
         setDuplicatedLineValues(rank, metricName, value);
     }
 }
