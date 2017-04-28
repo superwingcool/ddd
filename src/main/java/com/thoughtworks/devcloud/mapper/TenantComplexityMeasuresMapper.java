@@ -25,6 +25,8 @@ public class TenantComplexityMeasuresMapper extends MeasuresMapper<TenantComplex
     protected void bindRankValues(CProjectMeasures cProjectMeasure, TenantComplexityRank rank) {
         rank.setRepoName(getRepoName(cProjectMeasure));
         rank.setProjectName(getProjectName(cProjectMeasure));
+        rank.setTaskName(getProjectName(cProjectMeasure));
+        rank.setTaskDetailUrl(generateTaskDetailUrl(cProjectMeasure));
         setComplexityRankValues(rank, getMetricName(cProjectMeasure), getValue(cProjectMeasure));
     }
 }

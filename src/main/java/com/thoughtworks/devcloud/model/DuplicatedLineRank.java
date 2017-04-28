@@ -37,6 +37,10 @@ public class DuplicatedLineRank extends AbstractRank implements Serializable {
     /** 重复代码行数 **/
     private BigDecimal duplicatedLines;
 
+    private String taskName;
+
+    private String taskDetailUrl;
+
     @Override
     public int compareTo(AbstractRank o) {
         if (o instanceof DuplicatedLineRank) {

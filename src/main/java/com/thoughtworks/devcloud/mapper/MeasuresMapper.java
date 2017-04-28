@@ -16,6 +16,10 @@ import java.util.Map;
 
 public abstract class MeasuresMapper<T> {
 
+    public static final String DEVCLOUD_BASE_URL = "https://codecheck.devcloud.hwclouds.com";
+    public static final String CODECHECK_ENDPOINT = "/codecheck/task/";
+    public static final String CODECHECK_SUFFIX = "/detail";
+
     protected abstract T getRank(Map<String, T> rankMaps, CProjectMeasures cProjectMeasure);
 
     protected abstract void bindRankValues(CProjectMeasures cProjectMeasure, T rank);
@@ -92,6 +96,11 @@ public abstract class MeasuresMapper<T> {
 
     protected String getRepoName(CProjectMeasures cProjectMeasure) {
         return cProjectMeasure.getCSnapshots().getScmAddr();
+    }
+
+    public String generateTaskDetailUrl(CProjectMeasures cProjectMeasure) {
+        String taskUUID = cProjectMeasure.getCProjects().getProjectUuid();
+        return DEVCLOUD_BASE_URL + CODECHECK_ENDPOINT + taskUUID + CODECHECK_SUFFIX;
     }
 
     protected BigDecimal getValue(CProjectMeasures cProjectMeasure) {
