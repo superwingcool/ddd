@@ -5,7 +5,6 @@ import com.thoughtworks.devcloud.model.ResponseObject;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.*;
 
 
@@ -16,7 +15,7 @@ public class CodeCheckControllerAdviceTest {
         CodeCheckControllerAdvice c = new CodeCheckControllerAdvice();
         ResponseObject r = c.handleException(new NullObjectException(), null);
         assertThat(r, notNullValue());
-        assertThat(r.getResult(), nullValue());
+        assertThat(r.getResult(), notNullValue());
     }
 
 }
