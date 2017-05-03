@@ -7,6 +7,8 @@ import com.thoughtworks.devcloud.domain.CProjectMeasures;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.DuplicatedLineRank;
 import com.thoughtworks.devcloud.utils.NumberUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,11 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public abstract class MeasuresMapper<T> {
 
-    public static final String DEVCLOUD_BASE_URL = "https://codecheck.devcloud.hwclouds.com";
-    public static final String CODECHECK_ENDPOINT = "/codecheck/task/";
-    public static final String CODECHECK_SUFFIX = "/detail";
+    @Value("${devcloud.base.url:}")
+    private String devcloudBaseUrl;
+
+    private static final String CODECHECK_ENDPOINT = "/codecheck/task/";
+    private static final String CODECHECK_SUFFIX = "/detail";
 
     protected abstract T getRank(Map<String, T> rankMaps, CProjectMeasures cProjectMeasure);
 
@@ -100,7 +105,7 @@ public abstract class MeasuresMapper<T> {
 
     public String generateTaskDetailUrl(CProjectMeasures cProjectMeasure) {
         String taskUUID = cProjectMeasure.getCProjects().getProjectUuid();
-        return DEVCLOUD_BASE_URL + CODECHECK_ENDPOINT + taskUUID + CODECHECK_SUFFIX;
+        return devcloudBaseUrl + CODECHECK_ENDPOINT + taskUUID + CODECHECK_SUFFIX;
     }
 
     protected BigDecimal getValue(CProjectMeasures cProjectMeasure) {
