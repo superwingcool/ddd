@@ -20,9 +20,10 @@ public interface CProjectsRepository extends JpaRepository<CProjects, Long> {
             "AND p.currentSnapshotId != -1")
     Long countDistinctByGitUrl(@Param("devCloudProjectUuid") List<String> devCloudProjectUuid);
 
-    @Query(value = "select c.DEVCLOUD_PROJECT_UUID from C_PROJECTS c where c.PROJECT_UUID in" +
-            " (select u.PROJECT_UUID from C_PROJECT_USERS u where u.DOMAIN_UUID = :tenantId)" +
+    @Query(value = "select c.DEVCLOUD_PROJECT_UUID from C_PROJECTS c" +
+            " left join C_PROJECT_USERS u on c.PROJECT_UUID =  u.PROJECT_UUID" +
+            " where u.DOMAIN_UUID = ?1 and c.CURRENT_SNAPSHOT_ID != -1" +
             " group by c.DEVCLOUD_PROJECT_UUID"
             , nativeQuery = true)
-    List<String> getProjectsByTenantId(@Param("tenantId") String tenantId);
+    List<String> getScannedProjectsByTenantId(@Param("tenantId") String tenantId);
 }
