@@ -11,7 +11,6 @@ import java.math.BigDecimal;
  */
 @Setter
 @Getter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ComplexityRank extends AbstractRank implements Serializable {
@@ -42,11 +41,12 @@ public class ComplexityRank extends AbstractRank implements Serializable {
             if(target.getComplexity() == null) return 1;
             int result = this.getComplexity().compareTo(target.getComplexity());
             if(result == 0){
-                result = - this.getRepoName().compareTo(target.getRepoName());
+                result = Math.negateExact(this.getRepoName().compareTo(target.getRepoName()));
             }
             return result;
         } else {
             throw new RuntimeException("Different type can't be compared!");
         }
     }
+
 }

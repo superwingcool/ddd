@@ -17,6 +17,8 @@ import java.util.Date;
 @Table(name = "C_METRICS")
 public class CMetrics implements Serializable {
 
+    private static final long serialVersionUID = -4805455358969374017L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

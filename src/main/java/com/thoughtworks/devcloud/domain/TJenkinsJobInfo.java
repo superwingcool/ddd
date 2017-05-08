@@ -16,6 +16,8 @@ import java.util.Date;
 @Table(name = "T_JENKINS_JOB_INFO")
 public class TJenkinsJobInfo implements Serializable {
 
+    private static final long serialVersionUID = 3238651414495733220L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

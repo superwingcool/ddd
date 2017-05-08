@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 @Table(name = "C_PROJECT_MEASURES")
 public class CProjectMeasures implements Serializable {
 
+    private static final long serialVersionUID = -8688068254513857812L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", columnDefinition = "BIGINT")

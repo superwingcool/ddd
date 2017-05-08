@@ -2,9 +2,7 @@ package com.thoughtworks.devcloud.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,7 +11,8 @@ import java.math.BigDecimal;
 /**
  * Entity for duplicated line ranking.
  */
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(value={"duplicatedLinesDensityCompare"})
@@ -49,7 +48,7 @@ public class DuplicatedLineRank extends AbstractRank implements Serializable {
             if(target.getDuplicatedLinesDensity() == null) return 1;
             int result = this.getDuplicatedLinesDensityCompare().compareTo(target.getDuplicatedLinesDensityCompare());
             if(result == 0){
-                result = - this.getRepoName().compareTo(target.getRepoName());
+                result = Math.negateExact(this.getRepoName().compareTo(target.getRepoName()));
             }
             return result;
         } else {

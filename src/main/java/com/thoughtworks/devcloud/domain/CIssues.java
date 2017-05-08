@@ -16,6 +16,8 @@ import java.util.Date;
 @Table(name = "C_ISSUES")
 public class CIssues implements Serializable {
 
+    private static final long serialVersionUID = 5273260735557867762L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", columnDefinition = "BIGINT")

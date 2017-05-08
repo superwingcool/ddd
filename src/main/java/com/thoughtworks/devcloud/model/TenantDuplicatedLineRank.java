@@ -11,10 +11,11 @@ import java.math.BigDecimal;
  */
 @Setter
 @Getter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TenantDuplicatedLineRank extends DuplicatedLineRank implements Serializable {
+public class TenantDuplicatedLineRank extends DuplicatedLineRank {
+
+    private static final long serialVersionUID = -9077775046693738453L;
 
     /** 项目名称 **/
     private String projectName;

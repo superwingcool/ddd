@@ -16,6 +16,8 @@ import java.util.Date;
 @Table(name = "C_RULES")
 public class CRules implements Serializable {
 
+    private static final long serialVersionUID = 8226152518633514990L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

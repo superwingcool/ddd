@@ -11,10 +11,11 @@ import java.math.BigDecimal;
  */
 @Setter
 @Getter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TenantComplexityRank extends ComplexityRank implements Serializable {
+public class TenantComplexityRank extends ComplexityRank {
+
+    private static final long serialVersionUID = -7924119925365803836L;
 
     /** 项目名称 **/
     private String projectName;
@@ -26,5 +27,10 @@ public class TenantComplexityRank extends ComplexityRank implements Serializable
         super.setFileComplexity(fileComplexity);
         super.setFunctionComplexity(functionComplexity);
         super.setComplexity(complexity);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 }

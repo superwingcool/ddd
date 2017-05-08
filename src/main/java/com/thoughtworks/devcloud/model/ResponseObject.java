@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseObject implements Serializable {
+public class ResponseObject {
 
     private static final long serialVersionUID = 1L;
 

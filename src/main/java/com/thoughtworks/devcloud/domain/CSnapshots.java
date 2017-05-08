@@ -16,6 +16,8 @@ import java.util.Date;
 @Table(name = "C_SNAPSHOTS")
 public class CSnapshots implements Serializable {
 
+    private static final long serialVersionUID = 7412536746938188072L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
