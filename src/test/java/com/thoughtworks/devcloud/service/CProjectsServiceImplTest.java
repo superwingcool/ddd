@@ -43,7 +43,7 @@ public class CProjectsServiceImplTest {
 
     @Test(expected = NullObjectException.class)
     public void getProjectsByTenantIdShouldThrowExceptionGivenNull() {
-        when(cProjectsRepository.getProjectsByTenantId(tenantId)).thenReturn(new ArrayList<>());
+        when(cProjectsRepository.getScannedProjectsByTenantId(tenantId)).thenReturn(new ArrayList<>());
         cProjectsServiceImpl.getProjectsByTenantId(tenantId);
     }
 
@@ -52,7 +52,7 @@ public class CProjectsServiceImplTest {
 
         List<String> devProjectIds = new ArrayList<>();
         devProjectIds.add("1");
-        when(cProjectsRepository.getProjectsByTenantId(tenantId)).thenReturn(devProjectIds);
+        when(cProjectsRepository.getScannedProjectsByTenantId(tenantId)).thenReturn(devProjectIds);
         List<String> results = cProjectsServiceImpl.getProjectsByTenantId(tenantId);
         assertThat(results, notNullValue());
         assertThat(results.size(), is(1));
