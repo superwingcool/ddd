@@ -26,7 +26,7 @@ public class CProjectsServiceImpl implements CProjectsService {
 
     @Override
     public List<String> getProjectsByTenantId(String tenantId){
-        List<String> projects = cProjectsRepository.getProjectsByTenantId(tenantId);
+        List<String> projects = cProjectsRepository.getScannedProjectsByTenantId(tenantId);
         CodeCheckUtils.getNullThrowException(projects);
        return projects;
     }
