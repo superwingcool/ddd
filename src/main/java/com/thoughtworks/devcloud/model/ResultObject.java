@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -21,15 +22,15 @@ public class ResultObject<T> {
     private static final long serialVersionUID = 1L;
 
     /** total count of info list**/
-    private String total;
+    private String total = "0";
 
-    private List<T> info;
+    private List<T> info = new ArrayList<T>();
 
     /** count of repo be checked**/
-    private String repoCheckedCount;
+    private String repoCheckedCount = "0";
 
     /** count of project be checked**/
-    private String projectCount;
+    private String projectCount = "0";
 
 
 

@@ -74,7 +74,7 @@ public class TenantRankApiControllerTest {
         when(cIssuesService.findCIssuesListByTenantId("tenantId",IssueStatus.VIOLATED)).thenReturn(null);
         this.mockMvc.perform(get("/tenants/tenantId/rules/violated"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"result\" : null}"));
+                .andExpect(content().json("{\"result\" : {\"total\":\"0\", \"info\":[], \"repoCheckedCount\":\"0\", \"projectCount\":\"0\"}}"));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class TenantRankApiControllerTest {
         when(cIssuesService.findCIssuesListByTenantId("tenantId",IssueStatus.IGNORED)).thenReturn(null);
         this.mockMvc.perform(get("/tenants/tenantId/rules/violated"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"result\" : null}"));
+                .andExpect(content().json("{\"result\" : {\"total\":\"0\", \"info\":[], \"repoCheckedCount\":\"0\", \"projectCount\":\"0\"}}"));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class TenantRankApiControllerTest {
         when(cIssuesService.findCIssuesListByTenantId("tenantId",IssueStatus.REVISED)).thenReturn(null);
         this.mockMvc.perform(get("/tenants/tenantId/rules/violated"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"result\" : null}"));
+                .andExpect(content().json("{\"result\" : {\"total\":\"0\", \"info\":[], \"repoCheckedCount\":\"0\", \"projectCount\":\"0\"}}"));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class TenantRankApiControllerTest {
         when(complexityRankService.getComplexityListByTenantId(anyString())).thenReturn(null);
         this.mockMvc.perform(get("/tenants/tenantId/repos/complexity"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"result\" : null}"));
+                .andExpect(content().json("{\"result\" : {\"total\":\"0\", \"info\":[], \"repoCheckedCount\":\"0\", \"projectCount\":\"0\"}}"));
     }
 
     @Test
@@ -156,7 +156,7 @@ public class TenantRankApiControllerTest {
         when(duplicatedLineRankService.findMeasureListByDevCloudTenantId(anyString())).thenReturn(null);
         this.mockMvc.perform(get("/tenants/tenantId/repos/duplicatedLine"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"result\" : null}"));
+                .andExpect(content().json("{\"result\" : {\"total\":\"0\", \"info\":[], \"repoCheckedCount\":\"0\", \"projectCount\":\"0\"}}"));
     }
 
     @Test

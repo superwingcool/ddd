@@ -18,5 +18,5 @@ public class ResponseObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private ResultObject result;
+    private ResultObject result = new ResultObject();
 }
