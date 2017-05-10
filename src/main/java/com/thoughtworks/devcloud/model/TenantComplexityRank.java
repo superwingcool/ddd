@@ -28,9 +28,4 @@ public class TenantComplexityRank extends ComplexityRank {
         super.setFunctionComplexity(functionComplexity);
         super.setComplexity(complexity);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
 }
