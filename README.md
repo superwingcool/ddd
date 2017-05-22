@@ -24,44 +24,49 @@ Mysql 5.6
 
 ###项目级别圈复杂度排名接口
 ```
-http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/complexity
+http://${host}:${port}/api/codecheck/projects/${devcloudProjectUuid}/repos/complexity
 ```
 ###租户级别圈复杂度排名接口
 ```
-http://${host}:2223/api/codecheck/tenants/${tenantId}/repos/complexity
+http://${host}:${port}/api/codecheck/tenants/${tenantId}/repos/complexity
 ```
 ###项目级重复行排名接口
 ```
-http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/repos/duplicatedLine
+http://${host}:${port}/api/codecheck/projects/${devcloudProjectUuid}/repos/duplicatedLine
 ```
 ###租户级重复行排名接口
 ```
-http://${host}:2223/api/codecheck/tenants/${tenantId}/repos/duplicatedLine
+http://${host}:${port}/api/codecheck/tenants/${tenantId}/repos/duplicatedLine
 ```
 ###项目级别被违反最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/violated
+http://${host}:${port}/api/codecheck/projects/${devcloudProjectUuid}/rules/violated
 ```
 ###租户级别被违反最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/violated
+http://${host}:${port}/api/codecheck/tenants/${tenantId}/rules/violated
 ```
 ###项目级别扫描时屏蔽最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/ignored
+http://${host}:${port}/api/codecheck/projects/${devcloudProjectUuid}/rules/ignored
 ```
 ###租户级别扫描时屏蔽最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/ignored
+http://${host}:${port}/api/codecheck/tenants/${tenantId}/rules/ignored
 ```
 ###项目级别问题修复最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/projects/${devcloudProjectUuid}/rules/revised
+http://${host}:${port}/api/codecheck/projects/${devcloudProjectUuid}/rules/revised
 ```
 ###租户级别问题修复最多的规则排名接口
 ```
-http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/revised
+http://${host}:${port}/api/codecheck/tenants/${tenantId}/rules/revised
 ```
+###任务详情URL配置
+```
+devcloud.base.url=${URL}
+```
+
 **违法规则排名response**
 
 ```javascript
@@ -117,7 +122,9 @@ http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/revised
         "repoName": "git@codehub.devcloud.hwclouds.com:ssss/nannan.git",
         "fileComplexity": 12.4,
         "functionComplexity": 12.8,
-        "complexity": 123
+        "complexity": 123,
+        "taskName": "task name",
+        "taskDetailUrl": "task detail url"
       }
     ],
     "repoCheckedCount": "8",
@@ -139,7 +146,9 @@ http://${host}:2223/api/codecheck/tenants/${tenantId}/rules/revised
         "repoName": "git@codehub.devcloud.hwclouds.com:ssss/cdcdcdcdcdcd.git",
         "duplicatedLinesDensity": "2.00%",
         "codeLines": 1234,
-        "duplicatedLines": 32
+        "duplicatedLines": 32,
+        "taskName": "task name",
+        "taskDetailUrl": "task detail url"
       }
     ],
     "repoCheckedCount": "8",
