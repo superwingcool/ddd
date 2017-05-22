@@ -11,12 +11,6 @@ import static org.junit.Assert.assertThat;
 
 public class DuplicatedLineRankTest {
 
-    @Test(expected = RuntimeException.class)
-    public void compareReturnThrowExceptionGivenOtherObject() {
-        DuplicatedLineRank complexityRank = new DuplicatedLineRank();
-        complexityRank.compareTo(null);
-    }
-
     @Test
     public void compareReturnTrueGivenNull() {
         DuplicatedLineRank duplicatedLineRankNull = new DuplicatedLineRank();
