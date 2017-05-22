@@ -36,14 +36,14 @@ public class MeasuresMapperTest {
     }
 
     @Test
-    public void setDuplicatedLineValuesShouldRankGivenDuplicatedLines() throws Exception {
+    public void setDuplicatedLineValuesShouldRankGivenDuplicatedLines() {
         DuplicatedLineRank duplicatedLineRank = new DuplicatedLineRank();
         measuresMapper.setDuplicatedLineValues(duplicatedLineRank, "duplicated_lines", BigDecimal.ONE);
         assertThat(duplicatedLineRank.getDuplicatedLines(), is(BigDecimal.ONE));
     }
 
     @Test
-    public void setDuplicatedLineValuesShouldRankGivenDuplicatedLinesDensity() throws Exception {
+    public void setDuplicatedLineValuesShouldRankGivenDuplicatedLinesDensity() {
         DuplicatedLineRank duplicatedLineRank = new DuplicatedLineRank();
         measuresMapper.setDuplicatedLineValues(duplicatedLineRank, "duplicated_lines_density", BigDecimal.ONE);
         assertThat(duplicatedLineRank.getDuplicatedLinesDensityCompare(), is(BigDecimal.ONE));
@@ -51,28 +51,28 @@ public class MeasuresMapperTest {
     }
 
     @Test
-    public void setDuplicatedLineValuesShouldRankGivenLoc() throws Exception {
+    public void setDuplicatedLineValuesShouldRankGivenLoc() {
         DuplicatedLineRank duplicatedLineRank = new DuplicatedLineRank();
         measuresMapper.setDuplicatedLineValues(duplicatedLineRank, "loc", BigDecimal.ONE);
         assertThat(duplicatedLineRank.getCodeLines(), is(BigDecimal.ONE));
     }
 
     @Test
-    public void setComplexityRankValuesShouldRankGivenComplexity() throws Exception{
+    public void setComplexityRankValuesShouldRankGivenComplexity() {
         ComplexityRank complexityRank = new ComplexityRank();
         measuresMapper.setComplexityRankValues(complexityRank, "complexity", BigDecimal.TEN);
         assertThat(complexityRank.getComplexity(), is(BigDecimal.TEN));
     }
 
     @Test
-    public void setComplexityRankValuesShouldRankGivenFileComplexity() throws Exception{
+    public void setComplexityRankValuesShouldRankGivenFileComplexity() {
         ComplexityRank complexityRank = new ComplexityRank();
         measuresMapper.setComplexityRankValues(complexityRank, "file_complexity", BigDecimal.TEN);
         assertThat(complexityRank.getFileComplexity(), is(BigDecimal.TEN));
     }
 
     @Test
-    public void setComplexityRankValuesShouldRankGivenFunctionComplexity() throws Exception{
+    public void setComplexityRankValuesShouldRankGivenFunctionComplexity() {
         ComplexityRank complexityRank = new ComplexityRank();
         measuresMapper.setComplexityRankValues(complexityRank, "function_complexity", BigDecimal.TEN);
         assertThat(complexityRank.getFunctionComplexity(), is(BigDecimal.TEN));
@@ -94,31 +94,31 @@ public class MeasuresMapperTest {
     }
 
     @Test
-    public void getProjectName() throws Exception {
+    public void getProjectName() {
         CProjectMeasures c = createProjectMeasures();
         assertThat(measuresMapper.getProjectName(c), is("projectName"));
     }
 
     @Test
-    public void getMetricName() throws Exception {
+    public void getMetricName() {
         CProjectMeasures c = createProjectMeasures();
         assertThat(measuresMapper.getMetricName(c), is("duplicated_line"));
     }
 
     @Test
-    public void getRepName() throws Exception {
+    public void getRepName() {
         CProjectMeasures c = createProjectMeasures();
         assertThat(measuresMapper.getRepoName(c), is("repo_name"));
     }
 
     @Test
-    public void getKey() throws Exception {
+    public void getKey() {
         CProjectMeasures c = createProjectMeasures();
         assertThat(measuresMapper.getKey(c, "projectName"), is("repo_nameprojectName"));
     }
 
     @Test
-    public void getValue() throws Exception {
+    public void getValue() {
         CProjectMeasures c = createProjectMeasures();
         assertThat(measuresMapper.getValue(c), is(BigDecimal.TEN));
     }

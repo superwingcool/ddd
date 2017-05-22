@@ -54,7 +54,7 @@ public class ComplexityRankServiceImplTest {
     private ComplexityRankServiceImpl complexityRankServiceImpl;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

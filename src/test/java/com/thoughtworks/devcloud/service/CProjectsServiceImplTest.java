@@ -32,7 +32,7 @@ public class CProjectsServiceImplTest {
     private CProjectsServiceImpl cProjectsServiceImpl;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

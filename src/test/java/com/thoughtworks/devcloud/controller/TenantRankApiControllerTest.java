@@ -50,7 +50,7 @@ public class TenantRankApiControllerTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(tenantRankApiController)
                 .setControllerAdvice(new CodeCheckControllerAdvice()).build();
     }

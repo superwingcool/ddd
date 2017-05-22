@@ -29,7 +29,7 @@ public class DuplicatedLineRankTest {
     }
 
     @Test
-    public void compareToReturnSuccessGivenNotNull() throws Exception {
+    public void compareToReturnSuccessGivenNotNull() {
 
         DuplicatedLineRank duplicatedLineRank1 = new DuplicatedLineRank();
         duplicatedLineRank1.setDuplicatedLinesDensity("30%");

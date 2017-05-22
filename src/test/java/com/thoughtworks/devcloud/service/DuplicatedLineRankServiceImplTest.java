@@ -58,7 +58,7 @@ public class DuplicatedLineRankServiceImplTest {
     private String tenantId = "tenantId";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

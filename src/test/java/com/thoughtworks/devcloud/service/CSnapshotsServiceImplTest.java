@@ -26,7 +26,7 @@ public class CSnapshotsServiceImplTest {
     private CSnapshotsServiceImpl cSnapshotsServiceImpl;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
