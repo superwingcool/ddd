@@ -10,12 +10,6 @@ import java.math.BigDecimal;
  */
 public class ComplexityRankTest {
 
-    @Test(expected = RuntimeException.class)
-    public void compareReturnThrowExceptionGivenOtherObject() {
-        ComplexityRank complexityRank = new ComplexityRank();
-        complexityRank.compareTo(null);
-    }
-
     @Test
     public void compareReturnTrueGivenNull() {
         ComplexityRank complexityRankNull1 = new ComplexityRank();

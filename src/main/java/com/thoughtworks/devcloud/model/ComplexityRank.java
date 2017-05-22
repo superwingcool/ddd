@@ -35,18 +35,14 @@ public class ComplexityRank extends AbstractRank implements Serializable {
 
     @Override
     public int compareTo(AbstractRank o) {
-        if (o instanceof ComplexityRank) {
-            ComplexityRank target = (ComplexityRank) o;
-            if(this.getComplexity() == null) return -1;
-            if(target.getComplexity() == null) return 1;
-            int result = this.getComplexity().compareTo(target.getComplexity());
-            if(result == 0){
-                result = Math.negateExact(this.getRepoName().compareTo(target.getRepoName()));
-            }
-            return result;
-        } else {
-            throw new RuntimeException("Different type can't be compared!");
+        ComplexityRank target = (ComplexityRank) o;
+        if (this.getComplexity() == null) return -1;
+        if (target.getComplexity() == null) return 1;
+        int result = this.getComplexity().compareTo(target.getComplexity());
+        if (result == 0) {
+            result = Math.negateExact(this.getRepoName().compareTo(target.getRepoName()));
         }
+        return result;
     }
 
 }

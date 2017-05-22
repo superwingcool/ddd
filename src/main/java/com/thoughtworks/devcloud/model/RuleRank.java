@@ -50,10 +50,6 @@ public class RuleRank extends AbstractRank implements Serializable {
 
     @Override
     public int compareTo(AbstractRank o) {
-        if (o instanceof RuleRank) {
-            return this.getCounts().compareTo(((RuleRank)o).getCounts());
-        } else {
-            throw new RuntimeException("Different type can't be compared!");
-        }
+        return this.getCounts().compareTo(((RuleRank)o).getCounts());
     }
 }
