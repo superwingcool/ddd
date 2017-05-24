@@ -1,9 +1,6 @@
 package com.thoughtworks.devcloud.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,12 +8,13 @@ import java.io.Serializable;
 /**
  * Standard response object for rule ranking.
  */
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseObject {
+public class ResponseObject implements Serializable{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3597727200631815050L;
 
     private ResultObject result = new ResultObject();
 }

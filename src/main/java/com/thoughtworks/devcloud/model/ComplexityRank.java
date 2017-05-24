@@ -15,10 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ComplexityRank extends AbstractRank implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    /** 仓库名称 **/
-    private String repoName;
+    private static final long serialVersionUID = 2652053504612156135L;
 
     /** 文件平均复杂度 **/
     private BigDecimal fileComplexity;
@@ -29,13 +26,12 @@ public class ComplexityRank extends AbstractRank implements Serializable {
     /** 总圈复杂度 **/
     private BigDecimal complexity;
 
-    private String taskName;
 
-    private String taskDetailUrl;
 
     @Override
     public int compareTo(AbstractRank o) {
         ComplexityRank target = (ComplexityRank) o;
+        if (!(o instanceof ComplexityRank)) return -1;
         if (this.getComplexity() == null) return -1;
         if (target.getComplexity() == null) return 1;
         int result = this.getComplexity().compareTo(target.getComplexity());

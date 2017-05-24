@@ -1,6 +1,5 @@
 package com.thoughtworks.devcloud.controller;
 
-import com.thoughtworks.devcloud.constants.CodeCheckConstants;
 import com.thoughtworks.devcloud.constants.IssueStatus;
 import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.DuplicatedLineRank;
@@ -38,8 +37,7 @@ public class ProjectRankApiController {
 
     @RequestMapping(value = "/{devCloudProjectUuid}/repos/complexity", method = RequestMethod.GET)
     public ResponseObject getComplexityRules(@PathVariable String devCloudProjectUuid) {
-        logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /projects/{devCloudProjectUuid}/repos/complexity, devCloudProjectUuid: " + devCloudProjectUuid);
+        logger.info("Visit /projects/{devCloudProjectUuid}/repos/complexity, devCloudProjectUuid: " + devCloudProjectUuid);
         List<ComplexityRank> complexityRankList = complexityRankService.findComplexityListByDevcloudProjectId(devCloudProjectUuid);
         Long repoCheckCount = cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid));
         return CodeCheckUtils.transform2ResponseObject(complexityRankList, repoCheckCount);
@@ -47,8 +45,7 @@ public class ProjectRankApiController {
 
     @RequestMapping(value = "/{devCloudProjectUuid}/repos/duplicatedLine", method = RequestMethod.GET)
     public ResponseObject getDuplicatedLineRules(@PathVariable String devCloudProjectUuid) {
-        logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /project/{devCloudProjectUuid}/repos/duplicatedLine, devCloudProjectUuid: " + devCloudProjectUuid);
+        logger.info("Visit /project/{devCloudProjectUuid}/repos/duplicatedLine, devCloudProjectUuid: " + devCloudProjectUuid);
         List<DuplicatedLineRank> duplicatedLineRankList =
                 duplicatedLineRankService.findMeasureListByDevcloudProjectId(devCloudProjectUuid);
         Long repoCheckCount = cProjectsService.countDistinctByGitUrl(Arrays.asList(devCloudProjectUuid));
@@ -57,24 +54,21 @@ public class ProjectRankApiController {
 
     @RequestMapping(value = "/{devCloudProjectUuid}/rules/violated", method = RequestMethod.GET)
     public ResponseObject getViolatedRules(@PathVariable String devCloudProjectUuid) {
-        logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /project/{devCloudProjectUuid}/rules/violated , devcloudProjectUuid: " + devCloudProjectUuid);
+        logger.info("Visit /project/{devCloudProjectUuid}/rules/violated , devcloudProjectUuid: " + devCloudProjectUuid);
 
         return getRuleRankInfo(devCloudProjectUuid, IssueStatus.VIOLATED);
     }
 
     @RequestMapping(value = "/{devCloudProjectUuid}/rules/ignored", method = RequestMethod.GET)
     public ResponseObject getIgnoredRules(@PathVariable String devCloudProjectUuid) {
-        logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /projects/{devcloudProjectUuid}/rules/ignored , devCloudProjectUuid: " + devCloudProjectUuid);
+        logger.info("Visit /projects/{devcloudProjectUuid}/rules/ignored , devCloudProjectUuid: " + devCloudProjectUuid);
 
         return getRuleRankInfo(devCloudProjectUuid, IssueStatus.IGNORED);
     }
 
     @RequestMapping(value = "/{devCloudProjectUuid}/rules/revised", method = RequestMethod.GET)
     public ResponseObject getRevisedRules(@PathVariable String devCloudProjectUuid) {
-        logger.info(CodeCheckConstants.LOGGER_PREFIX +
-                "Visit /projects/{devCloudProjectUuid}/rules/revised , devcloudProjectUuid: " + devCloudProjectUuid);
+        logger.info("Visit /projects/{devCloudProjectUuid}/rules/revised , devcloudProjectUuid: " + devCloudProjectUuid);
         return getRuleRankInfo(devCloudProjectUuid, IssueStatus.REVISED);
     }
 

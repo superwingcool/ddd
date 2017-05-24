@@ -1,12 +1,10 @@
 package com.thoughtworks.devcloud.model;
 
 import com.thoughtworks.devcloud.exception.NullObjectException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,12 +12,13 @@ import java.util.ArrayList;
 /**
  * Result object for rule rank.
  */
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultObject<T> {
+public class ResultObject<T> implements Serializable{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1457795069278505305L;
 
     /** total count of info list**/
     private String total = "0";

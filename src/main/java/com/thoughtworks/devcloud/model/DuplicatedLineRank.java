@@ -18,13 +18,7 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(value = {"duplicatedLinesDensityCompare"})
 public class DuplicatedLineRank extends AbstractRank implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 仓库名称
-     **/
-    private String repoName;
-
+    private static final long serialVersionUID = 1261292970595284084L;
     /**
      * 代码重复率
      **/
@@ -42,13 +36,11 @@ public class DuplicatedLineRank extends AbstractRank implements Serializable {
      **/
     private BigDecimal duplicatedLines;
 
-    private String taskName;
-
-    private String taskDetailUrl;
 
     @Override
     public int compareTo(AbstractRank o) {
         DuplicatedLineRank target = (DuplicatedLineRank) o;
+        if (!(o instanceof DuplicatedLineRank)) return -1;
         if (this.getDuplicatedLinesDensity() == null) return -1;
         if (target.getDuplicatedLinesDensity() == null) return 1;
         int result = this.getDuplicatedLinesDensityCompare().compareTo(target.getDuplicatedLinesDensityCompare());

@@ -1,11 +1,9 @@
 package com.thoughtworks.devcloud.utils;
 
-import com.thoughtworks.devcloud.constants.CodeCheckConstants;
 import com.thoughtworks.devcloud.exception.NullObjectException;
 import com.thoughtworks.devcloud.model.AbstractRank;
 import com.thoughtworks.devcloud.model.ResponseObject;
 import com.thoughtworks.devcloud.model.ResultObject;
-import com.thoughtworks.devcloud.model.RuleRank;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;

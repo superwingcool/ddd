@@ -1,9 +1,6 @@
 package com.thoughtworks.devcloud.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,7 +8,8 @@ import java.io.Serializable;
 /**
  * Entity for rule ranking.
  */
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RuleRank extends AbstractRank implements Serializable {
