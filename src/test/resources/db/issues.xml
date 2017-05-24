@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <C_PROJECTS ID="1" PROJECT_NAME="project name" CURRENT_SNAPSHOT_ID="1" DEVCLOUD_PROJECT_UUID="devCloudProjectUuid"
+                PROJECT_UUID="projectUUid" scm_addr="https://git.org"/>
+
+    <C_SNAPSHOTS ID="1" PROJECT_ID="1" scm_addr="https://git.org" COMMIT_END_TIME="2017-05-09 18:00:00.315000"
+                 COMMIT_START_TIME="2017-05-09 18:00:00.315000"/>
+
+    <C_RULES ID="1"  NAME="ruleName" PRIORITY="1" CATEGORY_BIG="Cat" language="JAVA" SYSTEM_TAGS="tags"
+             NAME_CHINESE="JAVA" PLUGIN_NAME="PLUGIN_NAME" PLUGIN_RULE_KEY="PLUGIN_RULE_KEY" />
+
+    <C_ISSUES ID="1" SEVERITY="2" PROJECT_UUID="projectUUid" RULE_ID="1" SNAPSHOT_ID="1"  STATUS="0" MANUAL_STATUS="2" />
+
+
+    <C_PROJECT_USERS ID="1"  DOMAIN_UUID="tenantId" PROJECT_UUID="projectUUid" />
+</dataset>

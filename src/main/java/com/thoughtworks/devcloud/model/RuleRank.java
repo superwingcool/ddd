@@ -1,6 +1,8 @@
 package com.thoughtworks.devcloud.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -11,13 +13,9 @@ import java.io.Serializable;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class RuleRank extends AbstractRank implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /** 排名: 根据counts 降序排列 **/
-    private int rank;
 
     /** 规则名称: 对应Table C_RULES的字段: NAME **/
     private String ruleName;
@@ -49,5 +47,18 @@ public class RuleRank extends AbstractRank implements Serializable {
     @Override
     public int compareTo(AbstractRank o) {
         return this.getCounts().compareTo(((RuleRank)o).getCounts());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RuleRank)) return false;
+        RuleRank ruleRank = (RuleRank) o;
+        return ruleName != null ? ruleName.equals(ruleRank.ruleName) : ruleRank.ruleName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return ruleName != null ? ruleName.hashCode() : 0;
     }
 }

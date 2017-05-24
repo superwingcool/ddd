@@ -38,7 +38,7 @@ public class MeasuresMapperBaseTest {
 
     private CProjects createProject(){
         CProjects project = new CProjects();
-        project.setProjectName("projectName");
+        project.setDevcloudProjectUuid("devCloudProjectUuid");
         return project;
     }
 

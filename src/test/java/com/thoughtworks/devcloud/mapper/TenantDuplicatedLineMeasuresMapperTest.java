@@ -37,7 +37,6 @@ public class TenantDuplicatedLineMeasuresMapperTest extends MeasuresMapperBaseTe
         cProjectMeasures.add(getExistMeasure("duplicated_lines_density"));
         List<TenantDuplicatedLineRank> ranks = tenantDuplicatedLineMeasuresMapper.transformMeasure2Rank(cProjectMeasures);
         assertThat(ranks.size(), is(1));
-        assertThat(ranks.get(0).getProjectName(), is("projectName"));
         assertThat(ranks.get(0).getDuplicatedLinesDensityCompare(), is(BigDecimal.ONE));
         assertThat(ranks.get(0).getDuplicatedLinesDensity(), is("1.00%"));
         assertThat(ranks.get(0).getDuplicatedLines(), is(BigDecimal.TEN));
@@ -50,7 +49,6 @@ public class TenantDuplicatedLineMeasuresMapperTest extends MeasuresMapperBaseTe
         List<CProjectMeasures> cProjectMeasures = getProjectMeasures("duplicated_lines");
         List<TenantDuplicatedLineRank> ranks = tenantDuplicatedLineMeasuresMapper.transformMeasure2Rank(cProjectMeasures);
         assertThat(ranks.size(), is(1));
-        assertThat(ranks.get(0).getProjectName(), is("projectName"));
         assertThat(ranks.get(0).getDuplicatedLinesDensityCompare(), nullValue());
         assertThat(ranks.get(0).getDuplicatedLinesDensity(), nullValue());
         assertThat(ranks.get(0).getDuplicatedLines(), is(BigDecimal.TEN));

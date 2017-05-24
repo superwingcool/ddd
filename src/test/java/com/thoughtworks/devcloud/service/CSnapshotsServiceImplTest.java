@@ -1,12 +1,12 @@
 package com.thoughtworks.devcloud.service;
 
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.thoughtworks.devcloud.base.SpringBaseTest;
 import com.thoughtworks.devcloud.exception.NullObjectException;
-import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,45 +14,33 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
 
 
-public class CSnapshotsServiceImplTest {
+public class CSnapshotsServiceImplTest extends SpringBaseTest{
 
-    @Mock
-    private CSnapshotsRepository cSnapshotsRepository;
+    @Autowired
+    private CSnapshotsService cSnapshotsService;
 
-    @InjectMocks
-    private CSnapshotsServiceImpl cSnapshotsServiceImpl;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test(expected = NullObjectException.class)
     public void getProjectsByTenantIdShouldThrowExceptionGivenNull() {
-        List<String> projects = getProjects();
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(new ArrayList<>());
-        cSnapshotsServiceImpl.findLatestCSnapshotsIdListByGitUrl(projects);
+        cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(getProjects());
     }
 
     @Test
+    @DatabaseSetup("classpath:db/snapshot.xml")
+    @DatabaseTearDown(type= DatabaseOperation.DELETE_ALL, value="classpath:db/snapshot.xml")
     public void getProjectsByTenantIdShouldReturnProjectsGivenData() {
-        List<String> projects = getProjects();
-        List<Long> snapshots = new ArrayList<>();
-        snapshots.add(1l);
-        when(cSnapshotsRepository.findLatestCSnapshotsIdListByGitUrl(projects)).thenReturn(snapshots);
-        List<Long> results = cSnapshotsServiceImpl.findLatestCSnapshotsIdListByGitUrl(projects);
+        List<Long> results = cSnapshotsService.findLatestCSnapshotsIdListByGitUrl(getProjects());
         assertThat(results, notNullValue());
         assertThat(results.size(), is(1));
-        assertThat(results.get(0), is(1l));
+        assertThat(results.get(0), is(1));
     }
 
 
     private List<String> getProjects() {
         List<String> projects = new ArrayList<>();
-        projects.add("project_id");
+        projects.add("devCloudProjectUuid");
         return projects;
     }
 

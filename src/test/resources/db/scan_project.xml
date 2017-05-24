@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <C_PROJECTS ID="1" PROJECT_NAME="project name" CURRENT_SNAPSHOT_ID="1" DEVCLOUD_PROJECT_UUID="devCloudProjectUuid"
+                PROJECT_UUID="projectUUid" scm_addr="https://git.org"/>
+
+    <C_PROJECT_USERS ID="1"  DOMAIN_UUID="tenantId" PROJECT_UUID="projectUUid" />
+</dataset>

@@ -31,7 +31,6 @@ public class TenantComplexityMeasuresMapperTest extends MeasuresMapperBaseTest {
         cProjectMeasures.add(getExistMeasure("file_complexity"));
         List<TenantComplexityRank> ranks = tenantComplexityMeasuresMapper.transformMeasure2Rank(cProjectMeasures);
         assertThat(ranks.size(), is(1));
-        assertThat(ranks.get(0).getProjectName(), is("projectName"));
         assertThat(ranks.get(0).getRepoName(), is(key));
         assertThat(ranks.get(0).getFileComplexity(), is(BigDecimal.ONE));
         assertThat(ranks.get(0).getComplexity(), is(BigDecimal.TEN));
@@ -44,7 +43,6 @@ public class TenantComplexityMeasuresMapperTest extends MeasuresMapperBaseTest {
         List<CProjectMeasures> cProjectMeasures = getProjectMeasures("complexity");
         List<TenantComplexityRank> ranks = tenantComplexityMeasuresMapper.transformMeasure2Rank(cProjectMeasures);
         assertThat(ranks.size(), is(1));
-        assertThat(ranks.get(0).getProjectName(), is("projectName"));
         assertThat(ranks.get(0).getRepoName(), is(key));
         assertThat(ranks.get(0).getFileComplexity(), nullValue());
         assertThat(ranks.get(0).getComplexity(), is(BigDecimal.TEN));

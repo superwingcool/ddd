@@ -17,6 +17,15 @@ public class ComplexityRank extends AbstractRank implements Serializable {
 
     private static final long serialVersionUID = 2652053504612156135L;
 
+    /** 仓库名称 **/
+    private String repoName;
+
+    /** 任务名称 **/
+    private String taskName;
+
+    /** 任务URL **/
+    private String taskDetailUrl;
+
     /** 文件平均复杂度 **/
     private BigDecimal fileComplexity;
 
@@ -25,7 +34,6 @@ public class ComplexityRank extends AbstractRank implements Serializable {
 
     /** 总圈复杂度 **/
     private BigDecimal complexity;
-
 
 
     @Override
@@ -41,4 +49,16 @@ public class ComplexityRank extends AbstractRank implements Serializable {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ComplexityRank)) return false;
+        ComplexityRank that = (ComplexityRank) o;
+        return repoName != null ? repoName.equals(that.repoName) : that.repoName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return repoName != null ? repoName.hashCode() : 0;
+    }
 }

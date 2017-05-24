@@ -8,8 +8,6 @@ import com.thoughtworks.devcloud.model.DuplicatedLineRank;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.TenantDuplicatedLineRank;
 import com.thoughtworks.devcloud.repository.CProjectMeasuresRepository;
-import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
-import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

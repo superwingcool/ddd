@@ -4,9 +4,6 @@ import com.thoughtworks.devcloud.constants.IssueStatus;
 import com.thoughtworks.devcloud.model.ResultObject;
 import com.thoughtworks.devcloud.model.RuleRank;
 import com.thoughtworks.devcloud.repository.CIssuesRepository;
-import com.thoughtworks.devcloud.repository.CProjectsRepository;
-import com.thoughtworks.devcloud.repository.CSnapshotsRepository;
-import com.thoughtworks.devcloud.utils.CodeCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +24,6 @@ public class CIssuesServiceImpl implements CIssuesService {
 
     @Autowired
     private CSnapshotsService cSnapshotsService;
-
-    @Autowired
-    private CProjectsRepository cProjectsRepository;
 
     @Autowired
     private CProjectsService cProjectsService;

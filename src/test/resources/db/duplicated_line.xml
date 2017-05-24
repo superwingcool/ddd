@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <C_PROJECTS ID="1" PROJECT_NAME="project name" CURRENT_SNAPSHOT_ID="1" DEVCLOUD_PROJECT_UUID="devCloudProjectUuid"
+                PROJECT_UUID="projectUUid" scm_addr="https://git.org"/>
+
+    <C_PROJECTS ID="2" PROJECT_NAME="project name 2" CURRENT_SNAPSHOT_ID="1" DEVCLOUD_PROJECT_UUID="devCloudProjectUuid3"
+                PROJECT_UUID="projectUUid3" scm_addr="https://git.org"/>
+
+    <C_SNAPSHOTS ID="1" PROJECT_ID="1" scm_addr="https://git.org" COMMIT_END_TIME="2017-05-09 18:00:00.315000"
+                 COMMIT_START_TIME="2017-05-09 18:00:00.315000"/>
+
+    <C_METRICS ID="43" NAME="duplicated_lines_density" />
+
+    <C_PROJECT_MEASURES ID="1"  value="10.00" METRIC_ID="43" SNAPSHOT_ID="1" PROJECT_UUID="projectUUid" />
+
+    <C_PROJECT_USERS ID="1" DOMAIN_UUID="tenantId" PROJECT_UUID="projectUUid" />
+
+    <C_PROJECT_USERS ID="2" DOMAIN_UUID="tenantId2" PROJECT_UUID="projectUUid2" />
+
+    <C_PROJECT_USERS ID="3" DOMAIN_UUID="tenantId3" PROJECT_UUID="projectUUid3" />
+</dataset>

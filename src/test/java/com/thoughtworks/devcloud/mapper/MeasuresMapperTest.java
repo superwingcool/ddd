@@ -81,7 +81,7 @@ public class MeasuresMapperTest {
     private CProjectMeasures createProjectMeasures() {
         CProjectMeasures projectMeasure = new CProjectMeasures();
         CProjects cProject = new CProjects();
-        cProject.setProjectName("projectName");
+        cProject.setDevcloudProjectUuid("devCloudProjectUuid");
         projectMeasure.setCProjects(cProject);
         CMetrics cMetrics = new CMetrics();
         cMetrics.setName("duplicated_line");
@@ -96,7 +96,7 @@ public class MeasuresMapperTest {
     @Test
     public void getProjectName() {
         CProjectMeasures c = createProjectMeasures();
-        assertThat(measuresMapper.getProjectName(c), is("projectName"));
+        assertThat(measuresMapper.getProjectName(c), is("devCloudProjectUuid"));
     }
 
     @Test

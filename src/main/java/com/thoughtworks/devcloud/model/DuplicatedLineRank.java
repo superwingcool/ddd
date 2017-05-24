@@ -19,6 +19,16 @@ import java.math.BigDecimal;
 public class DuplicatedLineRank extends AbstractRank implements Serializable {
 
     private static final long serialVersionUID = 1261292970595284084L;
+
+    /** 仓库名称 **/
+    private String repoName;
+
+    /** 任务名称 **/
+    private String taskName;
+
+    /** 任务URL **/
+    private String taskDetailUrl;
+
     /**
      * 代码重复率
      **/
@@ -48,6 +58,18 @@ public class DuplicatedLineRank extends AbstractRank implements Serializable {
             result = Math.negateExact(this.getRepoName().compareTo(target.getRepoName()));
         }
         return result;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DuplicatedLineRank)) return false;
+        DuplicatedLineRank that = (DuplicatedLineRank) o;
+        return repoName != null ? repoName.equals(that.repoName) : that.repoName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return repoName != null ? repoName.hashCode() : 0;
     }
 }

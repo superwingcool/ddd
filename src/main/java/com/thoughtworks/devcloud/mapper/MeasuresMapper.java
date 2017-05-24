@@ -92,7 +92,7 @@ public abstract class MeasuresMapper<T> {
     }
 
     protected String getProjectName(CProjectMeasures cProjectMeasure) {
-        return cProjectMeasure.getCProjects().getProjectName();
+        return cProjectMeasure.getCProjects().getDevcloudProjectUuid();
     }
 
     protected String getMetricName(CProjectMeasures cProjectMeasure) {

@@ -1,11 +1,9 @@
 package com.thoughtworks.devcloud.mapper;
 
 import com.thoughtworks.devcloud.domain.CProjectMeasures;
-import com.thoughtworks.devcloud.model.ComplexityRank;
 import com.thoughtworks.devcloud.model.TenantComplexityRank;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 @Component

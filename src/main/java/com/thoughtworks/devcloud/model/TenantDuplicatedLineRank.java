@@ -28,4 +28,14 @@ public class TenantDuplicatedLineRank extends DuplicatedLineRank {
         super.setDuplicatedLines(duplicatedLines);
         super.setCodeLines(codeLines);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

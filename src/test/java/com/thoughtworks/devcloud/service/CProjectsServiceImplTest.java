@@ -1,61 +1,41 @@
 package com.thoughtworks.devcloud.service;
 
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.thoughtworks.devcloud.base.SpringBaseTest;
 import com.thoughtworks.devcloud.exception.NullObjectException;
-import com.thoughtworks.devcloud.repository.CProjectsRepository;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
 
 
 /**
  * Unit test for {@link CProjectsServiceImpl}.
  */
-public class CProjectsServiceImplTest {
+public class CProjectsServiceImplTest extends SpringBaseTest {
 
-    private final String tenantId = "tenantId";
-    @Mock
-    private CProjectsRepository cProjectsRepository;
+    @Autowired
+    protected CProjectsService cProjectsService;
 
-    @InjectMocks
-    private CProjectsServiceImpl cProjectsServiceImpl;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void shouldReturnLongWhenCounting() {
-        Assert.assertTrue(cProjectsServiceImpl.countDistinctByGitUrl(Arrays.asList("XXXXX")) == 0);
-    }
 
     @Test(expected = NullObjectException.class)
     public void getProjectsByTenantIdShouldThrowExceptionGivenNull() {
-        when(cProjectsRepository.getScannedProjectsByTenantId(tenantId)).thenReturn(new ArrayList<>());
-        cProjectsServiceImpl.getProjectsByTenantId(tenantId);
+        cProjectsService.getProjectsByTenantId(tenantId);
     }
 
     @Test
+    @DatabaseSetup("classpath:db/scan_project.xml")
+    @DatabaseTearDown(type= DatabaseOperation.DELETE_ALL, value="classpath:db/scan_project.xml")
     public void getProjectsByTenantIdShouldReturnProjectsGivenData() {
-
-        List<String> devProjectIds = new ArrayList<>();
-        devProjectIds.add("1");
-        when(cProjectsRepository.getScannedProjectsByTenantId(tenantId)).thenReturn(devProjectIds);
-        List<String> results = cProjectsServiceImpl.getProjectsByTenantId(tenantId);
+        List<String> results = cProjectsService.getProjectsByTenantId(tenantId);
         assertThat(results, notNullValue());
         assertThat(results.size(), is(1));
-        assertThat(results.get(0), is("1"));
+        assertThat(results.get(0), is("devCloudProjectUuid"));
     }
 }
