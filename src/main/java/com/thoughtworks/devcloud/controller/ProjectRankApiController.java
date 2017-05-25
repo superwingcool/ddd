@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping(value="/projects")
 public class ProjectRankApiController {
 
-    private final Logger logger = Logger.getLogger(getClass());
+    private static final Logger logger = Logger.getLogger(ProjectRankApiController.class);
 
     @Autowired
     private ComplexityRankService complexityRankService;

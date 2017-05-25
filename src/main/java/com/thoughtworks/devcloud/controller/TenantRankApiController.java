@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/tenants")
 public class TenantRankApiController {
 
-    private final Logger logger = Logger.getLogger(getClass());
+    private static final Logger logger = Logger.getLogger(TenantRankApiController.class);
 
     @Autowired
     private ComplexityRankService complexityRankService;
